@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles_admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>Fazer Reserva</title>
+</head>
+
+<body>
+
+  Reservas:
+  <a href="01_index.html">Diária</a> |
+  <a href="02_visao_semanal.html">Semanal</a> |
+  <a href="10_listagem_reservas.html">Listagem</a> <br>
+  <a href="09_admin.html">Admin (apenas para usuários com esse papel)</a> |
+  <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
+
+  <h1 class="text-xl">Painel Administrativo</h1>
+
+  <h2>Whitelist</h2>
+
+  <div id="whitelist"
+    class="grid gap-2 grid-cols-[auto_auto_5vw] size-1/3 border border-10 border-double rounded-xl  p-5">
+    <div id="pray"
+      class="transition-opacity duration-1000 flex flex-col fixed top-1/2 left-1/2 -translate-1/2 text-center text-xl opacity-0">
+      <span class="text-[5rem]">🙏</span>
+      Please, fix thy bugs, and bestow us new features
+      <button onclick="end_worship()" class="cursor-pointer">Amen</button>
+    </div>
+
+    <input class="col-1 row-2 border" type="text" id="pattern">
+    <select class="col-2 row-2 border" id="permission">
+      <option value="Visitante">Visitante</option>
+      <option value="Reservador">Reservador</option>
+      <option value="Admin">Admin</option>
+    </select>
+    <button class="col-3 p-2 row-2 text-(--green) bg-(--white) border rounded-full size-10 cursor-pointer"
+      onclick="insert_to_whitelist_event()">+</button>
+
+    <div class="col-1 border border-black rounded-sm p-2 text-(--white) bg-(--black)">Expressão</div>
+    <div class="col-2 border border-black rounded-sm p-2 text-(--white) bg-(--black)">Permissão</div>
+    <div class="col-3 border border-black rounded-sm p-2 text-(--white) bg-(--black)">-</div>
+
+    <div id="permission-begin"></div>
+
+    <div class="col-1 border border-black rounded-sm p-2 text-(--black)">mrgustavotramontin@gmail.com</div>
+    <div
+      class="col-2 border border-black rounded-sm p-2 text-yellow-500 text-center font-bold bg-[url(https://i.pinimg.com/originals/c5/9a/d2/c59ad2bd4ad2fbacd04017debc679ddb.gif)] bg-cover">
+      Dev</div>
+    <div class="col-3 border border-black rounded-sm p-2 bg-blue-100 text-yellow-600 cursor-pointer"
+      onclick="worship()">Worship</div>
+
+
+  </div>
+
+  <h2>Usuários</h2>
+
+  <div id="usuarios">
+    3 Usuários cadastrados.
+    <br>
+
+    <a href="07_usuarios.html">Cadastro de Usuários</a>
+  </div>
+
+
+  <script>
+    const $ = q => document.querySelector(q)
+
+    const whitelist = [
+    ]
+    function whitelist_push(expr, permession) {
+
+    }
+
+
+    /*
+    Permissions:
+     -  
+    */
+
+    function worship(e) {
+      const container = $("#pray")
+      container.classList.remove("opacity-0")
+    }
+    function end_worship(e) {
+      const container = $("#pray")
+      container.classList.add("opacity-0")
+    }
+    function insert_to_whitelist_event() {
+      const pattern = $("#pattern").value
+      const permission = $("#permission").value
+
+      insert_to_whitelist(pattern, permission)
+    }
+    function insert_to_whitelist(pattern, permission) {
+
+
+
+      const permissions_styles = {
+        "Visitante": "text-(--gray)",
+        "Reservador": "text-(--green)",
+        "Admin": "text-(--red)",
+
+      }
+      const classes = "border border-black rounded-sm p-2"
+
+      const container = $("#permission-begin")
+
+
+      const id = Math.floor((Math.random() * 2 ** 32)).toString()
+      const element = `
+<div class="col-1 ${classes}" id="pattern-${id}">
+              ${pattern}
+              </div>
+<div class="col-2 ${classes} ${permissions_styles[permission]}" id="perm-${id}">
+              ${permission}
+              </div>
+<div class="col-3 ${classes} bg-black cursor-pointer text-(--red)" id="del-${id}" onclick="delete_row('${id}')">
+              Del
+              </div>
+
+`
+      container.insertAdjacentHTML("afterend", element)
+
+
+    }
+
+    function delete_row(id) {
+
+      const pattern = "pattern-" + id
+      const permission = "perm-" + id
+      const del = "del-" + id
+
+      $("#" + pattern).remove()
+      $("#" + permission).remove()
+      $("#" + del).remove()
+    }
+
+    insert_to_whitelist("grabriel@gmail.com", "Admin")
+    insert_to_whitelist("*@ifc.edu.br", "Reservador")
+    insert_to_whitelist("default", "Visitante")
+  </script>
+</body>
+
+</html>

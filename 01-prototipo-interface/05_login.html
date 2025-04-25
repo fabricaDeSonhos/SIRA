@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tela de Login</title>
-  <link rel="stylesheet" href="/static/css/index.css" />
-  <link rel="stylesheet" href="/static/css/modal.css" />
-  <link rel="stylesheet" href="/static/css/modal-login.css" />
+  <link rel="stylesheet" href="05_css/index.css" />
+  <link rel="stylesheet" href="05_css/modal.css" />
+  <link rel="stylesheet" href="05_css/modal-login.css" />
 </head>
+
 <body>
+  Reservas: 
+  <a href="01_index.html">Diária</a> | 
+  <a href="02_visao_semanal.html">Semanal</a> |
+  <a href="10_listagem_reservas.html">Listagem</a> <br> 
+  <a href="09_admin.html">Admin (apenas para usuários com esse papel)</a> | 
+  <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
+
 
   <!-- ✅ Botão para abrir o modal -->
-   <button id="abrirModalLogin" class="btn-primary">Entrar</button>
-   
+  <button id="abrirModalLogin" class="btn-primary">Entrar</button>
+
   <!-- ✅ Modal de Login (sempre presente no HTML) -->
   <div id="modalLogin" class="modal hidden">
     <div class="login-modal">
       <button id="fecharModalLogin" class="fechar-modal">X</button>
-  
+
       <!-- Tela de Login -->
       <div id="telaLogin">
         <div class="modal-header">
@@ -34,10 +43,10 @@
           </div>
           <button type="button" class="login-btn">Entrar</button>
         </form>
-        
-       <!-- Apenas o link "Esqueci senha" (sem footer ainda) -->
+
+        <!-- Apenas o link "Esqueci senha" (sem footer ainda) -->
         <div class="esqueci-senha-link">
-            <a href="#" id="linkEsqueciSenha" class="secondary-link">Esqueci minha senha</a>
+          <a href="#" id="linkEsqueciSenha" class="secondary-link">Esqueci minha senha</a>
         </div>
 
         <div class="login-footer">
@@ -45,7 +54,7 @@
           <p><a href="#" id="linkSemLogin" class="semLogin">Sem Login</a></p>
         </div>
       </div>
-  
+
 
       <!-- Tela de Cadastro -->
       <div id="telaCadastro" class="hidden">
@@ -67,13 +76,13 @@
           </div>
           <button type="button" class="login-btn">Cadastrar</button>
         </form>
-  
+
         <div class="login-footer">
           <p><a href="#" id="voltarLogin1" class="secondary-link">← Voltar para login</a></p>
         </div>
       </div>
-  
-      
+
+
       <!-- Tela de Esqueci Senha -->
       <div id="telaEsqueciSenha" class="hidden">
         <div class="modal-header">
@@ -86,18 +95,19 @@
           </div>
           <button type="button" class="login-btn">Enviar</button>
         </form>
-  
+
         <div class="login-footer">
           <p><a href="#" id="voltarLogin2" class="secondary-link">← Voltar para login</a></p>
         </div>
       </div>
-  
+
     </div>
   </div>
-  
+
 
   <!-- ✅ JavaScript no final do body -->
-  <script type="module" src="/static/js/modal-controller.js"></script>
+  <script type="module" src="05_js/modal-controller.js"></script>
 
 </body>
+
 </html>

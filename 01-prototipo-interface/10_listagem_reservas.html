@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <title>Histórico de Alocações</title>
@@ -36,7 +37,8 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    th, td {
+    th,
+    td {
       padding: 12px 16px;
       border: 1px solid #ddd;
       text-align: center;
@@ -62,13 +64,22 @@
     }
   </style>
 </head>
+
 <body>
 
   <h2>Histórico de Alocações</h2>
-    <div>
-      
+  <div>
+
     <p><input type="checkbox"> Hoje</p>
-        </div>
+  </div>
+
+  Reservas: 
+  <a href="01_index.html">Diária</a> | 
+  <a href="02_visao_semanal.html">Semanal</a> |
+  <a href="10_listagem_reservas.html">Listagem</a> <br> 
+  <a href="09_admin.html">Admin (apenas para usuários com esse papel)</a> | 
+  <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
+
   <div class="search-box">
     <label for="searchInput">Pesquisar:</label>
     <input type="text" id="searchInput" onkeyup="filtrarTabela()" placeholder="Digite algo (ex: 05/04/2025, POO, D04)">
@@ -121,16 +132,16 @@
     </tbody>
   </table>
 
-    <div class="m-auto flex justify-center">    
-      <a href="" class="p-2 text-gray-500 cursor-default">Início</a>
-      <a href="" class="p-2 text-gray-500 cursor-default">1</a>
-      <a href="" class="p-2 text-green-500 ">2</a>
-      <a href="" class="p-2 text-green-500 ">3</a>
-      <a href="" class="p-2 text-green-500 ">4</a>
-      <a href="" class="p-2 text-green-500 ">5</a>
-      <a href="" class="p-2 text-green-500 ">...</a>
-      <a href="" class="p-2 text-green-500 ">Fim</a>
-</div>
+  <div class="m-auto flex justify-center">
+    <a href="" class="p-2 text-gray-500 cursor-default">Início</a>
+    <a href="" class="p-2 text-gray-500 cursor-default">1</a>
+    <a href="" class="p-2 text-green-500 ">2</a>
+    <a href="" class="p-2 text-green-500 ">3</a>
+    <a href="" class="p-2 text-green-500 ">4</a>
+    <a href="" class="p-2 text-green-500 ">5</a>
+    <a href="" class="p-2 text-green-500 ">...</a>
+    <a href="" class="p-2 text-green-500 ">Fim</a>
+  </div>
 
 
   <script>
@@ -151,15 +162,15 @@
 
     ]
     function reserva(data, local, inicio, fim, user, turma) {
-      reservas.push({data, local, inicio, fim, user, turma})
+      reservas.push({ data, local, inicio, fim, user, turma })
       reservas.sort()
-      
+
     }
     function add_reservas(data, local, k) {
       const table = docuemnt.querySelecor("#reservas")
       for (let r of reservas) {
 
-        const element  = `
+        const element = `
         <tr>
 
         </tr>
@@ -167,9 +178,10 @@
         table.innerHTML += ``
 
       }
-      
+
     }
   </script>
 
 </body>
+
 </html>

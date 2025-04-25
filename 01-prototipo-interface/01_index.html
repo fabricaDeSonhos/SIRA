@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reservas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9f9f9;
+        margin: 20px;
+      }
+
+      h2 {
+        text-align: center;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 95%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        table-layout: fixed;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        border-radius: 6px;
+        overflow: hidden;
+        background-color: white;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        text-align: center;
+        position: relative;
+        height: 60px;
+        background-color: white;
+        font-size: 13px;
+        color: #333;
+      }
+
+      th:first-child,
+      td:first-child {
+        width: 60px;
+        border-left: none;
+        font-weight: bold;
+        background-color: #f0f0f0;
+      }
+
+      tbody th {
+        font-weight: bold;
+        font-size: 13px;
+        background-color: #f7f7f7;
+        color: #555;
+      }
+
+      .reserva {
+        position: absolute;
+        left: 5%;
+        width: 90%;
+        background-color: #008080;
+        color: white;
+        border-radius: 8px;
+        text-align: center;
+        padding: 5px 2px;
+        box-sizing: border-box;
+        font-size: 13px;
+        z-index: 1;
+        transition: background-color 0.3s ease;
+      }
+
+      .controle-data {
+        text-align: center;
+        margin-bottom: 35px;
+      }
+
+      .data-container button {
+        padding: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      
+
+      td,
+      th {
+        user-select: none;
+      }
+
+      body,
+      table,
+      td,
+      th {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      .adicionar-reserva-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  border: 0px solid transparent;
+  background-color: rgba(100,77,237,0.08);
+  border-radius: 1.25em;
+  transition: all 0.2s linear;
+  cursor: pointer;
+  position: fixed; /* Adicionando posição fixa */
+  margin-top: 2rem;
+  position: fixed; /* Posição fixa */
+  left: 30px; /* Distância da borda direita */
+  bottom: 20px; /* Distância da borda inferior */
+  z-index: 1000; 
+}
+
+.adicionar-reserva-btn:hover {
+  box-shadow: 3.4px 2.5px 4.9px rgba(0, 0, 0, 0.025),
+              8.6px 6.3px 12.4px rgba(0, 0, 0, 0.035),
+              17.5px 12.8px 25.3px rgba(0, 0, 0, 0.045),
+              36.1px 26.3px 52.2px rgba(0, 0, 0, 0.055),
+              99px 72px 143px rgba(0, 0, 0, 0.08);
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 7em;
+  background-color: rgba(0, 0, 0, 0.253);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 25%;
+  left: 110%;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent rgba(0, 0, 0, 0.253) transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+        .controle-data {
+          margin-bottom: 20px;
+        }
+
+        table {
+          width: 100%;
+        }
+
+        .adicionar-reserva-btn {
+          margin-left: 70%; /* Ajusta a posição no celular */
+          bottom: 20px;
+        }
+
+        th, td {
+          font-size: 12px;
+          padding: 10px;
+        }
+
+        .reserva {
+          font-size: 11px;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        table {
+          font-size: 10px;
+        }
+
+        th, td {
+          padding: 8px;
+        }
+
+        .adicionar-reserva-btn {
+          margin-left: 50%; /* Ajusta a posição no celular */
+          transform: translateX(-50%);
+        }
+      }
+
+      header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.menu-principal {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-principal > li {
+  position: relative;
+  margin: 0 15px;
+}
+
+
+li a {
+  
+  color: #000;
+}
+
+.reserva:hover {
+  background-color: #004d4d;
+}
+    </style>
+  </head>
+  <body>
+
+    <header>
+        <h1>SIRA</h1>
+        Reservas:
+        <a href="01_index.html">Diária</a> |
+        <a href="02_visao_semanal.html">Semanal</a> |
+        <a href="10_listagem_reservas.html">Listagem</a> <br>
+        <a href="09_admin.html">Admin (apenas para usuários com esse papel)</a> |
+        <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
+    </header>
+    
+
+    <div class="controle-data">
+      <h2>Visualização Diária</h2>
+
+      <div class="filtros-turno" style="text-align: center; margin-bottom: 20px;">
+        <label><input type="checkbox" class="filtro-turno" value="manha" checked> Manhã</label>
+        <label><input type="checkbox" class="filtro-turno" value="tarde" checked> Tarde</label>
+        <label><input type="checkbox" class="filtro-turno" value="noite" checked> Noite</label>
+      </div>
+      
+      
+      <div class="data-container">
+        <button id="dia-anterior"><i class="fa-solid fa-less-than"></i></button>
+        <span id="dia-atual"></span>
+        <button id="dia-proximo">
+          <i class="fa-solid fa-greater-than"></i>
+        </button>
+      </div>
+    </div>
+
+    <table id="tabela">
+      <thead>
+        <tr>
+          <th></th>
+          <th>A04</th>
+          <th>A05</th>
+          <th>D04</th>
+          <th>D05</th>
+          <th>D06</th>
+          <th>D07</th>
+        </tr>
+      </thead>
+      <tbody id="corpo-tabela">
+        <!-- Horários das 8h às 23h -->
+        <tr><th>8h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>9h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>10h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>11h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>12h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>13h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>14h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>15h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>16h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>17h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>18h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>19h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>20h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>21h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>22h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>23h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <button class="tooltip adicionar-reserva-btn">
+        <i class="fas fa-plus fa-lg"></i>
+        <span class="tooltiptext">Adicionar reserva</span>
+      </button>
+
+    <script>
+        let dataAtual = new Date(); // Data atual visível na tela
+        const reservasPorData = {};
+      
+        // Formata a data para exibição no topo da tela (com dia da semana)
+        function formatarData(data) {
+          return data.toLocaleDateString("pt-BR", {
+            weekday: "short",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          });
+        }
+      
+        // Formata data no estilo chave (ex: 12/04/2025)
+        function formatarChaveData(data) {
+          const dia = String(data.getDate()).padStart(2, '0');
+          const mes = String(data.getMonth() + 1).padStart(2, '0');
+          const ano = data.getFullYear();
+          return `${dia}/${mes}/${ano}`;
+        }
+      
+        // Atualiza o texto da data atual no topo
+        function atualizarData() {
+          const diaAtualElement = document.getElementById("dia-atual");
+          if (diaAtualElement) {
+            diaAtualElement.textContent = formatarData(dataAtual);
+          }
+        }
+      
+        // Navegação entre dias
+        document.getElementById("dia-anterior").addEventListener("click", function () {
+          dataAtual.setDate(dataAtual.getDate() - 1);
+          atualizarData();
+          carregarReservas();
+        });
+      
+        document.getElementById("dia-proximo").addEventListener("click", function () {
+          dataAtual.setDate(dataAtual.getDate() + 1);
+          atualizarData();
+          carregarReservas();
+        });
+      
+        atualizarData();
+      
+        // Converte hora para minutos desde 00:00
+        function horaParaMinutos(hora) {
+          const [h, m] = hora.split(":").map(Number);
+          return h * 60 + m;
+        }
+      
+        // Adiciona visualmente uma reserva
+        function adicionarReserva(coluna, inicio, fim, turma, materia, professor) {
+          const corpo = document.getElementById("corpo-tabela");
+          const primeiraLinha = corpo.rows[0];
+          const celulaAlvo = primeiraLinha.cells[coluna];
+      
+          const minutosInicio = horaParaMinutos(inicio);
+          const minutosFim = horaParaMinutos(fim);
+          const inicioBase = 8 * 60;
+          const minutosDesde8h = minutosInicio - inicioBase;
+          const duracaoMin = minutosFim - minutosInicio;
+      
+          const alturaHora = primeiraLinha.offsetHeight;
+          const topo = (minutosDesde8h / 60) * alturaHora;
+          const altura = (duracaoMin / 60) * alturaHora;
+      
+          const reserva = document.createElement("div");
+          reserva.className = "reserva";
+          reserva.style.top = topo + "px";
+          reserva.style.height = altura + "px";
+          reserva.innerText = `${inicio} - ${fim}\n${turma} - ${materia}\n${professor}`;
+      
+          celulaAlvo.style.position = "relative";
+          celulaAlvo.appendChild(reserva);
+        }
+      
+        // Carrega e exibe as reservas da data selecionada
+        function carregarReservas() {
+          const dataKey = formatarChaveData(dataAtual);
+          const reservasDia = reservasPorData[dataKey] || [];
+      
+          const corpo = document.getElementById("corpo-tabela");
+          for (const row of corpo.rows) {
+            for (let i = 1; i < row.cells.length; i++) {
+              row.cells[i].innerHTML = ''; // limpa colunas dos labs
+            }
+          }
+      
+          reservasDia.forEach(reserva => {
+            adicionarReserva(reserva.coluna, reserva.inicio, reserva.fim, reserva.turma, reserva.materia, reserva.professor);
+          });
+        }
+      
+        // Exemplo de reservas para uma data fixa
+        reservasPorData["14/04/2025"] = [
+  { coluna: 1, inicio: "08:00", fim: "10:11", turma: "101", materia: "Web Design", professor: "Shirlei" },
+  { coluna: 2, inicio: "10:05", fim: "12:00", turma: "102", materia: "Lógica de Programação", professor: "Rodacki" },
+  { coluna: 3, inicio: "13:10", fim: "15:25", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+];
+
+reservasPorData["15/04/2025"] = [
+  { coluna: 1, inicio: "08:15", fim: "09:45", turma: "301", materia: "Programação 2", professor: "Edwin" },
+  { coluna: 2, inicio: "10:10", fim: "11:55", turma: "202", materia: "Desenvolvimento de Projeto 1", professor: "Pizzini" },
+  { coluna: 3, inicio: "13:35", fim: "15:05", turma: "302", materia: "Desenvolvimento de Projeto 2", professor: "Uriarte" },
+];
+
+reservasPorData["16/04/2025"] = [
+  { coluna: 1, inicio: "08:20", fim: "10:30", turma: "102", materia: "Lógica de Programação", professor: "Rodacki" },
+  { coluna: 2, inicio: "11:10", fim: "12:40", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+  { coluna: 4, inicio: "18:15", fim: "20:25", turma: "301", materia: "Tópicos Avançados em Web", professor: "Hylson" },
+];
+
+reservasPorData["17/04/2025"] = [
+  { coluna: 2, inicio: "08:05", fim: "09:50", turma: "101", materia: "Web Design", professor: "Shirlei" },
+  { coluna: 3, inicio: "10:30", fim: "12:00", turma: "302", materia: "Desenvolvimento de Projeto 2", professor: "Uriarte" },
+  { coluna: 4, inicio: "19:20", fim: "21:15", turma: "301", materia: "Programação 2", professor: "Edwin" },
+];
+
+reservasPorData["18/04/2025"] = [
+  { coluna: 1, inicio: "08:10", fim: "09:55", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+  { coluna: 2, inicio: "10:25", fim: "11:40", turma: "202", materia: "Desenvolvimento de Projeto 1", professor: "Pizzini" },
+  { coluna: 3, inicio: "13:05", fim: "14:50", turma: "101", materia: "Web Design", professor: "Shirlei" },
+];
+
+reservasPorData["22/04/2025"] = [
+  { coluna: 1, inicio: "08:30", fim: "09:45", turma: "102", materia: "Lógica de Programação", professor: "Rodacki" },
+  { coluna: 2, inicio: "10:15", fim: "11:55", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+  { coluna: 4, inicio: "18:40", fim: "20:10", turma: "302", materia: "Desenvolvimento de Projeto 2", professor: "Uriarte" },
+];
+
+reservasPorData["25/04/2025"] = [
+  { coluna: 2, inicio: "09:10", fim: "10:45", turma: "101", materia: "Web Design", professor: "Shirlei" },
+  { coluna: 3, inicio: "11:05", fim: "12:30", turma: "202", materia: "Desenvolvimento de Projeto 1", professor: "Pizzini" },
+  { coluna: 4, inicio: "13:45", fim: "15:15", turma: "301", materia: "Tópicos Avançados em Web", professor: "Hylson" },
+];
+
+reservasPorData["30/04/2025"] = [
+  { coluna: 1, inicio: "08:25", fim: "10:00", turma: "301", materia: "Programação 2", professor: "Edwin" },
+  { coluna: 3, inicio: "10:20", fim: "12:05", turma: "102", materia: "Lógica de Programação", professor: "Rodacki" },
+  { coluna: 4, inicio: "13:10", fim: "15:00", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+];
+
+reservasPorData["06/05/2025"] = [
+  { coluna: 1, inicio: "08:45", fim: "10:15", turma: "301", materia: "Tópicos Avançados em Web", professor: "Hylson" },
+  { coluna: 2, inicio: "10:30", fim: "12:20", turma: "302", materia: "Desenvolvimento de Projeto 2", professor: "Uriarte" },
+  { coluna: 4, inicio: "18:25", fim: "20:15", turma: "202", materia: "Desenvolvimento de Projeto 1", professor: "Pizzini" },
+];
+
+reservasPorData["10/05/2025"] = [
+  { coluna: 2, inicio: "08:15", fim: "09:35", turma: "101", materia: "Web Design", professor: "Shirlei" },
+  { coluna: 3, inicio: "10:00", fim: "11:45", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+  { coluna: 4, inicio: "13:10", fim: "14:50", turma: "301", materia: "Programação 2", professor: "Edwin" },
+];
+
+reservasPorData["14/05/2025"] = [
+  { coluna: 1, inicio: "08:05", fim: "09:50", turma: "102", materia: "Lógica de Programação", professor: "Rodacki" },
+  { coluna: 2, inicio: "10:20", fim: "11:50", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+  { coluna: 3, inicio: "13:25", fim: "15:00", turma: "302", materia: "Desenvolvimento de Projeto 2", professor: "Uriarte" },
+];
+      
+        carregarReservas(); // Carrega reservas da data atual ao iniciar
+
+        
+
+      </script>
+      
+  </body>
+</html>
