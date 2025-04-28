@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fazer Reserva</title>
+  <link rel="stylesheet" href="05_css/03_04_styles_reserva.css">
+</head>
+
+<body>
+
+  <nav>
+    <a href="01_index.html">Diária</a>
+    <a href="02_visao_semanal.html">Semanal</a>
+    <a href="10_listagem_reservas.html">Listagem</a>
+    <a href="03_04_reservar.html">Reservar</a>
+    <a href="09_admin.html">Admin</a>
+    <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
+  </nav>
+
+  <div id="modalReserva" class="modal">
+    <div class="modal-content">
+      <div>
+        <h2>Reserva: A03 - SO BCC</h2>
+        <p>Professor: Hylson Vescovi</p>
+      </div>
+
+      <form action="01_index.html">
+        <button type="submit" class="apagar" onclick="return confirm('Confirma exclusão?')">Excluir Reserva</button>
+      </form>
+
+      <div class="edit">
+        <div class="setting">
+          <h3>Horário de Início</h3>
+          <input type="time" min="08:00" max="22:00" value="13:00">
+        </div>
+        <div class="setting">
+          <h3>Horário de Fim</h3>
+          <input type="time" min="08:00" max="22:00" value="17:10">
+        </div>
+        <div class="setting">
+          <h3>Matéria</h3>
+          <input list="materias" value="SO - BCC">
+          <datalist id="materias">
+            <option value="SO - BCC">
+            <option value="Inglês - Médio">
+            <option value="Cálculo I - BCC">
+            <option value="Cálculo I - BEE">
+          </datalist>
+        </div>
+        <div class="setting">
+          <h3>Laboratório</h3>
+          <select>
+            <option value="D05">D05</option>
+            <option value="D06">D06</option>
+            <option value="D07">D07</option>
+            <option selected value="A03">A03</option>
+            <option value="A04">A04</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="cancelar-salvar">
+        <button type="button" class="cancelar" onclick="window.location.href='01_index.html'">Cancelar</button>
+        <button type="submit" class="salvar">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Histórico de Alocações</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f8f8f8;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+
+  <h2 class="text-2xl font-bold text-center mb-6">Histórico de Alocações</h2>
+
+  <div class="flex justify-center flex-wrap gap-4 mb-6">
+    <a href="01_index.html" class="px-4 py-2 bg-green-400 text-white rounded-lg shadow hover:bg-blue-700 transition">Diária</a>
+    <a href="02_visao_semanal.html" class="px-4 py-2 bg-green-400 text-white rounded-lg shadow hover:bg-blue-700 transition">Semanal</a>
+    <a href="10_listagem_reservas.html" class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">Listagem</a>
+    <a href="03_04_reservar.html" class="px-4 py-2 bg-green-500 text-white font-bold rounded-lg shadow hover:bg-green-600 transition">RESERVAR!</a>
+    <a href="09_admin.html" class="px-4 py-2 bg-blue-900 text-white rounded-lg shadow hover:bg-blue-700 transition">Admin</a>
+    <a href="06_primeiro_acesso.html" class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">Primeiro Acesso</a>
+  </div>  
+
+  <div class="flex justify-center mb-4">
+    <label for="searchInput" class="mr-2 font-semibold">Pesquisar:</label>
+    <input type="text" id="searchInput" onkeyup="filtrarTabela()" placeholder="Digite algo..." class="p-2 border rounded-md w-80">
+  </div>
+
+  <table id="reservas" class="w-full bg-white shadow-md rounded-lg overflow-hidden">
+    <thead class="bg-green-600 text-white">
+      <tr>
+        <th class="py-3 px-6">Data</th>
+        <th class="py-3 px-6">Local</th>
+        <th class="py-3 px-6">Horário</th>
+        <th class="py-3 px-6">Usuário</th>
+        <th class="py-3 px-6">Finalidade</th>
+        <th class="py-3 px-6">Turma</th>
+      </tr>
+    </thead>
+    <tbody id="tbody-reservas" class="text-center">
+    </tbody>
+  </table>
+
+  <div id="pagination" class="flex justify-center mt-8 space-x-2 text-blue-600">
+  </div>
+
+  <script>
+    const reservas = [
+      { data: "05/04/2025", local: "A04", horario: "19:00 - 21:00", usuario: "Professor de Algoritmos", finalidade: "Ministrar aula de algoritmos", turma: "1° fase - superior BCC" },
+      { data: "04/04/2025", local: "D05", horario: "18:00 - 20:00", usuario: "Professor de Introdução à Lógica", finalidade: "Ministrar aula de Introdução à lógica", turma: "1° fase - superior BCC" },
+      { data: "03/04/2025", local: "A05", horario: "20:00 - 22:00", usuario: "Professor de Informática Básica", finalidade: "Utilização de computadores para planilhas", turma: "1° fase - técnico informática" },
+      { data: "02/04/2025", local: "D04", horario: "19:00 - 21:00", usuario: "Professor de POO", finalidade: "Prova", turma: "2º fase - superior BCC" },
+      // Se adicionar 11, terá uma segunda página com a 11°, eu testei, mas quero deixar o código limpo por agora
+    ];
+
+    const linhasPorPagina = 10; // Quantos registros eu tenho por página
+    let paginaAtual = 1;
+
+    function renderizarTabela() {
+      const tbody = document.getElementById("tbody-reservas");
+      tbody.innerHTML = "";
+
+      const inicio = (paginaAtual - 1) * linhasPorPagina;
+      const fim = inicio + linhasPorPagina;
+      const reservasPagina = reservas.slice(inicio, fim);
+
+      reservasPagina.forEach(reserva => {
+        const linha = `
+          <tr class="hover:bg-gray-100">
+            <td class="py-2">${reserva.data}</td>
+            <td>${reserva.local}</td>
+            <td>${reserva.horario}</td>
+            <td class="font-semibold">${reserva.usuario}</td>
+            <td class="italic">${reserva.finalidade}</td>
+            <td>${reserva.turma}</td>
+          </tr>
+        `;
+        tbody.innerHTML += linha;
+      });
+    }
+
+    function criarPaginacao() {
+      const pagDiv = document.getElementById("pagination");
+      pagDiv.innerHTML = "";
+
+      const totalPaginas = Math.ceil(reservas.length / linhasPorPagina);
+
+      const botaoInicio = `<a href="#" onclick="mudarPagina(1)" class="px-3 py-1 border rounded hover:bg-blue-100">Início</a>`;
+      pagDiv.innerHTML += botaoInicio;
+
+      for (let i = 1; i <= totalPaginas; i++) {
+        pagDiv.innerHTML += `
+          <a href="#" onclick="mudarPagina(${i})" class="px-3 py-1 border rounded ${paginaAtual === i ? 'bg-blue-600 text-white' : 'hover:bg-blue-100'}">${i}</a>
+        `;
+      }
+
+      const botaoFim = `<a href="#" onclick="mudarPagina(${totalPaginas})" class="px-3 py-1 border rounded hover:bg-blue-100">Fim</a>`;
+      pagDiv.innerHTML += botaoFim;
+    }
+
+    function mudarPagina(pagina) {
+      paginaAtual = pagina;
+      renderizarTabela();
+      criarPaginacao();
+    }
+
+    function filtrarTabela() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const tbody = document.getElementById("tbody-reservas");
+      const linhas = tbody.getElementsByTagName("tr");
+
+      for (let i = 0; i < linhas.length; i++) {
+        const textoLinha = linhas[i].textContent.toLowerCase();
+        linhas[i].style.display = textoLinha.includes(input) ? "" : "none";
+      }
+    }
+
+    renderizarTabela();
+    criarPaginacao();
+  </script>
+
+</body>
+
+</html>
