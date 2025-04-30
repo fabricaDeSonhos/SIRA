@@ -1,132 +1,124 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Rubik", sans-serif;
-  }
+:root {
+  --verde-principal: #37966F;
+  --verde-hover: #2F7A5D;
+  --verde-claro: #CDEBDD;
+  --fundo-pagina: #EEF9F2;
+}
 
-  .navegacao {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin: 20px 0;
-    position: relative;
-    z-index: 1000;
-  }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--fundo-pagina);
+}
 
-  .navegacao a {
-    padding: 10px 20px;
-    background-color: #38a169;
-    color: white;
-    border-radius: 8px;
-    font-weight: bold;
-    text-decoration: none;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
-    transition: background-color 0.3s;
-  }
+.navegacao {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: var(--fundo-pagina);
+}
 
-  .navegacao a:hover {
-    background-color: #2f855a; 
-  }
+.navegacao a {
+  padding: 0.6rem 1.2rem;
+  background-color: var(--verde-claro);
+  color: #000;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, color 0.3s;
+}
 
-  .navegacao a.admin {
-    background-color: #1a365d;
-  }
+.navegacao a:hover {
+  background-color: var(--verde-principal);
+  color: white;
+}
 
-  .navegacao a.listagem {
-    background-color: #2b6cb0;
-  }
+.fundo-escuro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 120px);
+  padding: 2rem;
+}
 
-  .fundo-escuro {
-    background-color: rgba(0, 0, 0, 0.5);
-    position: fixed;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 60px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 500;
-  }
+.modal-box {
+  background-color: white;
+  padding: 2rem 2.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  width: 100%;
+}
 
-  .modal-box {
-    background-color: #fff;
-    padding: 30px 40px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 450px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  }
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--verde-principal);
+}
 
-  h2 {
-    margin-bottom: 20px;
-    text-align: center;
-    color: #111;
-  }
+label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
 
-  label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #777;
-  }
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
 
-  input[type="text"],
-  input[type="email"],
-  input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin-bottom: 10px;
-  }
+.senha-container {
+  position: relative;
+}
 
-  .btn-cadastrar {
-    width: 100%;
-    padding: 12px;
-    background-color: #085730; /* Verde escuro */
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    margin-top: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+.senha-container i {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+}
 
-  .btn-cadastrar:hover {
-    background-color: #064b2a;
-  }
+.btn-cadastrar {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--verde-principal);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
-  .senha-container {
-    position: relative;
-  }
+.btn-cadastrar:hover {
+  background-color: var(--verde-hover);
+}
 
-  .senha-container i {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #666;
-  }
+.login-link {
+  text-align: center;
+  margin-top: 1rem;
+}
 
-  .login-link {
-    margin-top: 15px;
-    text-align: center;
-    font-size: 14px;
-  }
+.login-link a {
+  color: var(--verde-principal);
+  text-decoration: none;
+  font-weight: bold;
+}
 
-  .login-link a {
-    color: #085730;
-    text-decoration: none;
-    font-weight: bold;
-  }
-
-  .login-link a:hover {
-    text-decoration: underline;
-  }
+.login-link a:hover {
+  text-decoration: underline;
+}

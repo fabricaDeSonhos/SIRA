@@ -1,122 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fazer Reserva</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>Admin</title>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link href="https://cdn.jsdelivr.net/npm/heroicons@2.0.16/outline/index.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --verde-principal: #37966F;
+      --verde-hover: #2F7A5D;
+      --verde-claro-botao: #CDEBDD;
+      --fundo-pagina: #EEF9F2;
+    }
+  </style>
+  
+  
+  
 </head>
 
-<body class="bg-gray-100 min-h-screen p-6">
+<body class="bg-[var(--fundo-pagina)] min-h-screen p-6">
 
-  <div class="flex justify-center flex-wrap gap-4 mb-6">
-    <a href="01_index.html" class="px-4 py-2 bg-green-400 text-white rounded-lg shadow hover:bg-blue-700 transition">Diária</a>
-    <a href="02_visao_semanal.html" class="px-4 py-2 bg-green-400 text-white rounded-lg shadow hover:bg-blue-700 transition">Semanal</a>
-    <a href="10_listagem_reservas.html" class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">Listagem</a>
-    <a href="03_04_reservar.html" class="px-4 py-2 bg-green-500 text-white font-bold rounded-lg shadow hover:bg-green-600 transition">RESERVAR!</a>
-    <a href="09_admin.html" class="px-4 py-2 bg-blue-900 text-white rounded-lg shadow hover:bg-blue-700 transition">Admin</a>
-    <a href="06_primeiro_acesso.html" class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">Primeiro Acesso</a>
-  </div>  
+<div class="flex justify-center flex-wrap gap-4 mb-8">
+  <a href="01_index.html" class="px-4 py-2 bg-[var(--verde-claro-botao)] text-black font-semibold rounded-md shadow hover:bg-[var(--verde-principal)] hover:text-white transition">Diária</a>
+  <a href="02_visao_semanal.html" class="px-4 py-2 bg-[var(--verde-claro-botao)] text-black font-semibold rounded-md shadow hover:bg-[var(--verde-principal)] hover:text-white transition">Semanal</a>
+  <a href="10_listagem_reservas.html" class="px-4 py-2 bg-[var(--verde-claro-botao)] text-black font-semibold rounded-md shadow hover:bg-[var(--verde-principal)] hover:text-white transition">Listagem</a>
+  <a href="03_04_reservar.html" class="px-4 py-2 bg-[var(--verde-claro-botao)] text-black font-semibold rounded-md shadow hover:bg-[var(--verde-principal)] hover:text-white transition">Reservar</a>
+  <a href="09_admin.html" class="px-4 py-2 bg-[var(--verde-claro-botao)] text-black font-semibold rounded-md shadow hover:bg-[var(--verde-principal)] hover:text-white transition">Admin</a>
+  <a href="06_primeiro_acesso.html" class="px-4 py-2 bg-[var(--verde-claro-botao)] text-black font-semibold rounded-md shadow hover:bg-[var(--verde-principal)] hover:text-white transition">Primeiro Acesso</a>
+</div>
 
+<section class="mb-12 text-center">
+  <h1 class="text-3xl font-bold text-[var(--verde-hover)] mb-4">Painel Administrativo</h1>
+  <div class="bg-white p-6 rounded-lg shadow-md max-w-xl mx-auto">
+    <h2 class="text-xl font-semibold text-[var(--verde-principal)] mb-2">Usuários</h2>
+    <p id="user-count" class="mb-2 text-gray-700">0 Usuários cadastrados.</p>
+    <a href="07_usuarios.html" class="text-[var(--verde-principal)] font-semibold hover:underline">Cadastro de Usuários</a>
+  </div>
+</section>
 
-    </nav>
+  <section>
+    <h2 class="text-2xl font-semibold text-[var(--verde-hover)] mb-6 text-center">Gerenciar Whitelist</h2>
 
-    <section class="mb-10">
-      <h1 class="text-3xl font-bold text-center mb-8 animate-fade">Painel Administrativo</h1>
-
-      <div class="bg-white p-8 rounded-lg shadow-lg">
-        <h2 class="text-2xl font-semibold mb-4">Usuários</h2>
-        <p class="mb-2">3 Usuários cadastrados.</p>
-        <a href="07_usuarios.html" class="text-blue-600 font-semibold hover:underline">Cadastro de Usuários</a>
-      </div>
-    </section>
-
-    <section>
-      <h2 class="text-2xl font-semibold mb-6 animate-slide">Whitelist</h2>
-
-      <div id="whitelist" class="bg-white p-8 rounded-lg shadow-lg grid gap-4 grid-cols-[auto_auto_5vw] max-w-3xl mx-auto border border-gray-300">
-
-        <div id="pray" class="transition-opacity duration-1000 flex flex-col fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xl opacity-0">
-          <span class="text-[5rem] animate-bounce">🙏</span>
-          <p class="mt-2">Please, fix thy bugs, and bestow us new features</p>
-          <button onclick="end_worship()" class="mt-4 px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-transform hover:scale-105">Amen</button>
-        </div>
-
-        <input class="col-1 p-2 border border-gray-300 rounded" type="text" id="pattern" placeholder="Expressão...">
-        <select class="col-2 p-2 border border-gray-300 rounded" id="permission">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-[3fr_2fr_60px] gap-4 mb-6">
+        <input id="pattern" type="text" placeholder="Expressão..." class="p-3 border border-gray-300 rounded-md shadow-inner focus:ring-2 focus:ring-[var(--verde-principal)] outline-none" />
+        <select id="permission" class="p-3 border border-gray-300 rounded-md shadow-inner focus:ring-2 focus:ring-[var(--verde-principal)] outline-none">
           <option value="Visitante">Visitante</option>
           <option value="Reservador">Reservador</option>
           <option value="Admin">Admin</option>
         </select>
-        <button class="col-3 flex items-center justify-center bg-green-500 text-white rounded-full hover:bg-green-600 transition-transform hover:scale-110" onclick="insert_to_whitelist_event()">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button onclick="insert_to_whitelist_event()" class="bg-[var(--verde-principal)] hover:bg-[var(--verde-hover)] text-white rounded-full flex justify-center items-center shadow-md transition-transform hover:scale-105">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
         </button>
-
-        <div class="col-1 font-bold text-center bg-gray-800 text-white p-2 rounded">Expressão</div>
-        <div class="col-2 font-bold text-center bg-gray-800 text-white p-2 rounded">Permissão</div>
-        <div class="col-3 font-bold text-center bg-gray-800 text-white p-2 rounded">Ações</div>
-
-        <div id="permission-begin"></div>
-
-        <div class="col-1 p-2 text-black bg-gray-100 rounded">mrgustavotramontin@gmail.com</div>
-        <div class="col-2 p-2 font-bold text-yellow-500 text-center bg-cover bg-center bg-[url(https://i.pinimg.com/originals/c5/9a/d2/c59ad2bd4ad2fbacd04017debc679ddb.gif)]">Dev</div>
-        <div class="col-3 flex justify-center items-center p-2 bg-blue-100 text-yellow-600 rounded cursor-pointer hover:bg-blue-200 transition-transform hover:scale-105" onclick="worship()">
-          🙏
-        </div>
-
       </div>
-    </section>
+
+      <div class="grid grid-cols-[3fr_2fr_60px] text-white font-semibold bg-[var(--verde-principal)] rounded-t-md overflow-hidden">
+        <div class="p-3 text-center">Expressão</div>
+        <div class="p-3 text-center">Permissão</div>
+        <div class="p-3 text-center">Ações</div>
+      </div>
+
+      <div id="permission-begin"></div>
+    </div>
+  </section>
+
+  <div id="pray" class="transition-opacity duration-1000 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xl opacity-0 z-50 bg-white p-6 rounded-lg shadow-xl">
+    <span class="text-[5rem] animate-bounce">🙏</span>
+    <p class="mt-2 text-[var(--verde-principal)]">Please, fix thy bugs, and bestow us new features</p>
+    <button onclick="end_worship()" class="mt-4 px-6 py-2 bg-[var(--verde-principal)] text-white rounded-full hover:bg-[var(--verde-hover)] transition-transform hover:scale-105">Amen</button>
   </div>
 
-  <style>
-    .btn-nav {
-      padding: 0.5rem 1.25rem; /* px-5 py-2 */
-      background-color: #48bb78; /* bg-green-400 */
-      color: white;
-      border-radius: 0.375rem; /* rounded-md */
-      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* shadow-md */
-      transition: background-color 0.2s ease, transform 0.2s ease; /* transition */
-    }
-
-    .btn-nav:hover {
-      background-color: #38a169; /* hover:bg-green-500 */
-      transform: scale(1.05); /* hover:scale-105 */
-    }
-
-    /* Animações */
-    .animate-fade {
-      animation: fadeIn 1s ease forwards;
-    }
-
-    .animate-slide {
-      animation: slideIn 1s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideIn {
-      from { transform: translateY(-10px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-</style>
-
-<script>
+  <script>
     const $ = q => document.querySelector(q)
 
     function worship() {
-      $("#pray").classList.remove("opacity-0");
+      $("#pray").classList.remove("opacity-0")
     }
 
     function end_worship() {
-      $("#pray").classList.add("opacity-0");
+      $("#pray").classList.add("opacity-0")
     }
 
     function insert_to_whitelist_event() {
@@ -127,27 +92,39 @@
       $("#pattern").value = '';
     }
 
+    function update_user_count() {
+      const count = document.querySelectorAll("#permission-begin > div").length;
+      const plural = count === 1 ? '' : 's';
+      $("#user-count").textContent = `${count} Usuário${plural} cadastrado${plural}.`;
+    }
+
     function insert_to_whitelist(pattern, permission) {
       const permissions_styles = {
-        "Visitante": "text-gray-500",
-        "Reservador": "text-green-500",
-        "Admin": "text-red-500",
+        "Visitante": "text-gray-600",
+        "Reservador": "text-[var(--verde-principal)] font-semibold",
+        "Admin": "text-red-600 font-semibold"
       };
-      const classes = "border border-gray-300 rounded p-2 text-center bg-gray-100 transition-transform hover:scale-105";
 
-      const container = $("#permission-begin");
       const id = Math.floor(Math.random() * 2 ** 32).toString();
 
-      const element = `
-        <div class="col-1 ${classes}" id="pattern-${id}">${pattern}</div>
-        <div class="col-2 ${classes} ${permissions_styles[permission]}" id="perm-${id}">${permission}</div>
-        <div class="col-3 flex justify-center items-center p-2 bg-red-100 text-red-600 rounded cursor-pointer hover:bg-red-200 transition-transform hover:scale-105" id="del-${id}" onclick="confirm_delete('${id}')">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+      const html = `
+        <div class="grid grid-cols-[3fr_2fr_60px] border-t border-gray-200">
+          <div class="p-3 text-center text-gray-800">${pattern}</div>
+          <div class="p-3 text-center ${permissions_styles[permission]}">${permission}</div>
+          <div class="p-3 flex justify-center items-center cursor-pointer text-red-500 hover:text-red-600" onclick="confirm_delete('${id}')">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
         </div>
       `;
-      container.insertAdjacentHTML("afterend", element);
+
+      const wrapper = document.createElement('div');
+      wrapper.id = `row-${id}`;
+      wrapper.innerHTML = html;
+      document.querySelector("#permission-begin").appendChild(wrapper);
+
+      update_user_count();
     }
 
     function confirm_delete(id) {
@@ -163,27 +140,20 @@
       }).then((result) => {
         if (result.isConfirmed) {
           delete_row(id);
-          Swal.fire(
-            'Excluído!',
-            'A permissão foi removida.',
-            'success'
-          )
+          Swal.fire('Excluído!', 'A permissão foi removida.', 'success');
         }
-      })
-    }
-
-    function delete_row(id) {
-      ["pattern", "perm", "del"].forEach(prefix => {
-        $("#" + prefix + "-" + id)?.remove();
       });
     }
 
-    // Inserções automáticas
-    insert_to_whitelist("grabriel@gmail.com", "Admin");
+    function delete_row(id) {
+      document.querySelector(`#row-${id}`)?.remove();
+      update_user_count();
+    }
+
+    // Dados iniciais
+    insert_to_whitelist("gabriel@gmail.com", "Admin");
     insert_to_whitelist("*@ifc.edu.br", "Reservador");
     insert_to_whitelist("default", "Visitante");
-</script>
-
+  </script>
 </body>
-
 </html>

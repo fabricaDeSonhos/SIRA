@@ -1,90 +1,54 @@
+:root {
+  --verde-ifc: #008080;
+  --verde-escuro: #004d4d;
+  --cinza-fundo: #f9f9f9;
+  --cinza-claro: #f0f0f0;
+  --cinza-medio: #ddd;
+  --cinza-hover: #e0e0e0;
+  --branco: #ffffff;
+  --preto: #333333;
+}
+
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9f9f9;
+  background-color: var(--cinza-fundo);
   margin: 20px;
 }
 
 h2 {
   text-align: center;
-  font-weight: 500;
-  color: #333;
+  font-weight: 600;
+  color: var(--preto);
   margin-bottom: 20px;
 }
 
-table {
-  width: 95%;
-  margin: 0 auto;
-  border-collapse: collapse;
-  table-layout: fixed;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  border-radius: 6px;
-  overflow: hidden;
-  background-color: white;
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--branco);
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
 }
 
-th, td {
-  border: 1px solid #ddd;
-  text-align: center;
-  position: relative;
-  height: 60px;
-  background-color: white;
-  font-size: 13px;
-  color: #333;
+header h1 {
+  font-size: 24px;
+  color: var(--verde-ifc);
+  margin-right: auto;
 }
 
-th:first-child, td:first-child {
-  width: 60px;
-  border-left: none;
-  font-weight: bold;
-  background-color: #f0f0f0;
+header a {
+  text-decoration: none;
+  margin: 0 10px;
+  color: var(--verde-ifc);
+  font-weight: 500;
 }
 
-tbody th {
-  font-weight: bold;
-  font-size: 13px;
-  background-color: #f7f7f7;
-  color: #555;
-}
-
-.reserva {
-  position: absolute;
-  left: 5%;
-  width: 90%;
-  background-color: #008080;
-  color: transparent;
-  border-radius: 8px;
-  text-align: center;
-  padding: 5px 2px;
-  box-sizing: border-box;
-  font-size: 13px;
-  z-index: 1;
-  overflow: visible;
-  transition: background-color 0.3s ease;
-}
-
-.reserva:hover {
-  background-color: #004d4d;
-}
-
-.reserva:hover .tooltip {
-  display: block;
-}
-
-.tooltip {
-  display: none;
-  position: absolute;
-  top: -35px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333;
-  color: white;
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 12px;
-  white-space: nowrap;
-  z-index: 10;
-  width: max-content;
+header a:hover {
+  color: var(--verde-escuro);
 }
 
 .controle-data {
@@ -92,21 +56,70 @@ tbody th {
   margin-bottom: 35px;
 }
 
+.filtros-turno label {
+  margin: 0 10px;
+  font-weight: 500;
+}
+
 .data-container button {
-  padding: 5px;
+  padding: 8px 12px;
   font-size: 16px;
+  background-color: var(--verde-ifc);
+  color: white;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-td, th {
-  user-select: none;
+.data-container button:hover {
+  background-color: var(--verde-escuro);
 }
 
-body, table, td, th {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+table {
+  width: 95%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background-color: var(--branco);
+}
+
+th, td {
+  border: 1px solid var(--cinza-medio);
+  text-align: center;
+  padding: 10px;
+  font-size: 13px;
+  color: var(--preto);
+}
+
+th:first-child, td:first-child {
+  background-color: var(--cinza-claro);
+  font-weight: bold;
+}
+
+tbody th {
+  background-color: #f7f7f7;
+}
+
+.reserva {
+  position: absolute;
+  left: 5%;
+  width: 90%;
+  background-color: var(--verde-ifc);
+  color: white;
+  border-radius: 8px;
+  text-align: center;
+  padding: 5px 2px;
+  box-sizing: border-box;
+  font-size: 13px;
+  z-index: 1;
+  transition: background-color 0.3s ease;
+}
+
+.reserva:hover {
+  background-color: var(--verde-escuro);
 }
 
 .adicionar-reserva-btn {
@@ -115,8 +128,7 @@ body, table, td, th {
   justify-content: center;
   align-items: center;
   padding: 1em;
-  border: 0px solid transparent;
-  background-color: rgba(100, 77, 237, 0.08);
+  background-color: rgba(100,77,237,0.08);
   border-radius: 1.25em;
   transition: all 0.2s linear;
   cursor: pointer;
@@ -127,45 +139,18 @@ body, table, td, th {
 }
 
 .adicionar-reserva-btn:hover {
-  box-shadow: 3.4px 2.5px 4.9px rgba(0, 0, 0, 0.025),
-              8.6px 6.3px 12.4px rgba(0, 0, 0, 0.035),
-              17.5px 12.8px 25.3px rgba(0, 0, 0, 0.045),
-              36.1px 26.3px 52.2px rgba(0, 0, 0, 0.055),
-              99px 72px 143px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-}
-
-.menu-principal {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.menu-principal > li {
-  position: relative;
-  margin: 0 15px;
-}
-
-li a {
-  color: #000;
-}
-
-.tooltip-btn {
+.tooltip {
   position: relative;
   display: inline-block;
 }
 
-.tooltip-btn .tooltiptext {
+.tooltip .tooltiptext {
   visibility: hidden;
-  width: 7em;
-  background-color: rgba(0, 0, 0, 0.253);
+  width: 9em;
+  background-color: rgba(0, 0, 0, 0.6);
   color: #fff;
   text-align: center;
   border-radius: 6px;
@@ -176,7 +161,7 @@ li a {
   left: 110%;
 }
 
-.tooltip-btn .tooltiptext::after {
+.tooltip .tooltiptext::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -184,101 +169,40 @@ li a {
   margin-top: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: transparent rgba(0, 0, 0, 0.253) transparent transparent;
+  border-color: transparent rgba(0, 0, 0, 0.6) transparent transparent;
 }
 
-.tooltip-btn:hover .tooltiptext {
+.tooltip:hover .tooltiptext {
   visibility: visible;
 }
 
-@media (max-width: 767px) {
-  body {
-    margin: 10px;
-  }
-
+@media screen and (max-width: 768px) {
   table {
     width: 100%;
-    font-size: 12px; 
-  }
-
-  .reserva {
-    font-size: 10px;
-    padding: 3px 0; 
-  }
-
-  .adicionar-reserva-btn {
-    left: 15px;
-    bottom: 10px;
-    padding: 0.8em;
-  }
-
-  .controle-data button {
-    font-size: 14px;
-    padding: 4px;
   }
 
   th, td {
-    font-size: 12px; 
-    height: 45px; 
-  }
-
-  th:first-child, td:first-child {
-    width: 25px; 
+    font-size: 12px;
+    padding: 8px;
   }
 
   .reserva {
-    left: 5%;
-    width: 90%;
-    font-size: 10px; 
+    font-size: 11px;
   }
 
   .adicionar-reserva-btn {
-    left: 15px;
-    bottom: 15px;
-  }
-
-  h2 {
-    font-size: 18px;
-    margin-bottom: 15px;
-  }
-
-  .controle-data {
-    margin-bottom: 25px; 
-  }
-
-  /* Coluna dos horários */
-  th:first-child, td:first-child {
-    width: 25px;
+    margin-left: 70%;
+    bottom: 20px;
   }
 }
 
-@media (max-width: 1024px) {
-  .reserva {
-    font-size: 11px;
-    padding: 4px 2px;
+@media screen and (max-width: 480px) {
+  th, td {
+    padding: 6px;
   }
 
   .adicionar-reserva-btn {
-    left: 25px;
-    bottom: 15px;
-  }
-
-  th, td {
-    font-size: 13px;
-    height: 55px;
-  }
-
-  th:first-child, td:first-child {
-    width: 40px; 
-  }
-
-  /* Reduz a largura das colunas de horário */
-  th:first-child, td:first-child {
-    width: 40px; /* Ajuste mais fino para horários */
-  }
-
-  /* Melhora o comportamento da coluna de laboratório */
-  td {
-    word-wrap: break-word;
+    margin-left: 50%;
+    transform: translateX(-50%);
   }
 }

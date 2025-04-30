@@ -1,132 +1,103 @@
-* {
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f0faf4;
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Rubik", sans-serif;
+  padding: 20px;
 }
 
-.fundo-escuro {
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.modal-box {
-  background-color: #fff;
-  padding: 30px 40px;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 450px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  position: relative;
-}
-
-.close-btn {
-  position: absolute;
-  top: 12px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 22px;
-  color: #333;
-  cursor: pointer;
-}
-
-h2 {
-  margin-bottom: 20px;
-  color: #111;
-}
-
-label {
-  display: block;
-  margin-top: 15px;
-  margin-bottom: 5px;
-  font-size: 14px;
-  color: #beaaaa;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  font-size: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-bottom: 10px;
-}
-
-.btn-confirmar, .btn-confirmar a {
-  width: 100%;
-  padding: 12px;
-  background-color: #085730;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  margin-top: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn-confirmar a:active{
-  color: white;
-}
-
-.login-link {
-  margin-top: 15px;
+h1 {
   text-align: center;
-  font-size: 14px;
+  color: #1a3d2f;
+  margin-bottom: 30px;
 }
 
-.login-link a {
-  color: #085730;
+.return-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #fff;
+  background-color: #2e7d5b;
+  padding: 10px 16px;
+  border-radius: 10px;
   text-decoration: none;
-  font-weight: bold;
+  transition: background-color 0.2s;
 }
 
-.login-link a:hover {
-  text-decoration: underline;
+.return-link:hover {
+  background-color: #256b4c;
 }
 
-.senha-container {
-  position: relative;
-}
-
-.senha-container input {
+.user-table {
   width: 100%;
-  padding-right: 35px; /* espaço pro ícone */
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
 }
 
-.senha-container i {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+.user-table th {
+  background-color: #4caf7c;
+  color: #fff;
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.user-table td {
+  padding: 14px 16px;
+  border-top: 1px solid #f1f1f1;
+  font-size: 15px;
+}
+
+select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.btn-alterar {
+  background-color: #4caf7c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  margin-left: 8px;
   cursor: pointer;
-  color: #666;
+  transition: background-color 0.2s;
 }
 
-.navegacao {
-  position: relative; /* agora o menu fica normal */
-  z-index: 1000; /* força o menu a ficar por cima do fundo escuro */
+.btn-alterar:hover {
+  background-color: #3e8f65;
 }
 
-.fundo-escuro {
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 60px; /* deixa o topo livre para o menu */
-  left: 0;
-  width: 100%;
-  height: calc(100vh - 60px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 500; /* o fundo fica atrás do menu */
+@media (max-width: 768px) {
+  .user-table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  .user-table tr {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    padding: 10px;
+  }
+
+  .user-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: none;
+  }
+
+  .user-table th {
+    display: none;
+  }
 }

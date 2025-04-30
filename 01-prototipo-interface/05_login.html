@@ -5,99 +5,88 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tela de Login</title>
-  <link rel="stylesheet" href="05_css/index.css" />
-  <link rel="stylesheet" href="05_css/modal.css" />
-  <link rel="stylesheet" href="05_css/modal-login.css" />
+  <link rel="stylesheet" href="05_css/05_login.css" />
 </head>
 
 <body>
-  Reservas:
-  <a href="01_index.html">Diária</a> |
-  <a href="02_visao_semanal.html">Semanal</a> |
-  <a href="10_listagem_reservas.html">Listagem</a> |
-  <a href="03_04_reservar.html">RESERVAR!</a> <br>
-  <a href="09_admin.html">Admin (apenas para usuários com esse papel)</a> |
-  <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
+  <header class="navbar">
+    <nav class="nav-buttons">
+      <a href="01_index.html">Diária</a>
+      <a href="02_visao_semanal.html">Semanal</a>
+      <a href="10_listagem_reservas.html">Listagem</a>
+      <a href="03_04_reservar.html">Reservar</a>
+      <a href="09_admin.html">Admin</a>
+      <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
+    </nav>
+  </header>
 
-  <button id="abrirModalLogin" class="btn-primary">Entrar</button>
-
-  <div id="modalLogin" class="modal hidden">
-    <div class="login-modal">
-      <button id="fecharModalLogin" class="fechar-modal">X</button>
-
-      <div id="telaLogin">
-        <div class="modal-header">
-          <h3>Entrar</h3>
-        </div>
-        <form class="login-form">
-          <div class="form-group">
-            <label for="usuario">Email</label>
-            <input type="text" id="usuario" placeholder="Digite seu @ifc.edu.br" />
-          </div>
-          <div class="form-group">
-            <label for="senha">Senha</label>
-            <input type="password" id="senha" placeholder="Digite sua senha" />
-          </div>
-          <button type="button" class="login-btn">Entrar</button>
-        </form>
-
-        <div class="esqueci-senha-link">
-          <a href="#" id="linkEsqueciSenha" class="secondary-link">Esqueci minha senha</a>
-        </div>
-
-        <div class="login-footer">
-          <p>Não tem conta? <a href="#" id="linkCadastro" class="secondary-link">Cadastre-se</a></p>
-          <p><a href="#" id="linkSemLogin" class="semLogin">Sem Login</a></p>
-        </div>
-      </div>
-
-      <div id="telaCadastro" class="hidden">
-        <div class="modal-header">
-          <h3>Cadastrar</h3>
-        </div>
-        <form class="login-form">
-          <div class="form-group">
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" />
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" />
-          </div>
-          <div class="form-group">
-            <label for="senhaCadastro">Senha</label>
-            <input type="password" id="senhaCadastro" />
-          </div>
-          <button type="button" class="login-btn">Cadastrar</button>
-        </form>
-
-        <div class="login-footer">
-          <p><a href="#" id="voltarLogin1" class="secondary-link">← Voltar para login</a></p>
-        </div>
-      </div>
-
-      <div id="telaEsqueciSenha" class="hidden">
-        <div class="modal-header">
-          <h3>Recuperar Senha</h3>
-        </div>
-        <form class="login-form">
-          <div class="form-group">
-            <label for="emailRecuperar">Email</label>
-            <input type="email" id="emailRecuperar" />
-          </div>
-          <button type="button" class="login-btn">Enviar</button>
-        </form>
-
-        <div class="login-footer">
-          <p><a href="#" id="voltarLogin2" class="secondary-link">← Voltar para login</a></p>
-        </div>
-      </div>
-
+  <main class="main-content">
+    <div class="center">
+      <button id="abrirModalLogin" class="btn-primary">Entrar</button>
     </div>
-  </div>
+
+    <div id="modalLogin" class="modal hidden">
+      <div class="login-modal">
+        <button id="fecharModalLogin" class="fechar-modal">&times;</button>
+
+        <div id="telaLogin">
+          <h2>Entrar</h2>
+          <form class="login-form">
+            <div class="form-group">
+              <label for="usuario">Email</label>
+              <input type="text" id="usuario" placeholder="Digite seu @ifc.edu.br" />
+            </div>
+            <div class="form-group">
+              <label for="senha">Senha</label>
+              <input type="password" id="senha" placeholder="Digite sua senha" />
+            </div>
+            <button type="button" class="login-btn">Entrar</button>
+          </form>
+
+          <div class="links-auxiliares">
+            <a href="#" id="linkEsqueciSenha">Esqueci minha senha</a>
+            <p>Não tem conta? <a href="#" id="linkCadastro">Cadastre-se</a></p>
+            <p><a href="#" id="linkSemLogin">Entrar sem login</a></p>
+          </div>
+        </div>
+
+        <div id="telaCadastro" class="hidden">
+          <h2>Cadastrar</h2>
+          <form class="login-form">
+            <div class="form-group">
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" />
+            </div>
+            <div class="form-group">
+              <label for="senhaCadastro">Senha</label>
+              <input type="password" id="senhaCadastro" />
+            </div>
+            <button type="button" class="login-btn">Cadastrar</button>
+          </form>
+          <a href="#" id="voltarLogin1">&larr; Voltar para login</a>
+        </div>
+
+        <div id="telaEsqueciSenha" class="hidden">
+          <h2>Recuperar Senha</h2>
+          <form class="login-form">
+            <div class="form-group">
+              <label for="emailRecuperar">Email</label>
+              <input type="email" id="emailRecuperar" />
+            </div>
+            <button type="button" class="login-btn">Enviar</button>
+          </form>
+          <a href="#" id="voltarLogin2">&larr; Voltar para login</a>
+        </div>
+
+      </div>
+    </div>
+  </main>
 
   <script type="module" src="05_js/modal-controller.js"></script>
-
 </body>
 
 </html>
