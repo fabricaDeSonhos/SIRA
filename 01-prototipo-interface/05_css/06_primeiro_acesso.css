@@ -122,3 +122,19 @@ input[type="password"] {
 .login-link a:hover {
   text-decoration: underline;
 }
+
+.esqueci-senha {
+  text-align: right;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: 0.9em;
+}
+
+.esqueci-senha a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.esqueci-senha a:hover {
+  text-decoration: underline;
+}

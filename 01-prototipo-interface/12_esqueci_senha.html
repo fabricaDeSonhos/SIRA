@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Esqueci a Senha</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/01-prototipo-interface/05_css/06_primeiro_acesso.css">
+</head>
+<body>
+
+  <div class="navegacao">
+    <a href="01_index.html">Diária</a>
+    <a href="02_visao_semanal.html">Semanal</a>
+    <a href="10_listagem_reservas.html" class="listagem">Listagem</a>
+    <a href="03_04_reservar.html">Reservar</a>
+    <a href="09_admin.html" class="admin">Admin</a>
+    <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
+  </div>
+
+  <div class="fundo-escuro">
+    <div class="modal-box">
+      <h2>Recuperar Senha</h2>
+
+      <form action="14_enviar_link_recuperacao.html" method="post">
+        <label for="email">Digite seu e-mail</label>
+        <input type="email" id="email" name="email" required>
+
+        <button type="submit" class="btn-cadastrar">Enviar link de recuperação</button>
+
+        <p class="login-link"><a href="11_login.html">Voltar para o login</a></p>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
