@@ -14,6 +14,7 @@
   background-color: #218838;
 }
 
+
 .modal {
   display: none;
   position: fixed;
@@ -126,3 +127,4 @@ h1 {
 .reserva:hover {
   background-color: #004d40;
 }
+

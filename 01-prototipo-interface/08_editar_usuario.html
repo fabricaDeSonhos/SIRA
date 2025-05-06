@@ -4,7 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Configurações</title>
+
   <link rel="stylesheet" href="05_css/08_editar_usuario.css" />
+
+  <link rel="stylesheet" href="08_editar_usuario.css" />
+
 </head>
 <body>
   <div class="config-modal">
@@ -13,6 +17,9 @@
 
     <form class="config-form" action="01_index.html">
 
+
+      <!-- Usuário -->
+
       <div class="form-group">
         <label>Usuário Atual</label>
         <input type="text" placeholder="Digite o nome de usuário atual" />
@@ -20,12 +27,20 @@
         <input type="text" placeholder="Digite o novo nome de usuário" />
       </div>
 
+
+
+      <!-- Email -->
+
       <div class="form-group">
         <label>Email Atual</label>
         <input type="email" placeholder="Digite o e-mail atual" />
         <label>Novo Email</label>
         <input type="email" placeholder="Digite o novo e-mail" />
       </div>
+
+
+
+      <!-- Senha -->
 
       <div class="form-group">
         <label>Senha Atual</label>
@@ -36,10 +51,18 @@
         <input type="password" placeholder="Confirme a nova senha" />
       </div>
 
+
+
+      <!-- Foto -->
+
       <div class="form-group">
         <label>Nova Foto de Perfil</label>
         <input type="file" accept="image/*" />
       </div>
+
+
+
+      <!-- Página inicial -->
 
       <div class="form-group">
         <label>Página Inicial</label>
@@ -52,6 +75,9 @@
         </select>
       </div>
 
+
+      <!-- Tema -->
+
       <div class="form-group">
         <label>Tema</label>
         <select>
@@ -60,13 +86,21 @@
         </select>
       </div>
 
+
+
+      <!-- Botão único de salvar -->
+
       <button type="submit" class="btn-salvar">Salvar Alterações</button>
     </form>
   </div>
 
   <script>
     function fecharConfiguracoes() {
+
       window.location.href = "01_index.html";
+
+      window.location.href = "01_index.html"; // Redireciona para onde você quiser
+
     }
   </script>
 </body>

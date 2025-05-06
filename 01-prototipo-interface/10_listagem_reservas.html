@@ -4,12 +4,75 @@
 <head>
   <meta charset="UTF-8">
   <title>Histórico de Alocações</title>
+
   <link rel="stylesheet" href="05_css/10_listagem.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f8f8f8;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .search-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      width: 300px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th,
+    td {
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    .usuario {
+      font-weight: bold;
+    }
+
+    .finalidade {
+      font-style: italic;
+    }
+  </style>
+
 </head>
 
 <body>
 
   <h2>Histórico de Alocações</h2>
+
 
   <nav>
     <a href="01_index.html">Diária</a>
@@ -23,6 +86,24 @@
   <div class="search-bar">
     <label for="searchInput">Pesquisar:</label>
     <input type="text" id="searchInput" onkeyup="filtrarTabela()" placeholder="Digite algo...">
+
+  <div>
+
+    <p><input type="checkbox"> Hoje</p>
+  </div>
+
+  Reservas:
+  <a href="01_index.html">Diária</a> |
+  <a href="02_visao_semanal.html">Semanal</a> |
+  <a href="10_listagem_reservas.html">Listagem</a> |
+  <a href="03_04_reservar.html">RESERVAR!</a> <br>
+  <a href="09_admin.html">Admin (apenas para usuários com esse papel)</a> |
+  <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
+
+  <div class="search-box">
+    <label for="searchInput">Pesquisar:</label>
+    <input type="text" id="searchInput" onkeyup="filtrarTabela()" placeholder="Digite algo (ex: 05/04/2025, POO, D04)">
+
   </div>
 
   <table id="reservas">
@@ -36,6 +117,7 @@
         <th>Turma</th>
       </tr>
     </thead>
+
     <tbody id="tbody-reservas"></tbody>
   </table>
 
@@ -102,8 +184,98 @@
 
     renderizarTabela();
     criarPaginacao();
+
+    <tbody>
+      <tr>
+        <td>05/04/2025</td>
+        <td>A04</td>
+        <td>19:00 - 21:00</td>
+        <td class="usuario">Professor de Algotitmos</td>
+        <td class="finalidade">Ministrar aula de algoritmos</td>
+        <td>1° fase - superior BCC</td>
+      </tr>
+      <tr>
+        <td>04/04/2025</td>
+        <td>D05</td>
+        <td>18:00 - 20:00</td>
+        <td class="usuario">Professor de Introdução à lógica</td>
+        <td class="finalidade">Ministrar aula de Introdução à lógica</td>
+        <td>1° fase - superior BCC</td>
+      </tr>
+      <tr>
+        <td>03/04/2025</td>
+        <td>A05</td>
+        <td>20:00 - 22:00</td>
+        <td class="usuario">Professor de informatica basica</td>
+        <td class="finalidade">Utilização de computadores para planilhas</td>
+        <td>1° fase - téc. informatica</td>
+      </tr>
+      <tr>
+        <td>02/04/2025</td>
+        <td>D04</td>
+        <td>19:00 - 21:00</td>
+        <td class="usuario">Professor de POO</td>
+        <td class="finalidade">Prova</td>
+        <td>2º fase - superior BCC</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="m-auto flex justify-center">
+    <a href="" class="p-2 text-gray-500 cursor-default">Início</a>
+    <a href="" class="p-2 text-gray-500 cursor-default">1</a>
+    <a href="" class="p-2 text-green-500 ">2</a>
+    <a href="" class="p-2 text-green-500 ">3</a>
+    <a href="" class="p-2 text-green-500 ">4</a>
+    <a href="" class="p-2 text-green-500 ">5</a>
+    <a href="" class="p-2 text-green-500 ">...</a>
+    <a href="" class="p-2 text-green-500 ">Fim</a>
+  </div>
+
+
+  <script>
+    function filtrarTabela() {
+      const input = document.getElementById("searchInput");
+      const filtro = input.value.toLowerCase();
+      const tabela = document.getElementById("tabelaHistorico");
+      const linhas = tabela.getElementsByTagName("tr");
+
+      for (let i = 1; i < linhas.length; i++) {
+        let linha = linhas[i];
+        let textoLinha = linha.textContent.toLowerCase();
+        linha.style.display = textoLinha.includes(filtro) ? "" : "none";
+      }
+    }
+
+    let resevars = [
+
+    ]
+    function reserva(data, local, inicio, fim, user, turma) {
+      reservas.push({ data, local, inicio, fim, user, turma })
+      reservas.sort()
+
+    }
+    function add_reservas(data, local, k) {
+      const table = docuemnt.querySelecor("#reservas")
+      for (let r of reservas) {
+
+        const element = `
+        <tr>
+
+        </tr>
+`
+        table.innerHTML += ``
+
+      }
+
+    }
+
   </script>
 
 </body>
 
+
 </html>
+
+</html>
+
