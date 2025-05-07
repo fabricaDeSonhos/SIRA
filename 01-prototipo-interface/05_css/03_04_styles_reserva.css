@@ -22,6 +22,11 @@ body {
   gap: 16px;
 }
 
+.Reserva {
+  display: flex;
+  justify-content: center;
+}
+
 .nav-buttons a {
   background-color: #d0f0df;
   color: #185c3b;

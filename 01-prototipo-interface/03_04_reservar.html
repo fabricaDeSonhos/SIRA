@@ -24,13 +24,13 @@
   <div id="modalReserva" class="modal">
     <div class="modal-content">
       <div>
-        <h2>Reserva: A03 - SO BCC</h2>
+        <h2 class="Reserva">Reserva:</h2>
         <div class="setting">
           <h3>Professor</h3>
           <select id="professorSelect" onchange="atualizarMaterias()">
             <option value="hylson">Hylson Vescovi</option>
-            <option value="ana">Ana Paula</option>
-            <option value="joao">João Silva</option>
+            <option value="jeovani">Jeovani Schmitt</option>
+            <option value="ladeira">Ricardo Ladeira</option>
           </select>
         </div>
       </div>
@@ -83,9 +83,9 @@
 
   <script>
     const materiasPorProfessor = {
-      hylson: ["SO - BCC", "Cálculo I - BCC"],
-      ana: ["Inglês - Médio", "Cálculo I - BEE"],
-      joao: ["Matemática - Técnico", "Física - Técnico"]
+      hylson: ["SO - BCC", "Algoritmos - BCC"],
+      jeovani: ["Matemática - Médio", "Cálculo I - BEE", "Cálculo I - BCC"],
+      ladeira: ["POO - Técnico", "SO - Técnico", "Fundamentos da Computação - BCC"]
     };
 
     function atualizarMaterias() {
