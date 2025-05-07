@@ -86,10 +86,21 @@ function adicionarReserva(coluna, inicio, fim, turma, materia, professor) {
   reserva.style.top = topo + "px";
   reserva.style.height = altura + "px";
 
-  const tooltip = document.createElement("div");
-  tooltip.className = "tooltip";
-  tooltip.innerText = `${inicio} - ${fim}\n${turma} - ${materia}\n${professor}`;
-  reserva.appendChild(tooltip);
+  // Abreviações
+  const materiaAbrev = materia.split(' ').map(p => p[0]).join('').toUpperCase();
+  const professorAbrev = professor.split(' ')[0]; // só o primeiro nome
+  const turmaSala = `${turma}`;
+
+  reserva.innerHTML = `
+    <div class="resumo-reserva">
+      <div class="linha1">${materiaAbrev}</div>
+      <div class="linha2">${professorAbrev}</div>
+      <div class="linha3">${turmaSala}</div>
+    </div>
+  `;
+
+  // Tooltip completo no hover
+  reserva.title = `${inicio} - ${fim}\n${turma} - ${materia}\n${professor}`;
 
   celulaAlvo.style.position = "relative";
   celulaAlvo.appendChild(reserva);
