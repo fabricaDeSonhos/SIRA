@@ -6,71 +6,107 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fazer Reserva</title>
   <link rel="stylesheet" href="05_css/03_04_styles_reserva.css">
+  <link rel="stylesheet" href="05_css/01_index_tela_inicial.css">
 </head>
 
 <body>
 
-  <header class="navbar">
-    <nav class="nav-buttons">
-      <a href="01_index.html">Diária</a>
-      <a href="02_visao_semanal.html">Semanal</a>
-      <a href="10_listagem_reservas.html">Listagem</a>
-      <a href="03_04_reservar.html">Reservar</a>
-      <a href="09_admin.html">Admin</a>
-      <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
-    </nav>
+  <header>
+    <h1>SIRA</h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="01_index.html">Diária</a></li>
+        <li><a href="02_visao_semanal.html">Semanal</a></li>
+        <li><a href="10_listagem_reservas.html">Listagem</a></li>
+        <li><a href="03_04_reservar.html">Reservar</a></li>
+        <li><a href="09_admin.html" class="highlight">Admin</a></li>
+        <li><a href="06_primeiro_acesso.html" class="highlight">Primeiro Acesso</a></li>
+      </ul>
+    </nav>      
   </header>
-  
 
   <div id="modalReserva" class="modal">
     <div class="modal-content">
       <div>
-        <h2>Reserva: A03 - SO BCC</h2>
-        <p>Professor: Hylson Vescovi</p>
-      </div>
-
-      <form action="01_index.html">
-        <button type="submit" class="apagar" onclick="return confirm('Confirma exclusão?')">Excluir Reserva</button>
-      </form>
-
-      <div class="edit">
+        <h2 class="Reserva">Reserva:</h2>
         <div class="setting">
-          <h3>Horário de Início</h3>
-          <input type="time" min="08:00" max="22:00" value="13:00">
-        </div>
-        <div class="setting">
-          <h3>Horário de Fim</h3>
-          <input type="time" min="08:00" max="22:00" value="17:10">
-        </div>
-        <div class="setting">
-          <h3>Matéria</h3>
-          <input list="materias" value="SO - BCC">
-          <datalist id="materias">
-            <option value="SO - BCC">
-            <option value="Inglês - Médio">
-            <option value="Cálculo I - BCC">
-            <option value="Cálculo I - BEE">
-          </datalist>
-        </div>
-        <div class="setting">
-          <h3>Laboratório</h3>
-          <select>
-            <option value="D05">D05</option>
-            <option value="D06">D06</option>
-            <option value="D07">D07</option>
-            <option selected value="A03">A03</option>
-            <option value="A04">A04</option>
+          <h3>Professor</h3>
+          <select id="professorSelect" onchange="atualizarMaterias()">
+            <option value="hylson">Hylson Vescovi</option>
+            <option value="jeovani">Jeovani Schmitt</option>
+            <option value="ladeira">Ricardo Ladeira</option>
           </select>
         </div>
       </div>
 
-      <div class="cancelar-salvar">
-        <button type="button" class="cancelar" onclick="window.location.href='01_index.html'">Cancelar</button>
-        <button type="submit" class="salvar">Salvar</button>
-      </div>
+      <form action="01_index.html">
+        <div class="edit">
+          <div class="setting">
+            <h3>Data</h3>
+            <input type="date" required>
+          </div>
+          <div class="setting">
+            <h3>Horário de Início</h3>
+            <input type="time" min="08:00" max="22:00" value="13:00">
+          </div>
+          <div class="setting">
+            <h3>Horário de Fim</h3>
+            <input type="time" min="08:00" max="22:00" value="17:10">
+          </div>
+          <div class="setting">
+            <h3>Disciplina - Turma/Reunião</h3>
+            <input list="materias" id="materiaInput">
+            <datalist id="materias">
+              <!-- opções adicionadas via JavaScript -->
+            </datalist>
+          </div>
+          <div class="setting">
+            <h3>Laboratório</h3>
+            <select>
+              <option value="D05">D05</option>
+              <option value="D06">D06</option>
+              <option value="D07">D07</option>
+              <option selected value="A03">A03</option>
+              <option value="A04">A04</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="botoes-final">
+          <div class="esquerda">
+            <button type="button" class="cancelar" onclick="window.location.href='01_index.html'">Cancelar</button>
+          </div>
+          <div class="direita">
+            <button type="submit" class="salvar">Salvar</button>
+            <button type="submit" class="apagar" onclick="return confirm('Confirma exclusão?')">Excluir Reserva</button>
+          </div>
+        </div>        
+      </form>
     </div>
   </div>
 
-</body>
+  <script>
+    const materiasPorProfessor = {
+      hylson: ["SO - BCC", "Algoritmos - BCC", "Reunião"],
+      jeovani: ["Matemática - Médio", "Cálculo I - BEE", "Cálculo I - BCC", "Reunião"],
+      ladeira: ["POO - Técnico", "SO - Técnico", "Fundamentos da Computação - BCC", "Reunião"]
+    };
 
+    function atualizarMaterias() {
+      const professor = document.getElementById("professorSelect").value;
+      const materias = materiasPorProfessor[professor] || [];
+      const datalist = document.getElementById("materias");
+
+      datalist.innerHTML = "";
+      materias.forEach(materia => {
+        const option = document.createElement("option");
+        option.value = materia;
+        datalist.appendChild(option);
+      });
+    }
+
+    // Atualiza ao carregar a página com o primeiro professor selecionado
+    window.onload = atualizarMaterias;
+  </script>
+</body>
 </html>

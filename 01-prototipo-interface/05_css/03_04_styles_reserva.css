@@ -1,31 +1,39 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-}
-
 body {
-  background-color: #f4fdf7;
-  color: #1a3d2f;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--fundo-pagina);
 }
 
-nav {
-  background-color: #c4f1d9;
-  padding: 16px;
+.navbar {
+  background-color: #f1fcf6;
+  padding: 24px;
+  text-align: center;
+}
+
+.nav-buttons {
   display: flex;
-  gap: 16px;
   justify-content: center;
-  border-bottom: 2px solid #b8e4cb;
+  gap: 16px;
 }
 
-nav a {
-  text-decoration: none;
-  color: #1a3d2f;
+.Reserva {
+  display: flex;
+  justify-content: center;
+}
+
+.nav-buttons a {
+  background-color: #d0f0df;
+  color: #185c3b;
   font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 8px;
-  transition: background 0.2s;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: background-color 0.2s ease-in-out;
+}
+
+.nav-buttons a:hover {
+  background-color: #b7e3c8;
 }
 
 .modal {
@@ -59,10 +67,6 @@ h3 {
   margin-bottom: 4px;
 }
 
-p {
-  font-size: 0.95rem;
-}
-
 .edit {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -76,28 +80,43 @@ p {
 
 input[type="time"],
 input[list],
-select {
+select,
+input[type="date"] {
   padding: 8px;
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 0.95rem;
 }
 
-.cancelar-salvar {
+form {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.botoes-final {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.botoes-final .esquerda,
+.botoes-final .direita {
+  display: flex;
   gap: 12px;
 }
 
-.cancelar, 
+.cancelar,
 .salvar,
-
 .apagar {
-  padding: 10px 20px;
+  width: 140px;
+  padding: 10px 0;
   font-size: 0.95rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  text-align: center;
   transition: background 0.2s;
 }
 
@@ -122,32 +141,9 @@ select {
 .apagar {
   background-color: #e53935;
   color: white;
-  margin-top: 8px;
 }
 
 .apagar:hover {
   background-color: #c62828;
 }
 
-.navbar {
-  background-color: #f1fcf6;
-  padding: 24px 12 16px;
-  text-align: center;
-}
-
-.nav-buttons a {
-  background-color: #d0f0df;
-  color: #185c3b;
-  font-weight: 600;
-  text-decoration: none;
-  padding: 10px 16px;
-  border-radius: 12px;
-  margin: 0 6px;
-  display: inline-block;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  transition: background-color 0.2s ease-in-out;
-}
-
-.nav-buttons a:hover {
-  background-color: #b7e3c8;
-}

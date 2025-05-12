@@ -6,52 +6,58 @@
   <title>Cadastro</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="05_css/06_primeiro_acesso.css">
+  <link rel="stylesheet" href="05_css/01_index_tela_inicial.css">
 </head>
-<body>
 
-  <div class="navegacao">
-    <a href="01_index.html">Diária</a>
-    <a href="02_visao_semanal.html">Semanal</a>
-    <a href="10_listagem_reservas.html" class="listagem">Listagem</a>
-    <a href="03_04_reservar.html">Reservar</a>
-    <a href="09_admin.html" class="admin">Admin</a>
-    <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
-  </div>
+<body>
+  <header>
+    <h1>SIRA</h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="01_index.html">Diária</a></li>
+        <li><a href="02_visao_semanal.html">Semanal</a></li>
+        <li><a href="10_listagem_reservas.html">Listagem</a></li>
+        <li><a href="03_04_reservar.html">Reservar</a></li>
+        <li><a href="09_admin.html">Admin</a></li>
+        <li><a href="06_primeiro_acesso.html">Primeiro Acesso</a></li>
+      </ul>
+    </nav>      
+  </header>
 
   <div class="fundo-escuro">
     <div class="modal-box">
       <h2>Cadastro</h2>
 
-      <form action="07_cadastro_submit.html" method="post">
+      <form id="formCadastro">
         <label for="nome">Nome</label>
-        <input type="text" id="nome" name="nome" required>
-
+        <input type="text" id="nome" name="nome" required value="Hylson">
+      
         <label for="email">E-mail</label>
-        <input type="email" id="email" name="email" required>
-
+        <input type="email" id="email" name="email" required value="Hylson@gmail.com">
+      
         <label for="senha">Senha</label>
         <div class="senha-container">
-          <input type="password" id="senha" name="senha" required>
+          <input type="password" id="senha" name="senha" required value="aaa">
           <i class="fa-solid fa-eye" id="toggleSenha"></i>
         </div>
-
+      
         <label for="confirmar-senha">Confirmar Senha</label>
         <div class="senha-container">
-          <input type="password" id="confirmar-senha" name="confirmar-senha" required>
+          <input type="password" id="confirmar-senha" name="confirmar-senha" required value="aaa">
           <i class="fa-solid fa-eye" id="toggleConfirmarSenha"></i>
         </div>
-
+      
         <button type="submit" class="btn-cadastrar">Cadastrar</button>
-
+      
         <p class="login-link">Já tem uma conta? <a href="11_login.html">Faça login</a></p>
-      </form>
+      </form>      
     </div>
   </div>
 
   <script>
+    // Exibir senhas
     const toggleSenha = document.getElementById("toggleSenha");
     const senhaInput = document.getElementById("senha");
-
     toggleSenha.addEventListener("click", () => {
       const isPassword = senhaInput.type === "password";
       senhaInput.type = isPassword ? "text" : "password";
@@ -60,11 +66,42 @@
 
     const toggleConfirmarSenha = document.getElementById("toggleConfirmarSenha");
     const confirmarSenhaInput = document.getElementById("confirmar-senha");
-
     toggleConfirmarSenha.addEventListener("click", () => {
       const isPassword = confirmarSenhaInput.type === "password";
       confirmarSenhaInput.type = isPassword ? "text" : "password";
       toggleConfirmarSenha.classList.toggle("fa-eye-slash");
+    });
+
+    // Preencher campos se existirem dados no localStorage
+    window.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("nome").value = localStorage.getItem("cadastro_nome") || "Hylson";
+    document.getElementById("email").value = localStorage.getItem("cadastro_email") || "Hylson@gmail.com";
+    document.getElementById("senha").value = "aaa";
+    document.getElementById("confirmar-senha").value = "aaa";
+    });
+
+
+    // Capturar submissão do formulário
+    const form = document.getElementById("formCadastro");
+    form.addEventListener("submit", function(event) {
+      event.preventDefault(); // impede navegação padrão
+
+      const nome = document.getElementById("nome").value;
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+      const confirmarSenha = document.getElementById("confirmar-senha").value;
+
+      if (senha !== confirmarSenha) {
+        alert("As senhas não coincidem!");
+        return;
+      }
+
+      // Simula salvar no localStorage (ou enviar a um backend real)
+      localStorage.setItem("cadastro_nome", nome);
+      localStorage.setItem("cadastro_email", email);
+
+      // Redireciona após o cadastro
+      window.location.href = "11_login.html";
     });
   </script>
 
