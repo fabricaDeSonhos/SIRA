@@ -202,8 +202,11 @@ tbody th {
   }
 
   .adicionar-reserva-btn {
-    margin-left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    bottom: auto;
+
+    left: auto;
+    margin: auto;
   }
 }
 
