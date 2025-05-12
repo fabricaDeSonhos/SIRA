@@ -70,22 +70,10 @@
     </div>
   </section>
 
-  <div id="pray" class="transition-opacity duration-1000 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xl opacity-0 z-50 bg-white p-6 rounded-lg shadow-xl">
-    <span class="text-[5rem] animate-bounce">🙏</span>
-    <p class="mt-2 text-[var(--verde-principal)]">Please, fix thy bugs, and bestow us new features</p>
-    <button onclick="end_worship()" class="mt-4 px-6 py-2 bg-[var(--verde-principal)] text-white rounded-full hover:bg-[var(--verde-hover)] transition-transform hover:scale-105">Amen</button>
-  </div>
 
   <script>
     const $ = q => document.querySelector(q)
 
-    function worship() {
-      $("#pray").classList.remove("opacity-0")
-    }
-
-    function end_worship() {
-      $("#pray").classList.add("opacity-0")
-    }
 
     function insert_to_whitelist_event() {
       const pattern = $("#pattern").value.trim();
