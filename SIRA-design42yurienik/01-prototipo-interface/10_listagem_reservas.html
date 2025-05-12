@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Histórico de Alocações</title>
+  <link rel="stylesheet" href="05_css/10_listagem.css" />
+</head>
+<body>
+
+<header>
+    <h1>SIRA</h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="01_index.html">Diária</a></li>
+        <li><a href="02_visao_semanal.html">Semanal</a></li>
+        <li><a href="10_listagem_reservas.html">Listagem</a></li>
+        <li><a href="03_04_reservar.html">Reservar</a></li>
+        <li><a href="09_admin.html">Admin</a></li>
+        <li><a href="06_primeiro_acesso.html">Primeiro Acesso</a></li>
+      </ul>
+    </nav>      
+</header>
+
+  <h2>Histórico de Alocações</h2>
+
+  <div class="search-bar">
+    <label for="searchInput">Pesquisar:</label>
+    <input type="text" id="searchInput" onkeyup="filtrarTabela()" placeholder="Digite algo...">
+  </div>
+
+  <table id="reservas">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Local</th>
+        <th>Horário</th>
+        <th>Usuário</th>
+        <th>Finalidade</th>
+        <th>Turma</th>
+      </tr>
+    </thead>
+    <tbody id="tbody-reservas"></tbody>
+  </table>
+
+  <div id="pagination" class="pagination"></div>
+
+  <script>
+    const reservas = [
+      { data: "05/04/2025", local: "A04", horario: "19:00 - 21:00", usuario: "Professor de Algoritmos", finalidade: "Ministrar aula de algoritmos", turma: "1° fase - superior BCC" },
+      { data: "04/04/2025", local: "D05", horario: "18:00 - 20:00", usuario: "Professor de Introdução à Lógica", finalidade: "Ministrar aula de Introdução à lógica", turma: "1° fase - superior BCC" },
+      { data: "03/04/2025", local: "A05", horario: "20:00 - 22:00", usuario: "Professor de Informática Básica", finalidade: "Utilização de computadores para planilhas", turma: "1° fase - técnico informática" },
+      { data: "02/04/2025", local: "D04", horario: "19:00 - 21:00", usuario: "Professor de POO", finalidade: "Prova", turma: "2º fase - superior BCC" },
+    ];
+
+    const linhasPorPagina = 10;
+    let paginaAtual = 1;
+
+    function renderizarTabela() {
+      const tbody = document.getElementById("tbody-reservas");
+      tbody.innerHTML = "";
+      const inicio = (paginaAtual - 1) * linhasPorPagina;
+      const fim = inicio + linhasPorPagina;
+      const reservasPagina = reservas.slice(inicio, fim);
+
+      reservasPagina.forEach(reserva => {
+        const linha = `
+          <tr>
+            <td>${reserva.data}</td>
+            <td>${reserva.local}</td>
+            <td>${reserva.horario}</td>
+            <td><strong>${reserva.usuario}</strong></td>
+            <td><em>${reserva.finalidade}</em></td>
+            <td>${reserva.turma}</td>
+          </tr>`;
+        tbody.innerHTML += linha;
+      });
+    }
+
+    function criarPaginacao() {
+      const pagDiv = document.getElementById("pagination");
+      pagDiv.innerHTML = "";
+      const totalPaginas = Math.ceil(reservas.length / linhasPorPagina);
+
+      for (let i = 1; i <= totalPaginas; i++) {
+        pagDiv.innerHTML += `
+          <a href="#" onclick="mudarPagina(${i})" class="${paginaAtual === i ? 'active' : ''}">${i}</a>`;
+      }
+    }
+
+    function mudarPagina(pagina) {
+      paginaAtual = pagina;
+      renderizarTabela();
+      criarPaginacao();
+    }
+
+    function filtrarTabela() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const linhas = document.getElementById("tbody-reservas").getElementsByTagName("tr");
+
+      for (let i = 0; i < linhas.length; i++) {
+        const textoLinha = linhas[i].textContent.toLowerCase();
+        linhas[i].style.display = textoLinha.includes(input) ? "" : "none";
+      }
+    }
+
+    renderizarTabela();
+    criarPaginacao();
+  </script>
+
+</body>
+
+</html>
