@@ -31,7 +31,7 @@ body {
 h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: var(--verde-principal);
+  color: var(--verde-principal) !important;
 }
 
 label {
@@ -188,4 +188,54 @@ header a:hover {
   background-color: #1ea355;
   color: white;
   font-weight: 600;
+}
+
+/* BOTAO GOOGLE */
+.btn-google {
+  width: 100%;
+  padding: 12px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-google:hover {
+  background: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-google i {
+  color: #37966F;
+  font-size: 18px;
+}
+
+/* ---ou---- */
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.separator:not(:empty)::before {
+  margin-right: .75em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: .75em;
 }

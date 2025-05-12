@@ -28,6 +28,15 @@
     <div class="modal-box">
       <h2>Cadastro</h2>
 
+      <button class="btn-google" onclick="redirecionaBntGoogle()">
+        <i class="fa-brands fa-google"></i>
+        Continuar com Google
+      </button> 
+
+      <div class="separator">
+        <span>ou</span>
+      </div>  
+      
       <form id="formCadastro">
         <label for="nome">Nome</label>
         <input type="text" id="nome" name="nome" required value="Hylson">
@@ -50,6 +59,7 @@
         <button type="submit" class="btn-cadastrar">Cadastrar</button>
       
         <p class="login-link">Já tem uma conta? <a href="11_login.html">Faça login</a></p>
+              
       </form>      
     </div>
   </div>
@@ -103,6 +113,11 @@
       // Redireciona após o cadastro
       window.location.href = "11_login.html";
     });
+
+  function redirecionaBntGoogle() {
+    window.location.href = "11_login.html";
+  }
+
   </script>
 
 </body>

@@ -43,6 +43,18 @@
     
       <p class="login-link">Ainda não tem uma conta? <a href="06_primeiro_acesso.html">Cadastre-se</a></p>
     </form>      
+
+    <div class="separator">
+      <span>ou</span>
+    </div>  
+
+    <button class="btn-google" onclick="redirecionaBntGoogle()">
+      <i class="fa-brands fa-google"></i>
+        Continuar com Google
+    </button> 
+
+      
+
   </div>
 </div>
 
@@ -76,6 +88,12 @@
       alert("E-mail ou senha incorretos.");
     }
   });
+
+
+  function redirecionaBntGoogle() {
+    window.location.href = "01_index.html";
+  }
+
 </script>  
 
 </body>
