@@ -6,71 +6,77 @@
   <title>Login</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="05_css/06_primeiro_acesso.css">
+  <link rel="stylesheet" href="05_css/01_index_tela_inicial.css">
 </head>
 <body>
 
-  <div class="navegacao">
-    <a href="01_index.html">Diária</a>
-    <a href="02_visao_semanal.html">Semanal</a>
-    <a href="10_listagem_reservas.html" class="listagem">Listagem</a>
-    <a href="03_04_reservar.html">Reservar</a>
-    <a href="09_admin.html" class="admin">Admin</a>
-    <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
+<header>
+    <h1>SIRA</h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="01_index.html">Diária</a></li>
+        <li><a href="02_visao_semanal.html">Semanal</a></li>
+        <li><a href="10_listagem_reservas.html">Listagem</a></li>
+        <li><a href="03_04_reservar.html">Reservar</a></li>
+        <li><a href="09_admin.html">Admin</a></li>
+        <li><a href="06_primeiro_acesso.html">Primeiro Acesso</a></li>
+      </ul>
+    </nav>      
+</header>
+
+<div class="fundo-escuro">
+  <div class="modal-box">
+    <h2>Login</h2>
+    <form id="formLogin">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" value="Hylson@gmail.com" required>
+    
+      <label for="senha">Senha</label>
+      <div class="senha-container">
+        <input type="password" id="senha" name="senha" value="aaa" required>
+        <i class="fa-solid fa-eye toggle-senha" data-target="senha"></i>
+      </div>
+    
+      <p class="esqueci-senha"><a href="12_esqueci_senha.html">Esqueci a senha</a></p>
+    
+      <button type="submit" class="btn-cadastrar">Entrar</button>
+    
+      <p class="login-link">Ainda não tem uma conta? <a href="06_primeiro_acesso.html">Cadastre-se</a></p>
+    </form>      
   </div>
+</div>
 
-  <div class="fundo-escuro">
-    <div class="modal-box">
-      <h2>Login</h2>
-      <form id="formLogin">
-        <label for="email">E-mail</label>
-        <input type="email" id="email" name="email" required>
-      
-        <label for="senha">Senha</label>
-        <div class="senha-container">
-          <input type="password" id="senha" name="senha" required>
-          <i class="fa-solid fa-eye toggle-senha" data-target="senha"></i>
-        </div>
-      
-        <p class="esqueci-senha"><a href="12_esqueci_senha.html">Esqueci a senha</a></p>
-      
-        <button type="submit" class="btn-cadastrar">Entrar</button>
-      
-        <p class="login-link">Ainda não tem uma conta? <a href="06_primeiro_acesso.html">Cadastre-se</a></p>
-      </form>      
-    </div>
-  </div>
+<script>
+  // Define e-mail e senha fixos no localStorage
+  localStorage.setItem("usuarioEmail", "Hylson@gmail.com");
+  localStorage.setItem("usuarioSenha", "aaa");
 
-  <script>
-    // Define e-mail e senha fixos no localStorage
-    localStorage.setItem("usuarioEmail", "Hylson@gmail.com");
-    localStorage.setItem("usuarioSenha", "aaa");
-
-    // Alternar visualização da senha
-    document.querySelectorAll('.toggle-senha').forEach(icon => {
-      icon.addEventListener('click', () => {
-        const input = document.getElementById(icon.dataset.target);
-        const isPassword = input.type === "password";
-        input.type = isPassword ? "text" : "password";
-        icon.classList.toggle("fa-eye-slash");
-      });
+  // Alternar visualização da senha
+  document.querySelectorAll('.toggle-senha').forEach(icon => {
+    icon.addEventListener('click', () => {
+      const input = document.getElementById(icon.dataset.target);
+      const isPassword = input.type === "password";
+      input.type = isPassword ? "text" : "password";
+      icon.classList.toggle("fa-eye-slash");
     });
+  });
 
-    // Verificação de login
-    document.getElementById('formLogin').addEventListener('submit', function(event) {
-      event.preventDefault(); 
-      const email = document.getElementById('email').value;
-      const senha = document.getElementById('senha').value;
+  // Verificação de login
+  document.getElementById('formLogin').addEventListener('submit', function(event) {
+    event.preventDefault(); 
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
 
-      const emailSalvo = localStorage.getItem("usuarioEmail");
-      const senhaSalva = localStorage.getItem("usuarioSenha");
+    const emailSalvo = localStorage.getItem("usuarioEmail");
+    const senhaSalva = localStorage.getItem("usuarioSenha");
 
-      if (email === emailSalvo && senha === senhaSalva) {
-        window.location.href = "01_index.html";
-      } else {
-        alert("E-mail ou senha incorretos.");
-      }
-    });
-  </script>  
+    if (email === emailSalvo && senha === senhaSalva) {
+      window.location.href = "01_index.html";
+    } else {
+      alert("E-mail ou senha incorretos.");
+    }
+  });
+</script>  
 
 </body>
 </html>

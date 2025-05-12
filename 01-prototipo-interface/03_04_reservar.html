@@ -6,19 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fazer Reserva</title>
   <link rel="stylesheet" href="05_css/03_04_styles_reserva.css">
+  <link rel="stylesheet" href="05_css/01_index_tela_inicial.css">
 </head>
 
 <body>
 
-  <header class="navbar">
-    <nav class="nav-buttons">
-      <a href="01_index.html">Diária</a>
-      <a href="02_visao_semanal.html">Semanal</a>
-      <a href="10_listagem_reservas.html">Listagem</a>
-      <a href="03_04_reservar.html">Reservar</a>
-      <a href="09_admin.html">Admin</a>
-      <a href="06_primeiro_acesso.html">Primeiro Acesso</a>
-    </nav>
+  <header>
+    <h1>SIRA</h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="01_index.html">Diária</a></li>
+        <li><a href="02_visao_semanal.html">Semanal</a></li>
+        <li><a href="10_listagem_reservas.html">Listagem</a></li>
+        <li><a href="03_04_reservar.html">Reservar</a></li>
+        <li><a href="09_admin.html" class="highlight">Admin</a></li>
+        <li><a href="06_primeiro_acesso.html" class="highlight">Primeiro Acesso</a></li>
+      </ul>
+    </nav>      
   </header>
 
   <div id="modalReserva" class="modal">
@@ -50,7 +54,7 @@
             <input type="time" min="08:00" max="22:00" value="17:10">
           </div>
           <div class="setting">
-            <h3>Matéria</h3>
+            <h3>Disciplina - Turma/Reunião</h3>
             <input list="materias" id="materiaInput">
             <datalist id="materias">
               <!-- opções adicionadas via JavaScript -->
@@ -83,9 +87,9 @@
 
   <script>
     const materiasPorProfessor = {
-      hylson: ["SO - BCC", "Algoritmos - BCC"],
-      jeovani: ["Matemática - Médio", "Cálculo I - BEE", "Cálculo I - BCC"],
-      ladeira: ["POO - Técnico", "SO - Técnico", "Fundamentos da Computação - BCC"]
+      hylson: ["SO - BCC", "Algoritmos - BCC", "Reunião"],
+      jeovani: ["Matemática - Médio", "Cálculo I - BEE", "Cálculo I - BCC", "Reunião"],
+      ladeira: ["POO - Técnico", "SO - Técnico", "Fundamentos da Computação - BCC", "Reunião"]
     };
 
     function atualizarMaterias() {

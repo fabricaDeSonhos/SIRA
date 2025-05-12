@@ -1,13 +1,7 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-}
-
 body {
-  background-color: #f4fdf7;
-  color: #1a3d2f;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--fundo-pagina);
 }
 
 .navbar {
@@ -152,3 +146,4 @@ form {
 .apagar:hover {
   background-color: #c62828;
 }
+

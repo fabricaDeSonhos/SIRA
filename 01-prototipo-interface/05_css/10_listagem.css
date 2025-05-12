@@ -1,44 +1,88 @@
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Inter', sans-serif;
+:root {
+  --verde-ifc: #008080;
+  --verde-escuro: #004d4d;
+  --cinza-fundo: #f9f9f9;
+  --cinza-claro: #f0f0f0;
+  --cinza-medio: #ddd;
+  --cinza-hover: #e0e0e0;
+  --branco: #ffffff;
+  --preto: #333333;
 }
 
 body {
-background-color: #f4fdf7;
-color: #1a3d2f;
-padding: 40px;
+font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+background-color: var(--cinza-fundo);
+margin: 20px;
 }
 
 h2 {
-text-align: center;
-font-size: 1.8rem;
-color: #185c3b;
-margin-bottom: 32px;
+  text-align: center;
+  font-size: 1.8rem;
+  color: var(--verde-escuro);
+  margin-bottom: 32px;
 }
 
-nav {
-display: flex;
-justify-content: center;
-flex-wrap: wrap;
-gap: 12px;
-margin-bottom: 32px;
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--branco);
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
 }
 
-nav a {
-background-color: #d0f0df;
-color: #1a3d2f;
-text-decoration: none;
-padding: 10px 18px;
-font-weight: 600;
-border-radius: 8px;
-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-transition: background 0.2s;
+header h1 {
+  font-size: 24px;
+  color: var(--verde-ifc);
+  margin-right: auto;
 }
 
-nav a:hover {
-background-color: #b8e4cb;
+header a {
+  text-decoration: none;
+  margin: 0 10px;
+  color: var(--verde-ifc);
+  font-weight: 500;
+}
+
+header a:hover {
+  color: var(--verde-escuro);
+}
+
+.navbar {
+  background-color: #e8f5f2;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  margin: 1rem auto;
+  max-width: 900px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: var(--verde-escuro);
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar a:hover {
+  background-color: #cdeae1;
+  color: #00332b;
 }
 
 .search-bar {

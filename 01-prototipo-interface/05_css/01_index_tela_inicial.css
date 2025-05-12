@@ -16,10 +16,10 @@ margin: 20px;
 }
 
 h2 {
-text-align: center;
-font-weight: 600;
-color: var(--preto);
-margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.8rem;
+  color: var(--verde-escuro);
+  margin-bottom: 32px;
 }
 
 header {
@@ -202,7 +202,7 @@ th, td {
 }
 
 .adicionar-reserva-btn {
-    margin-left: 50%;
+    margin-left: 50vw;
     transform: translateX(-50%);
 }
 }

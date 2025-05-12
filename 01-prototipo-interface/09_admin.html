@@ -6,7 +6,7 @@
   <title>Admin</title>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
+   <style>
     :root {
       --verde-principal: #37966F;
       --verde-hover: #2F7A5D;
@@ -14,21 +14,24 @@
       --fundo-pagina: #EEF9F2;
     }
   </style>
-  
-  
-  
+  <link rel="stylesheet" href="05_css/01_index_tela_inicial.css">
 </head>
 
-<body class="bg-[var(--fundo-pagina)] min-h-screen p-6">
+<body>
 
-<div class="flex justify-center flex-wrap gap-4 mb-8">
-  <a href="01_index.html" class="px-4 py-2 bg-[var(--verde-claro-botao)] text-black font-semibold rounded-md shadow hover:bg-[var(--verde-principal)] hover:text-white transition">Diária</a>
-  <a href="02_visao_semanal.html" class="px-4 py-2 bg-[var(--verde-claro-botao)] text-black font-semibold rounded-md shadow hover:bg-[var(--verde-principal)] hover:text-white transition">Semanal</a>
-  <a href="10_listagem_reservas.html" class="px-4 py-2 bg-[var(--verde-claro-botao)] text-black font-semibold rounded-md shadow hover:bg-[var(--verde-principal)] hover:text-white transition">Listagem</a>
-  <a href="03_04_reservar.html" class="px-4 py-2 bg-[var(--verde-claro-botao)] text-black font-semibold rounded-md shadow hover:bg-[var(--verde-principal)] hover:text-white transition">Reservar</a>
-  <a href="09_admin.html" class="px-4 py-2 bg-[var(--verde-claro-botao)] text-black font-semibold rounded-md shadow hover:bg-[var(--verde-principal)] hover:text-white transition">Admin</a>
-  <a href="06_primeiro_acesso.html" class="px-4 py-2 bg-[var(--verde-claro-botao)] text-black font-semibold rounded-md shadow hover:bg-[var(--verde-principal)] hover:text-white transition">Primeiro Acesso</a>
-</div>
+<header class="m-5">
+    <h1>SIRA</h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="01_index.html">Diária</a></li>
+        <li><a href="02_visao_semanal.html">Semanal</a></li>
+        <li><a href="10_listagem_reservas.html">Listagem</a></li>
+        <li><a href="03_04_reservar.html">Reservar</a></li>
+        <li><a href="09_admin.html">Admin</a></li>
+        <li><a href="06_primeiro_acesso.html">Primeiro Acesso</a></li>
+      </ul>
+    </nav>      
+</header>
 
 <section class="mb-12 text-center">
   <h1 class="text-3xl font-bold text-[var(--verde-hover)] mb-4">Painel Administrativo</h1>
@@ -44,7 +47,7 @@
 
     <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-[3fr_2fr_60px] gap-4 mb-6">
-        <input id="pattern" type="text" placeholder="Expressão..." class="p-3 border border-gray-300 rounded-md shadow-inner focus:ring-2 focus:ring-[var(--verde-principal)] outline-none" />
+        <input id="pattern" type="text" value="joaodati@hotmail.com" placeholder="Expressão..." class="p-3 border border-gray-300 rounded-md shadow-inner focus:ring-2 focus:ring-[var(--verde-principal)] outline-none" />
         <select id="permission" class="p-3 border border-gray-300 rounded-md shadow-inner focus:ring-2 focus:ring-[var(--verde-principal)] outline-none">
           <option value="Visitante">Visitante</option>
           <option value="Reservador">Reservador</option>
@@ -67,22 +70,10 @@
     </div>
   </section>
 
-  <div id="pray" class="transition-opacity duration-1000 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xl opacity-0 z-50 bg-white p-6 rounded-lg shadow-xl">
-    <span class="text-[5rem] animate-bounce">🙏</span>
-    <p class="mt-2 text-[var(--verde-principal)]">Please, fix thy bugs, and bestow us new features</p>
-    <button onclick="end_worship()" class="mt-4 px-6 py-2 bg-[var(--verde-principal)] text-white rounded-full hover:bg-[var(--verde-hover)] transition-transform hover:scale-105">Amen</button>
-  </div>
 
   <script>
     const $ = q => document.querySelector(q)
 
-    function worship() {
-      $("#pray").classList.remove("opacity-0")
-    }
-
-    function end_worship() {
-      $("#pray").classList.add("opacity-0")
-    }
 
     function insert_to_whitelist_event() {
       const pattern = $("#pattern").value.trim();

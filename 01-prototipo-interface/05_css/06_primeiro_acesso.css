@@ -11,31 +11,6 @@ body {
   background-color: var(--fundo-pagina);
 }
 
-.navegacao {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding: 1.5rem;
-  background-color: var(--fundo-pagina);
-}
-
-.navegacao a {
-  padding: 0.6rem 1.2rem;
-  background-color: var(--verde-claro);
-  color: #000;
-  font-weight: 600;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.navegacao a:hover {
-  background-color: var(--verde-principal);
-  color: white;
-}
-
 .fundo-escuro {
   display: flex;
   align-items: center;
@@ -137,4 +112,80 @@ input[type="password"] {
 
 .esqueci-senha a:hover {
   text-decoration: underline;
+}
+
+:root {
+  --verde-ifc: #008080;
+  --verde-escuro: #004d4d;
+  --branco: #ffffff;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--branco);
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 24px;
+  color: var(--verde-ifc);
+  margin-right: auto;
+}
+
+header a {
+  text-decoration: none;
+  margin: 0 10px;
+  color: var(--verde-ifc);
+  font-weight: 500;
+}
+
+header a:hover {
+  color: var(--verde-escuro);
+}
+
+.navbar {
+  background-color: #e8f5f2;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  margin: 1rem auto;
+  max-width: 900px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #004d40;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar a:hover {
+  background-color: #cdeae1;
+  color: #00332b;
+}
+
+/*Referente à classe highlight que pode ser implementada no Admin ou Primeiro acesso */
+.navbar a.highlight {
+  background-color: #1ea355;
+  color: white;
+  font-weight: 600;
 }
