@@ -1,0 +1,103 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f0faf4;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  color: #1a3d2f;
+  margin-bottom: 30px;
+}
+
+.return-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #fff;
+  background-color: #2e7d5b;
+  padding: 10px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.return-link:hover {
+  background-color: #256b4c;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+}
+
+.user-table th {
+  background-color: #4caf7c;
+  color: #fff;
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.user-table td {
+  padding: 14px 16px;
+  border-top: 1px solid #f1f1f1;
+  font-size: 15px;
+}
+
+select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.btn-alterar {
+  background-color: #4caf7c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-alterar:hover {
+  background-color: #3e8f65;
+}
+
+@media (max-width: 768px) {
+  .user-table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  .user-table tr {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    padding: 10px;
+  }
+
+  .user-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: none;
+  }
+
+  .user-table th {
+    display: none;
+  }
+}

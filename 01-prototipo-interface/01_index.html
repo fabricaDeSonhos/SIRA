@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reservas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="05_css/01_index_tela_inicial.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+  </head>
+  <body>
+
+    <header>
+      <h1>SIRA</h1>
+      <nav class="navbar">
+        <ul>
+          <li><a href="01_index.html">Diária</a></li>
+          <li><a href="02_visao_semanal.html">Semanal</a></li>
+          <li><a href="10_listagem_reservas.html">Listagem</a></li>
+          <li><a href="03_04_reservar.html">Reservar</a></li>
+          <li><a href="09_admin.html" class="highlight">Admin</a></li>
+          <li><a href="06_primeiro_acesso.html" class="highlight">Primeiro Acesso</a></li>
+        </ul>
+      </nav>      
+    </header>
+    
+
+    <div class="controle-data">
+      <h2>Visualização Diária</h2>
+
+      <div class="filtros-turno" style="text-align: center; margin-bottom: 20px;">
+        <label><input type="checkbox" class="filtro-turno" value="manha" checked> Manhã</label>
+        <label><input type="checkbox" class="filtro-turno" value="tarde" checked> Tarde</label>
+        <label><input type="checkbox" class="filtro-turno" value="noite" checked> Noite</label>
+      </div>
+      
+      
+      <div class="data-container">
+        <button id="dia-anterior"><i class="fa-solid fa-less-than"></i></button>
+        <span id="dia-atual"></span>
+        <button id="dia-proximo">
+          <i class="fa-solid fa-greater-than"></i>
+        </button>
+      </div>
+    </div>
+
+    <table id="tabela">
+      <thead>
+        <tr>
+          <th></th>
+          <th>A04</th>
+          <th>A05</th>
+          <th>D04</th>
+          <th>D05</th>
+          <th>D06</th>
+          <th>D07</th>
+        </tr>
+      </thead>
+      <tbody id="corpo-tabela">
+        <tr><th>8h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>9h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>10h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>11h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>12h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>13h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>14h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>15h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>16h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>17h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>18h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>19h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>20h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>21h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>22h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>23h</th><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <button class="tooltip adicionar-reserva-btn">
+        <i class="fas fa-plus fa-lg"></i>
+        <span class="tooltiptext"><a href="03_04_reservar.html">Adicionar reserva</a></span>
+    </button>
+      
+    <script>
+        let dataAtual = new Date();
+        const reservasPorData = {};
+      
+        // Formata a data para exibição no topo da tela (com dia da semana)
+        function formatarData(data) {
+          return data.toLocaleDateString("pt-BR", {
+            weekday: "short",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          });
+        }
+      
+        // Data no estilo chave (30/04/2025)
+        function formatarChaveData(data) {
+          const dia = String(data.getDate()).padStart(2, '0');
+          const mes = String(data.getMonth() + 1).padStart(2, '0');
+          const ano = data.getFullYear();
+          return `${dia}/${mes}/${ano}`;
+        }
+      
+        function atualizarData() {
+          const diaAtualElement = document.getElementById("dia-atual");
+          if (diaAtualElement) {
+            diaAtualElement.textContent = formatarData(dataAtual);
+          }
+        }
+      
+        // Navegação entre dias
+        document.getElementById("dia-anterior").addEventListener("click", function () {
+          dataAtual.setDate(dataAtual.getDate() - 1);
+          atualizarData();
+          carregarReservas();
+        });
+      
+        document.getElementById("dia-proximo").addEventListener("click", function () {
+          dataAtual.setDate(dataAtual.getDate() + 1);
+          atualizarData();
+          carregarReservas();
+        });
+      
+        atualizarData();
+      
+        // Converte hora para minutos desde 00:00
+        function horaParaMinutos(hora) {
+          const [h, m] = hora.split(":").map(Number);
+          return h * 60 + m;
+        }
+      
+        // Adiciona visualmente uma reserva
+        function adicionarReserva(coluna, inicio, fim, turma, materia, professor) {
+          const corpo = document.getElementById("corpo-tabela");
+          const primeiraLinha = corpo.rows[0];
+          const celulaAlvo = primeiraLinha.cells[coluna];
+      
+          const minutosInicio = horaParaMinutos(inicio);
+          const minutosFim = horaParaMinutos(fim);
+          const inicioBase = 8 * 60;
+          const minutosDesde8h = minutosInicio - inicioBase;
+          const duracaoMin = minutosFim - minutosInicio;
+      
+          const alturaHora = primeiraLinha.offsetHeight;
+          const topo = (minutosDesde8h / 60) * alturaHora;
+          const altura = (duracaoMin / 60) * alturaHora;
+      
+          const reserva = document.createElement("div");
+          reserva.className = "reserva";
+          reserva.style.top = topo + "px";
+          reserva.style.height = altura + "px";
+          reserva.innerText = `${inicio} - ${fim}\n${turma} - ${materia}\n${professor}`;
+      
+          celulaAlvo.style.position = "relative";
+          celulaAlvo.appendChild(reserva);
+        }
+      
+        // Carrega e exibe as reservas da data selecionada
+        function carregarReservas() {
+          const dataKey = formatarChaveData(dataAtual);
+          const reservasDia = reservasPorData[dataKey] || [];
+      
+          const corpo = document.getElementById("corpo-tabela");
+          for (const row of corpo.rows) {
+            for (let i = 1; i < row.cells.length; i++) {
+              row.cells[i].innerHTML = ''; // limpa colunas dos labs
+            }
+          }
+      
+          reservasDia.forEach(reserva => {
+            adicionarReserva(reserva.coluna, reserva.inicio, reserva.fim, reserva.turma, reserva.materia, reserva.professor);
+          });
+        }
+      
+        // Exemplo de reservas para uma data fixa
+        reservasPorData["14/04/2025"] = [
+  { coluna: 1, inicio: "08:00", fim: "10:11", turma: "101", materia: "Web Design", professor: "Shirlei" },
+  { coluna: 2, inicio: "10:05", fim: "12:00", turma: "102", materia: "Lógica de Programação", professor: "Rodacki" },
+  { coluna: 3, inicio: "13:10", fim: "15:25", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+];
+
+reservasPorData["15/04/2025"] = [
+  { coluna: 1, inicio: "08:15", fim: "09:45", turma: "301", materia: "Programação 2", professor: "Edwin" },
+  { coluna: 2, inicio: "10:10", fim: "11:55", turma: "202", materia: "Desenvolvimento de Projeto 1", professor: "Pizzini" },
+  { coluna: 3, inicio: "13:35", fim: "15:05", turma: "302", materia: "Desenvolvimento de Projeto 2", professor: "Uriarte" },
+];
+
+reservasPorData["16/04/2025"] = [
+  { coluna: 1, inicio: "08:20", fim: "10:30", turma: "102", materia: "Lógica de Programação", professor: "Rodacki" },
+  { coluna: 2, inicio: "11:10", fim: "12:40", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+  { coluna: 4, inicio: "18:15", fim: "20:25", turma: "301", materia: "Tópicos Avançados em Web", professor: "Hylson" },
+];
+
+reservasPorData["17/04/2025"] = [
+  { coluna: 2, inicio: "08:05", fim: "09:50", turma: "101", materia: "Web Design", professor: "Shirlei" },
+  { coluna: 3, inicio: "10:30", fim: "12:00", turma: "302", materia: "Desenvolvimento de Projeto 2", professor: "Uriarte" },
+  { coluna: 4, inicio: "19:20", fim: "21:15", turma: "301", materia: "Programação 2", professor: "Edwin" },
+];
+
+reservasPorData["18/04/2025"] = [
+  { coluna: 1, inicio: "08:10", fim: "09:55", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+  { coluna: 2, inicio: "10:25", fim: "11:40", turma: "202", materia: "Desenvolvimento de Projeto 1", professor: "Pizzini" },
+  { coluna: 3, inicio: "13:05", fim: "14:50", turma: "101", materia: "Web Design", professor: "Shirlei" },
+];
+
+reservasPorData["22/04/2025"] = [
+  { coluna: 1, inicio: "08:30", fim: "09:45", turma: "102", materia: "Lógica de Programação", professor: "Rodacki" },
+  { coluna: 2, inicio: "10:15", fim: "11:55", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+  { coluna: 4, inicio: "18:40", fim: "20:10", turma: "302", materia: "Desenvolvimento de Projeto 2", professor: "Uriarte" },
+];
+
+reservasPorData["25/04/2025"] = [
+  { coluna: 2, inicio: "09:10", fim: "10:45", turma: "101", materia: "Web Design", professor: "Shirlei" },
+  { coluna: 3, inicio: "11:05", fim: "12:30", turma: "202", materia: "Desenvolvimento de Projeto 1", professor: "Pizzini" },
+  { coluna: 4, inicio: "13:45", fim: "15:15", turma: "301", materia: "Tópicos Avançados em Web", professor: "Hylson" },
+];
+
+reservasPorData["30/04/2025"] = [
+  { coluna: 1, inicio: "08:25", fim: "10:00", turma: "301", materia: "Programação 2", professor: "Edwin" },
+  { coluna: 3, inicio: "10:20", fim: "12:05", turma: "102", materia: "Lógica de Programação", professor: "Rodacki" },
+  { coluna: 4, inicio: "13:10", fim: "15:00", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+];
+
+reservasPorData["06/05/2025"] = [
+  { coluna: 1, inicio: "08:45", fim: "10:15", turma: "301", materia: "Tópicos Avançados em Web", professor: "Hylson" },
+  { coluna: 2, inicio: "10:30", fim: "12:20", turma: "302", materia: "Desenvolvimento de Projeto 2", professor: "Uriarte" },
+  { coluna: 4, inicio: "18:25", fim: "20:15", turma: "202", materia: "Desenvolvimento de Projeto 1", professor: "Pizzini" },
+];
+
+reservasPorData["10/05/2025"] = [
+  { coluna: 2, inicio: "08:15", fim: "09:35", turma: "101", materia: "Web Design", professor: "Shirlei" },
+  { coluna: 3, inicio: "10:00", fim: "11:45", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+  { coluna: 4, inicio: "13:10", fim: "14:50", turma: "301", materia: "Programação 2", professor: "Edwin" },
+];
+
+reservasPorData["14/05/2025"] = [
+  { coluna: 1, inicio: "08:05", fim: "09:50", turma: "102", materia: "Lógica de Programação", professor: "Rodacki" },
+  { coluna: 2, inicio: "10:20", fim: "11:50", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+  { coluna: 3, inicio: "13:25", fim: "15:00", turma: "302", materia: "Desenvolvimento de Projeto 2", professor: "Uriarte" },
+];
+
+reservasPorData["12/05/2025"] = [
+  { coluna: 1, inicio: "18:05", fim: "19:50", turma: "102", materia: "Lógica de Programação", professor: "Rodacki" },
+  { coluna: 5, inicio: "18:30", fim: "22:00", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+  { coluna: 3, inicio: "13:25", fim: "15:00", turma: "302", materia: "Desenvolvimento de Projeto 2", professor: "Uriarte" },
+];
+reservasPorData["13/05/2025"] = [
+  { coluna: 1, inicio: "09:05", fim: "10:50", turma: "102", materia: "Lógica de Programação", professor: "Rodacki" },
+  { coluna: 2, inicio: "10:20", fim: "11:50", turma: "201", materia: "Banco de Dados", professor: "Hermano" },
+  { coluna: 3, inicio: "11:25", fim: "16:00", turma: "302", materia: "Desenvolvimento de Projeto 2", professor: "Uriarte" },
+];
+      
+        carregarReservas(); // Carrega reservas da data atual ao iniciar
+
+        
+
+      </script>
+
+<script>
+  // Atualizar a exibição dos horários conforme o turno selecionado
+  const checkboxesTurno = document.querySelectorAll('.filtro-turno');
+  checkboxesTurno.forEach(checkbox => {
+    checkbox.addEventListener('change', filtrarTurnos);
+  });
+  
+  function filtrarTurnos() {
+    const corpoTabela = document.getElementById('corpo-tabela');
+    const linhas = corpoTabela.getElementsByTagName('tr');
+  
+    for (let linha of linhas) {
+      const hora = parseInt(linha.firstChild.textContent.replace('h', ''));
+      let mostrar = false;
+      
+      if (hora >= 8 && hora <= 12 && document.querySelector('input[value="manha"]').checked) mostrar = true;
+      if (hora >= 13 && hora <= 17 && document.querySelector('input[value="tarde"]').checked) mostrar = true;
+      if (hora >= 18 && hora <= 23 && document.querySelector('input[value="noite"]').checked) mostrar = true;
+  
+      linha.style.display = mostrar ? '' : 'none';
+    }
+  }
+  
+  filtrarTurnos();
+  </script>
+  
+      
+  </body>
+</html>
