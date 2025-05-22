@@ -1,0 +1,112 @@
+<!-- /SIRA/01-prototipo-interface/login/06_primeiro_acesso.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/SIRA/01-prototipo-interface/login/06_primeiro_acesso.css">
+</head>
+
+<body>
+
+  <div class="navegacao">
+    <a href="/SIRA/01-prototipo-interface/tabelas/01_index.html">Diária</a>
+    <a href="/SIRA/01-prototipo-interface/tabelas/02_visao_semanal.html">Semanal</a>
+    <a href="/SIRA/01-prototipo-interface/reserva/10_listagem_reservas.html" class="listagem">Listagem</a>
+    <a href="/SIRA/01-prototipo-interface/reserva/03_04_reservar.html">Reservar</a>
+    <a href="/SIRA/01-prototipo-interface/usuarios/09_admin.html">Admin</a>
+    <a href="/SIRA/01-prototipo-interface/login/06_primeiro_acesso.html">Primeiro Acesso</a>
+  </div>
+
+  <div class="fundo-escuro">
+    <div class="modal-box">
+      <h2>Cadastro</h2>
+
+      <form id="cadastroForm">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="senha">Senha</label>
+        <div class="senha-container">
+          <input type="password" id="senha" name="senha" required>
+          <i class="fa-solid fa-eye" id="toggleSenha"></i>
+        </div>
+
+        <label for="confirmar-senha">Confirmar Senha</label>
+        <div class="senha-container">
+          <input type="password" id="confirmar-senha" name="confirmar-senha" required>
+          <i class="fa-solid fa-eye" id="toggleConfirmarSenha"></i>
+        </div>
+
+        <button type="submit" class="btn-cadastrar">Cadastrar</button>
+
+        <p class="login-link">Já tem uma conta? <a href="/SIRA/01-prototipo-interface/login/11_login.html">Faça login</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    const toggleSenha = document.getElementById("toggleSenha");
+    const senhaInput = document.getElementById("senha");
+    toggleSenha.addEventListener("click", () => {
+      senhaInput.type = senhaInput.type === "password" ? "text" : "password";
+      toggleSenha.classList.toggle("fa-eye-slash");
+    });
+
+    const toggleConfirmarSenha = document.getElementById("toggleConfirmarSenha");
+    const confirmarSenhaInput = document.getElementById("confirmar-senha");
+    toggleConfirmarSenha.addEventListener("click", () => {
+      confirmarSenhaInput.type = confirmarSenhaInput.type === "password" ? "text" : "password";
+      toggleConfirmarSenha.classList.toggle("fa-eye-slash");
+    });
+
+    import { register } from '/SIRA/api.js';
+
+    document.getElementById("cadastroForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const btnCadastrar = document.querySelector(".btn-cadastrar");
+
+      const name = document.getElementById("nome").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("senha").value;
+      const confirm = document.getElementById("confirmar-senha").value;
+
+      if (!name || !email || !password) {
+        alert("Por favor, preencha todos os campos!");
+        return;
+      }
+
+      if (password !== confirm) {
+        alert("As senhas não coincidem!");
+        return;
+      }
+
+      try {
+        btnCadastrar.disabled = true;
+        btnCadastrar.textContent = "Cadastrando...";
+
+        const response = await register({ name, email, password });
+
+        if (response.ok && response.status === 201) {
+          alert("Cadastro realizado com sucesso!");
+          window.location.href = "/SIRA/01-prototipo-interface/login/11_login.html";
+        } else {
+          throw new Error(response.data?.error || "Erro no cadastro");
+        }
+
+      } catch (error) {
+        alert(`Erro no cadastro: ${error.message}`);
+      } finally {
+        btnCadastrar.disabled = false;
+        btnCadastrar.textContent = "Cadastrar";
+      }
+    });
+  </script>
+</body>
+</html>

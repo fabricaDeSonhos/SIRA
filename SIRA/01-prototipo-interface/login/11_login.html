@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/SIRA/01-prototipo-interface/login/06_primeiro_acesso.css">
+</head>
+<body>
+
+  <div class="navegacao">  
+    <a href="/SIRA/01-prototipo-interface/tabelas/01_index.html">Diária</a> 
+    <a href="/SIRA/01-prototipo-interface/tabelas/02_visao_semanal.html">Semanal</a> 
+    <a href="/SIRA/01-prototipo-interface/reserva/10_listagem_reservas.html"class="listagem">Listagem</a> 
+    <a href="/SIRA/01-prototipo-interface/reserva/03_04_reservar.html">Reservar</a>
+    <a href="/SIRA/01-prototipo-interface/usuarios/09_admin.html">Admin</a>
+    <a href="/SIRA/01-prototipo-interface/login/06_primeiro_acesso.html">Primeiro Acesso</a>
+  </div>
+
+  <div class="fundo-escuro">
+    <div class="modal-box">
+      <h2>Login</h2>
+
+      <form action="12_login_submit.html" method="post">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="senha">Senha</label>
+        <div class="senha-container">
+          <input type="password" id="senha" name="senha" required>
+          <i class="fa-solid fa-eye toggle-senha" data-target="senha"></i>
+        </div>
+
+        <p class="esqueci-senha"><a href="/SIRA/01-prototipo-interface/login/12_esqueci_senha.html">Esqueci a senha</a></p>
+
+        <button type="submit" class="btn-cadastrar">Entrar</button>
+
+        <p class="login-link">Ainda não tem uma conta? <a href="/SIRA/01-prototipo-interface/login/06_primeiro_acesso.html">Cadastre-se</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.toggle-senha').forEach(icon => {
+      icon.addEventListener('click', () => {
+        const input = document.getElementById(icon.dataset.target);
+        const isPassword = input.type === "password";
+        input.type = isPassword ? "text" : "password";
+        icon.classList.toggle("fa-eye-slash");
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+:root {
+  --verde-principal: #37966F;
+  --verde-hover: #2F7A5D;
+  --verde-claro: #CDEBDD;
+  --fundo-pagina: #EEF9F2;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--fundo-pagina);
+}
+
+.navegacao {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: var(--fundo-pagina);
+}
+
+.navegacao a {
+  padding: 0.6rem 1.2rem;
+  background-color: var(--verde-claro);
+  color: #000;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navegacao a:hover {
+  background-color: var(--verde-principal);
+  color: white;
+}
+
+.fundo-escuro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 120px);
+  padding: 2rem;
+}
+
+.modal-box {
+  background-color: white;
+  padding: 2rem 2.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  width: 100%;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--verde-principal);
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.senha-container {
+  position: relative;
+}
+
+.senha-container i {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+}
+
+.btn-cadastrar {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--verde-principal);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-cadastrar:hover {
+  background-color: var(--verde-hover);
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.login-link a {
+  color: var(--verde-principal);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.esqueci-senha {
+  text-align: right;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: 0.9em;
+}
+
+.esqueci-senha a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.esqueci-senha a:hover {
+  text-decoration: underline;
+}

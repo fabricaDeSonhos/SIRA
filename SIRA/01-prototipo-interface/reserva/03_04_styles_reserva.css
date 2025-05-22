@@ -1,0 +1,153 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: #f4fdf7;
+  color: #1a3d2f;
+}
+
+nav {
+  background-color: #c4f1d9;
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  border-bottom: 2px solid #b8e4cb;
+}
+
+nav a {
+  text-decoration: none;
+  color: #1a3d2f;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 32px;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #185c3b;
+}
+
+h3 {
+  font-size: 1rem;
+  color: #185c3b;
+  margin-bottom: 4px;
+}
+
+p {
+  font-size: 0.95rem;
+}
+
+.edit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.setting {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="time"],
+input[list],
+select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+.cancelar-salvar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.cancelar, 
+.salvar,
+
+.apagar {
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancelar {
+  background-color: #ccc;
+  color: #1a1a1a;
+}
+
+.cancelar:hover {
+  background-color: #b0b0b0;
+}
+
+.salvar {
+  background-color: #4caf50;
+  color: white;
+}
+
+.salvar:hover {
+  background-color: #449d48;
+}
+
+.apagar {
+  background-color: #e53935;
+  color: white;
+  margin-top: 8px;
+}
+
+.apagar:hover {
+  background-color: #c62828;
+}
+
+.navbar {
+  background-color: #f1fcf6;
+  padding: 24px 12 16px;
+  text-align: center;
+}
+
+.nav-buttons a {
+  background-color: #d0f0df;
+  color: #185c3b;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  margin: 0 6px;
+  display: inline-block;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: background-color 0.2s ease-in-out;
+}
+
+.nav-buttons a:hover {
+  background-color: #b7e3c8;
+}

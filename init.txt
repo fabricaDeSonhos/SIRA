@@ -1,0 +1,40 @@
+1- python -m venv venv
+2- venv\Scripts\activate
+
+install:
+pip install flask flask_sqlalchemy flask_cors flask-bcrypt flask-jwt-extended flask-migrate
+
+rodar:
+com o ambiente venv ativo: 
+PYTHONPATH=src
+python -m flask --app src.app run
+
+
+para amanha, vulgo hoje, focar nas regras de negocio das reservas das salas e como elas
+se relacionam com os usuarios, aplicar os padro~es parttes e fazer toda a questao de autenticação.
+autenticar na hora de cadastro, para saber se o email ja existe.
+
+sair:
+deactivate
+
+teste:
+python src/models/user_terminal.py
+
+
+
+
+padrões usados:
+1- Decorator  1
+2- Proxy 6
+3- State 5
+4- Observer 
+5- Singleton 2
+6- Factory 3
+7- Strategy 4
+8- Template Method
+9- Information Expert
+10- craetor
+11- Polymorphism
+
+padrão arquitetural:
+Camadas (Layered Architecture) com Elementos de Domain-Driven Design
