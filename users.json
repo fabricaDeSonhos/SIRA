@@ -86,5 +86,29 @@
         "senha": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
         "status": true,
         "tipo": "admin"
+    },
+    {
+        "id": "0f485715-9f38-46ff-a63d-7745afa9428d",
+        "nome": "zasa",
+        "email": "afas@gmail.com",
+        "senha": "32f3ff7fb988f2e1e5f9da9288aa0629d4b974d4a2cd1b27c242349577e0cc46",
+        "status": true,
+        "tipo": "comum"
+    },
+    {
+        "id": "6e3fa353-03fb-4016-bab5-4a01612a2b51",
+        "nome": "test_apos_ultimo_test",
+        "email": "sla123@gmail.com",
+        "senha": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+        "status": true,
+        "tipo": "comum"
+    },
+    {
+        "id": "945727fb-f15b-4da3-a3d2-baa38141ee42",
+        "nome": "manela",
+        "email": "mmaule@gmail.com",
+        "senha": "4739ee3bd29e4f415da8ba9298a087e0fdc9c61378420ba8fbbab298bd74c4df",
+        "status": true,
+        "tipo": "admin"
     }
 ]
