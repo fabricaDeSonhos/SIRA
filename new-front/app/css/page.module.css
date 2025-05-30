@@ -1,0 +1,25 @@
+
+.mudança_de_dia {
+  display: flex;
+}
+
+.mudança_de_dia button {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.mudança_de_dia p {
+  width: 10rem;
+  text-align: center;
+
+}
+.filtros {
+  display: flex;
+  flex-flow: row no-wrap;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.filtro span {
+  margin: 0 5px;
+}

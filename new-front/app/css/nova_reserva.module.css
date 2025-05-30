@@ -1,0 +1,39 @@
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 0.5fr;
+
+  gap: 15px;
+
+  border: var(--border);
+  border-radius: var(--radius);
+
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.entrada {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.entrada label {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.entrada input, .enrada select {
+  padding: 5px;
+  border: var(--border);
+  border-radius: var(--radius);
+}
+
+.grid button {
+  border: var(--border)
+}
+
+.grid button.salvar {
+  background-color: var(--destaque);
+  color: white;
+}
