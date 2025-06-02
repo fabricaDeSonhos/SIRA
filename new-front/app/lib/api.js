@@ -1,4 +1,3 @@
-export const LABS = ["A03", "A04", "D04", "D05", "D06", "D07"]
 
 function reserva(lab, matéria, dia, início, duração) {
     return {lab, matéria, dia, início, duração: duração*60}
@@ -6,7 +5,7 @@ function reserva(lab, matéria, dia, início, duração) {
 
 const hoje = (new Date()).getDate()
 
-export const __reservas = [
+const __reservas = [
   reserva(1, "Projeto Integrador III - 302 Eletro - Prof. Rita", hoje, 8, 2.5)
  ,reserva(1, "INFO 201- Desenvolvimento de Projeto / Prof. Adriano Pizzini", hoje, 10.5, 1.5)
  ,reserva(1, "INFO 202 - Banco de Dados / Prof. Edwin", hoje, 13.5, 2.25)
@@ -26,3 +25,10 @@ export const __reservas = [
   ,reserva(2, "BCCF07 Trabalho de Curso I / Prof. Ricardo Ladeira", hoje-1, 18.5, 4.5)
 ]
 
+export function get_reservas(dia) {
+  const hoje = (new Date()).getDate()
+
+  return __reservas
+    .filter(r => r.dia == dia.getDate())
+
+}

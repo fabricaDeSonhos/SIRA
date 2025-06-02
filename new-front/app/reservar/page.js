@@ -1,4 +1,4 @@
-import NovaReserva from '../adicionar_reserva.js'
+import NovaReserva from '../components/nova-reserva.jsx'
 export default function Reservar() {
 
   return <>

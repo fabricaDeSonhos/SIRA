@@ -1,5 +1,4 @@
-import { LABS } from './utils.js'
-import styles from './css/nova_reserva.module.css'
+import styles from './nova-reserva.module.css'
 
 function Entrada({tipo="text", descrição}) {
   return (
@@ -12,6 +11,7 @@ function Entrada({tipo="text", descrição}) {
 }
 
 export default function NovaReserva() {
+  const LABS = ["A03", "A04", "D04", "D05", "D06", "D07"]
   return (
     <div className={styles.grid}>
 

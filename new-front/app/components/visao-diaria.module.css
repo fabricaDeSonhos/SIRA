@@ -1,5 +1,7 @@
 .reservas {
-  --total-minutes: 900 /*  (22h - 8h + 1) * 60m) */;
+  --total-minutes: 900
+    /*  (22h - 8h + 1) * 60m) */
+  ;
   display: grid;
   grid-template-columns: 3rem 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 2rem repeat(var(--total-minutes), 1fr);
@@ -11,7 +13,7 @@
 .lab {
   grid-row: 1;
   border-bottom: var(--border);
-  border-right:  var(--border);
+  border-right: var(--border);
 }
 
 .reserva {
@@ -24,7 +26,7 @@
 
   transform: scale(0.95);
 
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 
@@ -34,18 +36,20 @@
 .reserva_vazia {
   z-index: -1;
   border-bottom: var(--border);
-  border-right:  var(--border);
+  border-right: var(--border);
 }
 
 .hora {
   grid-column: 1;
+  grid-row: auto / span 60;
+
   border-bottom: var(--border);
-  border-right:  var(--border);
+  border-right: var(--border);
 
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.hora, .reserva {
-}
+.hora,
+.reserva {}

@@ -1,11 +1,13 @@
 'use client'
 
 import Image from "next/image";
-import styles from "./css/page.module.css";
-import VisaoDiaria from "./visão_diaria.js"
-import  NovaReserva from "./adicionar_reserva.js"
-
 import { useState } from 'react'
+
+import styles from "./page.module.css";
+
+import VisaoDiaria from "./components/visão-diaria.jsx"
+import NovaReserva from "./components/nova-reserva.jsx"
+
 
 export default function Home() {
   const [dia, setDia]                 = useState(new Date())
