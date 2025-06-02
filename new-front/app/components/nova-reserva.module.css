@@ -1,4 +1,3 @@
-
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -11,22 +10,6 @@
 
   padding: 1rem;
   margin: 1rem;
-}
-
-.entrada {
-  display: flex;
-  flex-flow: column wrap;
-}
-
-.entrada label {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-.entrada input, .enrada select {
-  padding: 5px;
-  border: var(--border);
-  border-radius: var(--radius);
 }
 
 .grid button {

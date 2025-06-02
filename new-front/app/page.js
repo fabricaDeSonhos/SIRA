@@ -5,6 +5,8 @@ import { useState } from 'react'
 
 import styles from "./page.module.css";
 
+import {Checkbox, Button} from './components/form.jsx'
+
 import VisaoDiaria from "./components/visão-diaria.jsx"
 import NovaReserva from "./components/nova-reserva.jsx"
 
@@ -27,25 +29,21 @@ export default function Home() {
     setDia(ontem)
   }
 
-  const flipManhã = () => { setManhãFiltro(!manhãFiltro) }
-  const flipTarde = () => { setTardeFiltro(!tardeFiltro) }
-  const flipNoite = () => { setNoiteFiltro(!noiteFiltro) }
-
   const handleFiltro = e => {}
   return (
     <div>
       <h1>Visualização Diária</h1>
       <div className={styles.filtros}>
         <div className={styles.mudança_de_dia}>
-          <button onClick={dec_dia}>-</button>
+          <Button onClick={dec_dia} desc="-" />
           <p>{dia.toDateString()}</p>
-          <button onClick={inc_dia}>+</button>
+          <Button onClick={inc_dia} desc="+" />
         </div>
 
         <div className={styles.filtro}>
-            <span><input type="checkbox" checked={manhãFiltro} onChange={flipManhã} /> Manhã</span>
-            <span><input type="checkbox" checked={tardeFiltro} onChange={flipTarde} /> Tarde</span>
-            <span><input type="checkbox" checked={noiteFiltro} onChange={flipNoite} /> Noite</span>
+            <Checkbox setChecked={setManhãFiltro} checked desc="Manhã"/> 
+            <Checkbox setChecked={setTardeFiltro} checked desc="Tarde"/>
+            <Checkbox setChecked={setNoiteFiltro} checked desc="Noite"/>
         </div>
       </div>
 
