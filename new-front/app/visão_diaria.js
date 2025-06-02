@@ -54,7 +54,6 @@ export default function VisaoDiaria({dia, manhã, tarde, noite}) {
   }
   return (
     <div className={styles.reservas}>
-      <div className={styles.lab}>   </div>
       <div className={styles.lab}>A03</div>
       <div className={styles.lab}>A04</div>
       <div className={styles.lab}>D04</div>
