@@ -34,7 +34,6 @@
 }
 
 .reserva_vazia {
-  z-index: -1;
   border-bottom: var(--border);
   border-right: var(--border);
 }

@@ -1,24 +1,24 @@
 import {useId} from 'react'
 import styles from './form.module.css'
 
-export function Input({type="text", desc}) {
+export function Input({type="text", desc, value}) {
   const id = useId()
   return (
     <div id={ id} className={styles.input}>
       <label htmlFor={ id }>{ desc }</label>
-      <input id={id} type={type} />
+      <input id={id} type={type} value={value}/>
     </div>
   )
 
 }
 
-export function Select({desc, options}) {
+export function Select({desc, options, value}) {
 
   const id = useId()
   return (
     <div id={id} className={styles.select}>
       <label htmlFor={ id }>{ desc }</label>
-      <select id={id}>
+      <select id={id} value={value}>
         {options.map(o => <option>{o}</option>)}
       </select>
     </div>

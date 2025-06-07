@@ -10,12 +10,18 @@ import {Checkbox, Button} from './components/form.jsx'
 import VisaoDiaria from "./components/visão-diaria.jsx"
 import NovaReserva from "./components/nova-reserva.jsx"
 
+import {AbrirReservaModalContext, FecharReservaModalContext} from './components/reservaContext.js'
+
 
 export default function Home() {
   const [dia, setDia]                 = useState(new Date())
   const [manhãFiltro, setManhãFiltro] = useState(true)
   const [tardeFiltro, setTardeFiltro] = useState(true)
   const [noiteFiltro, setNoiteFiltro] = useState(true)
+  const [reserva, setReserva]         = useState(false)
+  
+  const [novaReservaOpts, setNovaReservaOpts] = useState({dia:"2025-06-07", início:"10:30", fim:"11:00", lab:"A04"})
+
 
   const inc_dia = () => {
     dia.setDate(dia.getDate() + 1)
@@ -28,6 +34,20 @@ export default function Home() {
     const ontem = new Date(dia)
     setDia(ontem)
   }
+
+  const mostrarReservaModal = (opt) => {
+    const reservaOpts = {
+      dia   : opt.dia,
+      início: opt.início,
+      fim   : opt.fim,
+      lab   : opt.lab
+    }
+
+    setNovaReservaOpts(reservaOpts)
+    setReserva(true)
+  }
+
+  const fecharReservaModal = () => {setReserva(false)}
 
   const handleFiltro = e => {}
   return (
@@ -47,9 +67,16 @@ export default function Home() {
         </div>
       </div>
 
+      <AbrirReservaModalContext value={mostrarReservaModal}>
+        <FecharReservaModalContext value={fecharReservaModal}>
+          <VisaoDiaria dia={dia} manhã={manhãFiltro} tarde={tardeFiltro} noite={noiteFiltro} />
 
-      <VisaoDiaria dia={dia} manhã={manhãFiltro} tarde={tardeFiltro} noite={noiteFiltro}/>
 
+          <div className={styles.modal}>
+          {reserva && <NovaReserva {...novaReservaOpts} />}
+          </div>
+        </FecharReservaModalContext>
+      </AbrirReservaModalContext>
 
     </div>
   );
