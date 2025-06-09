@@ -10,16 +10,12 @@ PYTHONPATH=src
 python -m flask --app src.app run
 
 
-para amanha, vulgo hoje, focar nas regras de negocio das reservas das salas e como elas
-se relacionam com os usuarios, aplicar os padro~es parttes e fazer toda a questao de autenticação.
-autenticar na hora de cadastro, para saber se o email ja existe.
-
 sair:
 deactivate
 
 teste:
-python src/models/user_terminal.py
-
+a partir da pasta raiz:
+python -m scripts.demo
 
 
 
