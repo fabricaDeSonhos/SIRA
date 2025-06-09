@@ -20,7 +20,7 @@
   background-color: var(--destaque);
   color: white;
   border-radius: 5px;
-  z-index: 100;
+  z-index: 2;
 
   font-size: var(--pequeno);
 
