@@ -16,3 +16,11 @@ export function hora_para_texto(hora) {
   return tempo_para_texto(parte_inteira, minutos)
 }
 
+
+export function tempo_para_número(tempo) {
+  const hora    = Number(tempo.split(":")[0])
+  const minutos = Number(tempo.split(":")[1])
+
+  return hora + minutos/60
+
+}

@@ -32,3 +32,7 @@ export function get_reservas(dia) {
     .filter(r => r.dia == dia.getDate())
 
 }
+
+export function new_reserva(lab, matéria, dia, início, duração) {
+    __reservas.push(reserva(lab, matéria, dia, início, duração))
+}
