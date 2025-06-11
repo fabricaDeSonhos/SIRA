@@ -6,7 +6,7 @@ export function Input({type="text", desc, value, name}) {
   return (
     <div id={ id} className={styles.input}>
       <label htmlFor={ id }>{ desc }</label>
-      <input id={id} name={name} type={type} value={value}/>
+      <input id={id} name={name} type={type} defaultValue={value}/>
     </div>
   )
 
@@ -18,7 +18,7 @@ export function Select({desc, options, value, name}) {
   return (
     <div id={id} className={styles.select}>
       <label htmlFor={ id }>{ desc }</label>
-      <select id={id} value={value} name={name}>
+      <select id={id} defaultValue={value} name={name}>
         {options.map(o => <option>{o}</option>)}
       </select>
     </div>
