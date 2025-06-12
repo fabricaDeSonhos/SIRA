@@ -21,13 +21,22 @@ export default function VisaoDiaria({dia, manhã, tarde, noite}) {
 
   for (let lab=1; lab<=6; lab++) {
     for (let hour=8; hour<= 22; hour++) {
-      reservas_vazia.push(<Reserva dia={dia_iso} início={hour} duração={60} lab={lab} vazia />)
+        reservas_vazia.push(<Reserva dia={dia_iso} início={hour} duração={60} lab={lab} vazia />)
     }
 
   }
 
+
+  const filtros = {
+  gridTemplateRows: `2rem 
+        repeat(${60*4}, ${manhã ? "1fr" : "0px"})
+        repeat(60, 1fr) 
+        repeat(${60*4}, ${tarde ? "1fr" : "0px"}) 
+        repeat(60, 1fr) 
+        repeat(${60*5}, ${noite ? "1fr" : "0px"})`
+  }
   return (
-    <div className={styles.reservas}>
+    <div className={styles.reservas} style={filtros}>
       <div className={styles.lab}>   </div>
       <div className={styles.lab}>A03</div>
       <div className={styles.lab}>A04</div>
@@ -36,21 +45,25 @@ export default function VisaoDiaria({dia, manhã, tarde, noite}) {
       <div className={styles.lab}>D06</div>
       <div className={styles.lab}>D07</div>
 
-      <div className={styles.hora}> 8h</div>
-      <div className={styles.hora}> 9h</div>
-      <div className={styles.hora}>10h</div>
-      <div className={styles.hora}>11h</div>
+      <div className={styles.hora} style={manhã ? {} : {opacity: 0}}> 8h</div>
+      <div className={styles.hora} style={manhã ? {} : {opacity: 0}}> 9h</div>
+      <div className={styles.hora} style={manhã ? {} : {opacity: 0}}>10h</div>
+      <div className={styles.hora} style={manhã ? {} : {opacity: 0}}>11h</div>
+
       <div className={styles.hora}>12h</div>
-      <div className={styles.hora}>13h</div>
-      <div className={styles.hora}>14h</div>
-      <div className={styles.hora}>15h</div>
-      <div className={styles.hora}>16h</div>
+
+      <div className={styles.hora} style={tarde ? {} : {opacity: 0}}>13h</div>
+      <div className={styles.hora} style={tarde ? {} : {opacity: 0}}>14h</div>
+      <div className={styles.hora} style={tarde ? {} : {opacity: 0}}>15h</div>
+      <div className={styles.hora} style={tarde ? {} : {opacity: 0}}>16h</div>
+
       <div className={styles.hora}>17h</div>
-      <div className={styles.hora}>18h</div>
-      <div className={styles.hora}>19h</div>
-      <div className={styles.hora}>20h</div>
-      <div className={styles.hora}>21h</div>
-      <div className={styles.hora}>22h</div>
+
+      <div className={styles.hora} style={noite ? {} : {opacity: 0}}>18h</div>
+      <div className={styles.hora} style={noite ? {} : {opacity: 0}}>19h</div>
+      <div className={styles.hora} style={noite ? {} : {opacity: 0}}>20h</div>
+      <div className={styles.hora} style={noite ? {} : {opacity: 0}}>21h</div>
+      <div className={styles.hora} style={noite ? {} : {opacity: 0}}>22h</div>
 
     {reservas_vazia}
     {manhã ? reservas_manhã : []}

@@ -4,7 +4,7 @@
   ;
   display: grid;
   grid-template-columns: 3rem 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 2rem repeat(var(--total-minutes), 1fr);
+  /*grid-template-rows: 2rem repeat(var(--total-minutes), 1fr);*/
 
   height: 80vh;
 
