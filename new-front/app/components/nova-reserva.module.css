@@ -22,3 +22,11 @@
   background-color: var(--destaque);
   color: white;
 }
+
+/* Responsividade para telas pequenas */
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
