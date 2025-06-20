@@ -51,5 +51,12 @@
   align-items: center;
 }
 
-.hora,
-.reserva {}
+.vazio {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  z-index: 1;
+}
+
+.vazio:hover {
+  background-color: rgba(0, 123, 255, 0.05);
+}
