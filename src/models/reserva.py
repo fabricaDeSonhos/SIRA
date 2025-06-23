@@ -18,20 +18,19 @@ class LogReserva(Observer):
 
 # Modelos Sala e Reserva
 class Sala:
-    """A Sala controla suas próprias reservas e verifica conflito de horário."""
+    #evita comflitos de horário entre reservas
     def __init__(self, nome: str):
         self.nome = nome
         self.reservas: list[Reserva] = []
 
     def verifica_conflito(self, nova_reserva):
-        """Verifica se nova_reserva entra em conflito de horário."""
+        #verifica se a nova reserva conflita com as reservas existentes
         for r in self.reservas:
             if r.data == nova_reserva.data and (nova_reserva.hora_inicial < r.hora_final and nova_reserva.hora_final > r.hora_inicial):
                 return True
         return False
 
     def adicionar_reserva(self, nova_reserva):
-        """Adiciona a nova reserva, se não houver conflito."""
         if self.verifica_conflito(nova_reserva):
             raise ValueError(f"Conflito: Sala '{self.nome}' já possui reserva nesse horário.")
         self.reservas.append(nova_reserva)
@@ -45,7 +44,6 @@ class Sala:
 
 
 class Reserva:
-    """A Reserva controla o próprio estado, enquanto a Sala controla conflito de horário."""
     def __init__(self, usuario, sala: Sala, data: str, hora_inicial: str, hora_final: str, nome_materia: str):
         self.usuario = usuario
         self.sala = sala

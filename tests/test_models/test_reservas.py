@@ -22,9 +22,9 @@ def usuario(proxy_sala):
 
 
 def test_fazer_reserva_adiciona_em_sala(usuario, sala):
-    res = usuario.fazer_reserva(sala, "2025-06-20", "08:00", "10:00", "Math")
-    assert res in sala.reservas
-    assert res.usuario == usuario
+    reserva1 = usuario.fazer_reserva(sala, "2025-06-20", "08:00", "10:00", "Math")
+    assert reserva1 in sala.reservas
+    assert reserva1.usuario == usuario
 
 
 def test_conflito_gera_erro(usuario, sala):
@@ -34,14 +34,14 @@ def test_conflito_gera_erro(usuario, sala):
 
 
 def test_cancelar_reserva_remove(usuario, sala):
-    res = usuario.fazer_reserva(sala, "2025-06-22", "14:00", "16:00", "History")
-    usuario.cancelar_reserva(res)
-    assert res not in usuario.reservas
-    assert res not in sala.reservas
+    reserva1 = usuario.fazer_reserva(sala, "2025-06-22", "14:00", "16:00", "History")
+    usuario.cancelar_reserva(reserva1)
+    assert reserva1 not in usuario.reservas
+    assert reserva1 not in sala.reservas
 
 
 def test_modificar_reserva(usuario, sala):
-    res = usuario.fazer_reserva(sala, "2025-06-23", "10:00", "12:00", "Geo")
-    usuario.modificar_reserva(res, "2025-06-23", "11:00", "13:00", "Biology")
-    assert res.hora_inicial == "11:00"
-    assert res.nome_materia == "Biology"
+    reserva1 = usuario.fazer_reserva(sala, "2025-06-23", "10:00", "12:00", "Geo")
+    usuario.modificar_reserva(reserva1, "2025-06-23", "11:00", "13:00", "Biology")
+    assert reserva1.hora_inicial == "11:00"
+    assert reserva1.nome_materia == "Biology"

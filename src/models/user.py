@@ -93,7 +93,7 @@ class User(IUser):
         if senha:
             self._senha = gerar_hash_senha(senha)
 
-# Classe Admin com privilégios extras
+# Classe Admin herda User com privilégios extras
 class Admin(User):
     def __init__(self, nome: str, email: str, senha: str, proxy: ReservaProxy):
         super().__init__(nome, email, senha, proxy)
