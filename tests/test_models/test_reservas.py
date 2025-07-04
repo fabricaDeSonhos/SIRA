@@ -69,8 +69,33 @@ def test_usuario_faz_duas_reservas_sem_conflito(session):
     session.add(r2)
     session.commit()
 
+    r3 = user.fazer_reserva(
+        sala=sala,
+        data=date(2025, 7, 10),
+        hora_inicial=time(14, 0),  # 14:00 (2PM)
+        hora_final=time(16, 0),    # 16:00 (4PM)
+        nome_materia="Geografia"
+    )
+    session.add(r3)
+    session.commit()
+
+    # Reserva 4 - Noite (História)
+    r4 = user.fazer_reserva(
+        sala=sala,
+        data=date(2025, 7, 10),
+        hora_inicial=time(18, 30),  # 18:30 (6:30PM)
+        hora_final=time(20, 30),    # 20:30 (8:30PM)
+        nome_materia="História"
+    )
+    session.add(r4)
+    session.commit()
+
+
+
     # Verifica que ambas as reservas existem e pertencem ao mesmo usuário
     todas = session.query(Reserva).filter_by(usuario_id=user.id).order_by(Reserva.hora_inicial).all()
-    assert len(todas) == 2
+    assert len(todas) == 4
     assert todas[0].nome_materia == "Matemática"
     assert todas[1].nome_materia == "Física"
+    assert todas[2].nome_materia == "Geografia"
+    assert todas[3].nome_materia == "História"
