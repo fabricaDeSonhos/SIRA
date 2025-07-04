@@ -38,7 +38,7 @@ def test_criacao_user_comum(session):
     proxy = ReservaProxy([])
     user = UserFactory.criar_usuario(
         TipoUsuario.COMUM,
-        nome="UserX",
+        nome="UserComum1",
         email="userx@example.com",
         senha="minhaSenha",
         proxy=proxy
@@ -49,7 +49,7 @@ def test_criacao_user_comum(session):
     session.commit()
 
     carregado = session.query(User).filter_by(id=user.id).one()
-    assert carregado.nome == "UserX"
+    assert carregado.nome == "UserComum1"
     assert carregado.email == "userx@example.com"
     assert carregado.tipo == TipoUsuario.COMUM
 
@@ -57,7 +57,7 @@ def test_criacao_user_admin(session):
     proxy = ReservaProxy([])
     admin = UserFactory.criar_usuario(
         TipoUsuario.ADMIN,
-        nome="AdminY",
+        nome="UserAdmin1",
         email="adminy@example.com",
         senha="senhaAdmin",
         proxy=proxy
@@ -68,7 +68,7 @@ def test_criacao_user_admin(session):
     session.commit()
 
     carregado = session.query(User).filter_by(id=admin.id).one()
-    assert carregado.nome == "AdminY"
+    assert carregado.nome == "UserAdmin1"
     assert carregado.email == "adminy@example.com"
     assert carregado.tipo == TipoUsuario.ADMIN
 
@@ -76,7 +76,7 @@ def test_user_comum_modifica_seu_nome(session):
     proxy = ReservaProxy([])
     user = UserFactory.criar_usuario(
         TipoUsuario.COMUM,
-        nome="OrigUser",
+        nome="UserComum2",
         email="orig@example.com",
         senha="senha",
         proxy=proxy
@@ -86,17 +86,17 @@ def test_user_comum_modifica_seu_nome(session):
     session.commit()
 
     # modifica nome
-    user.atualizar_perfil(nome="UserNovo")
+    user.atualizar_perfil(nome="UserNovo2")
     session.commit()
 
     rec = session.query(User).filter_by(id=user.id).one()
-    assert rec.nome == "UserNovo"
+    assert rec.nome == "UserNovo2"
 
 def test_admin_modifica_seu_nome(session):
     proxy = ReservaProxy([])
     admin = UserFactory.criar_usuario(
         TipoUsuario.ADMIN,
-        nome="OrigAdmin",
+        nome="UserAdmin2",
         email="origadmin@example.com",
         senha="senha",
         proxy=proxy
@@ -106,17 +106,17 @@ def test_admin_modifica_seu_nome(session):
     session.commit()
 
     # modifica nome
-    admin.atualizar_perfil(nome="AdminNovo")
+    admin.atualizar_perfil(nome="AdminNovo2")
     session.commit()
 
     rec = session.query(User).filter_by(id=admin.id).one()
-    assert rec.nome == "AdminNovo"
+    assert rec.nome == "AdminNovo2"
 
 def test_user_comum_modifica_email_e_senha(session):
     proxy = ReservaProxy([])
     user = UserFactory.criar_usuario(
         TipoUsuario.COMUM,
-        nome="UserE",
+        nome="UserComum3",
         email="usere@example.com",
         senha="senhaOld",
         proxy=proxy
@@ -127,11 +127,11 @@ def test_user_comum_modifica_email_e_senha(session):
 
     # modifica email e senha
     nova_senha = "senhaNew"
-    user.atualizar_perfil(email="userN@example.com", senha=nova_senha)
+    user.atualizar_perfil(email="novoEmailCOMUM@example.com", senha=nova_senha)
     session.commit()
 
     rec = session.query(User).filter_by(id=user.id).one()
-    assert rec.email == "userN@example.com"
+    assert rec.email == "novoEmailCOMUM@example.com"
     # verifica que a senha foi re-hashada
     assert rec.senha == hashlib.sha256(nova_senha.encode()).hexdigest()
 
@@ -139,7 +139,7 @@ def test_admin_modifica_email_e_senha(session):
     proxy = ReservaProxy([])
     admin = UserFactory.criar_usuario(
         TipoUsuario.ADMIN,
-        nome="AdminE",
+        nome="UserAdmin3",
         email="admine@example.com",
         senha="senhaOld",
         proxy=proxy
@@ -150,9 +150,9 @@ def test_admin_modifica_email_e_senha(session):
 
     # modifica email e senha
     nova_senha = "senhaNewAdm"
-    admin.atualizar_perfil(email="adminN@example.com", senha=nova_senha)
+    admin.atualizar_perfil(email="novoEmailADM@example.com", senha=nova_senha)
     session.commit()
 
     rec = session.query(User).filter_by(id=admin.id).one()
-    assert rec.email == "adminN@example.com"
+    assert rec.email == "novoEmailADM@example.com"
     assert rec.senha == hashlib.sha256(nova_senha.encode()).hexdigest()
