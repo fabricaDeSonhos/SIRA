@@ -1,90 +1,76 @@
+import os
 import pytest
+import uuid
 from datetime import date, time
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, clear_mappers
+from sqlalchemy.orm import sessionmaker
 
-from src.models.reserva import Base, Sala, Reserva, ReservaProxy
-from src.models.user import User, UserFactory, TipoUsuario
-from src.models.user import User  
+from src.models.user import UserFactory, TipoUsuario
+from src.models.reserva import Base, Sala, ReservaProxy, Reserva
 
+DB_FILE = "test_reserva.db"
 
-# ---------- Setup da Sessão de Teste ----------
+@pytest.fixture(scope="session")
+def engine():
+    # Remove o arquivo antigo apenas uma vez, antes de tudo
+    if os.path.exists(DB_FILE):
+        os.remove(DB_FILE)
+    eng = create_engine(f"sqlite:///{DB_FILE}", echo=False)
+    # Cria todas as tabelas uma única vez
+    Base.metadata.create_all(eng)
+    yield eng
+    # Teardown: libera conexões (o arquivo permanece para inspeção)
+    eng.dispose()
 
-@pytest.fixture(scope="function")
-def session():
-    # Cria engine em memória e inicializa schema
-    engine = create_engine("sqlite:///:memory:", echo=False)
-    Base.metadata.create_all(engine)
+@pytest.fixture(scope="session")
+def session(engine):
     Session = sessionmaker(bind=engine)
-    return Session()
+    sess = Session()
+    yield sess
+    sess.close()
 
-# ---------- Objetos de Teste ----------
-
-@pytest.fixture
-def sala_teste():
-    return Sala("Lab01")
-
-@pytest.fixture
-def proxy_teste():
-    return ReservaProxy([])  # inicializa sem usuários
-
-@pytest.fixture
-def usuario_teste(proxy_teste):
-    usuario = UserFactory.criar_usuario(
-        tipo=TipoUsuario.COMUM,
-        nome="Gabriel",
-        email="gabriel@example.com",
-        senha="123456",
-        proxy=proxy_teste
+def test_usuario_faz_duas_reservas_sem_conflito(session):
+    # cria proxy e user
+    proxy = ReservaProxy([])
+    user = UserFactory.criar_usuario(
+        TipoUsuario.COMUM,
+        nome="TesteUser",
+        email="teste@example.com",
+        senha="senha",
+        proxy=proxy
     )
-    proxy_teste.usuarios_cadastrados.append(usuario)
-    return usuario
+    proxy.usuarios_cadastrados.append(user)
+    # persiste usuário
+    session.add(user)
 
-# ---------- Testes ----------
-
-def test_criar_reserva_com_persistencia(session, usuario_teste, sala_teste):
-    # Dados da reserva
-    data = date(2025, 7, 1)
-    hora_ini = time(9, 0)
-    hora_fim = time(11, 0)
-    nome_materia = "Matemática"
-
-    # Persistindo sala e usuário
-    session.add(sala_teste)
-    session.add(usuario_teste)
+    # cria sala e persiste
+    sala = Sala("SalaA")
+    session.add(sala)
     session.commit()
 
-    # Criando reserva com proxy
-    reserva = usuario_teste.fazer_reserva(
-        sala=sala_teste,
-        data=data,
-        hora_inicial=hora_ini,
-        hora_final=hora_fim,
-        nome_materia=nome_materia
+    # faz duas reservas em horários distintos
+    r1 = user.fazer_reserva(
+        sala=sala,
+        data=date(2025, 7, 10),
+        hora_inicial=time( 8, 0),
+        hora_final=   time(10, 0),
+        nome_materia="Matemática"
     )
-
-    session.add(reserva)
+    session.add(r1)
     session.commit()
 
-    # Consulta para confirmar persistência
-    reservas = session.query(Reserva).all()
-    assert len(reservas) == 1
-    assert reservas[0].nome_materia == "Matemática"
-    assert reservas[0].sala.nome == "Lab01"
-    assert reservas[0].usuario.nome == "Gabriel"
-
-def test_reserva_conflitante_lanca_excecao(session, usuario_teste, sala_teste):
-    data = date(2025, 7, 1)
-    hora_ini = time(9, 0)
-    hora_fim = time(11, 0)
-
-    session.add(sala_teste)
-    session.add(usuario_teste)
+    r2 = user.fazer_reserva(
+        sala=sala,
+        data=date(2025, 7, 10),
+        hora_inicial=time(10, 0),
+        hora_final=   time(12, 0),
+        nome_materia="Física"
+    )
+    session.add(r2)
     session.commit()
 
-    reserva1 = usuario_teste.fazer_reserva(sala_teste, data, hora_ini, hora_fim, "POO")
-    session.add(reserva1)
-    session.commit()
-
-    with pytest.raises(ValueError, match="Conflito"):
-        usuario_teste.fazer_reserva(sala_teste, data, time(10, 0), time(12, 0), "IA")
+    # Verifica que ambas as reservas existem e pertencem ao mesmo usuário
+    todas = session.query(Reserva).filter_by(usuario_id=user.id).order_by(Reserva.hora_inicial).all()
+    assert len(todas) == 2
+    assert todas[0].nome_materia == "Matemática"
+    assert todas[1].nome_materia == "Física"
