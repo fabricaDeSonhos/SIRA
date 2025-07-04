@@ -4,34 +4,44 @@
 install:
 pip install flask flask_sqlalchemy flask_cors flask-bcrypt flask-jwt-extended flask-migrate
 pip install pytest
+pip install sqlalchemy
+
 
 rodar:
 com o ambiente venv ativo: 
 PYTHONPATH=src
 python -m flask --app src.app run
-
+pytest --maxfail=1 --disable-warnings -q
 
 sair:
 deactivate
+ 
 
 teste:
 a partir da pasta raiz:
-python -m scripts.demo
+pytest
 
 
 
-padrões usados:
-1- Decorator  1
-2- Proxy 6
-3- State 5
-4- Observer 
-5- Singleton 2
-6- Factory 3
-7- Strategy 4
-8- Template Method
-9- Information Expert
-10- craetor
-11- Polymorphism
+padrões grasp usados :
+1-Information Expert
+Onde já aparece: Sala conhece suas próprias reservas; Reserva conhece seu estado e notifica observadores.
+
+2-Creator
+Onde aparece: User/Admin criando instâncias de Reserva; o ReservaProxy instanciando Reserva.
+
+3-Controller
+Já em uso ou próximo passo: a classe UserService (ou futura camada REST) pode agir como controller, recebendo chamadas da API e orquestrando User, Sala e ReservaProxy.
+
+3-Low Coupling
+Onde acompanhar: evite que User importe diretamente detalhes de SQLAlchemy ou frameworks; use interfaces (IUser) e passe dependências (proxy, repositórios) por injeção.
+
+5-High Cohesion
+Onde manter: cada classe faz só o que lhe cabe (e.g. Sala só cuida de conflito de horários, não gera hashes de senha).
+
+6-Polymorphism
+Já em uso: User vs Admin trocando comportamento de forma transparente (métodos com mesma assinatura).
+
 
 padrão arquitetural:
 Camadas (Layered Architecture) com Elementos de Domain-Driven Design
