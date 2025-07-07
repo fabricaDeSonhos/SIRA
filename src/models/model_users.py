@@ -66,7 +66,6 @@ class User(Base):
     
     # --- Relacionamentos ---
     # Adicionando o relacionamento inverso para as reservas.
-    # O nome "Reservation" fica entre aspas para evitar importação circular.
     reservations: Mapped[List["Reservation"]] = relationship(
         "Reservation", 
         back_populates="user",
@@ -86,9 +85,3 @@ class Admin(User):
     __mapper_args__ = {
         "polymorphic_identity": "admin", # Valor discriminador para esta classe
     }
-
-    # SUGESTÃO 4: Admins podem ter métodos/comportamentos específicos.
-    def get_system_report(self) -> str:
-        """Exemplo de um método que apenas um Admin poderia executar."""
-        print(f"Admin {self.name} está gerando um relatório do sistema...")
-        return "Relatório do Sistema: Tudo OK!"
