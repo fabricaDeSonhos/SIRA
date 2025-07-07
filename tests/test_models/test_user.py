@@ -86,11 +86,11 @@ def test_user_comum_modifica_seu_nome(session):
     session.commit()
 
     # modifica nome
-    user.atualizar_perfil(nome="UserNovo2")
+    user.atualizar_perfil(nome="manu")
     session.commit()
 
     rec = session.query(User).filter_by(id=user.id).one()
-    assert rec.nome == "UserNovo2"
+    assert rec.nome == "manu"
 
 def test_admin_modifica_seu_nome(session):
     proxy = ReservaProxy([])
