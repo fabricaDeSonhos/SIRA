@@ -25,19 +25,13 @@ class ReservationStatus(enum.Enum):
     COMPLETED = "concluída"
     FIXED = "fixa"  # Nova opção para reservas recorrentes/permanentes
 
-# --- Modelo Reservation com a nova sintaxe ---
-class Reservation(Base):
-    """
-    Modelo SQLAlchemy para a tabela 'reservations' utilizando a sintaxe moderna (2.0).
-    """
-    __tablename__ = "reservations"
+# --- Modelo Reserva com a nova sintaxe ---
+class Reserva(Base):
+   
+    __tablename__ = "reservas"
 
-    # A sintaxe `Mapped[tipo_python]` oferece type hinting integrado
-    # O que está dentro de `mapped_column()` são as configurações do banco de dados
-    
     id: Mapped[str] = mapped_column(String(36), primary_key=True)   
-    # nullable=False é inferido a partir do tipo não-opcional (ex: Mapped[int] vs Mapped[Optional[int]])
-    # mas é bom ser explícito para ForeignKeys
+   
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     room_id: Mapped[int] = mapped_column(ForeignKey("rooms.id"), nullable=False)
     
@@ -65,25 +59,11 @@ class Reservation(Base):
 
     # --- Relacionamentos com Type Hinting moderno ---
     # O nome da classe entre aspas ("User") evita problemas de importação circular
-    user: Mapped["User"] = relationship(back_populates="reservations")
-    room: Mapped["Room"] = relationship(back_populates="reservations")
+    user: Mapped["User"] = relationship(back_populates="reservas")
+    room: Mapped["Room"] = relationship(back_populates="reservas")
 
     def __repr__(self):
         return (
-            f"<Reservation(id={self.id}, room_id={self.room_id}, "
+            f"<Reserva(id={self.id}, room_id={self.room_id}, "
             f"date='{self.reservation_date}', status='{self.status.value}')>"
         )
-
-# --- Modelos User e Room atualizados para demonstrar o relacionamento ---
-
-# class User(Base):
-#     __tablename__ = "users"
-#     id: Mapped[int] = mapped_column(primary_key=True)
-#     # ... outros campos do usuário
-#     reservations: Mapped[List["Reservation"]] = relationship(back_populates="user")
-
-# class Room(Base):
-#     __tablename__ = "rooms"
-#     id: Mapped[int] = mapped_column(primary_key=True)
-#     # ... outros campos da sala
-#     reservations: Mapped[List["Reservation"]] = relationship(back_populates="room")

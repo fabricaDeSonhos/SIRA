@@ -30,6 +30,7 @@ class Sala(Base):
 
     id: Mapped[int]   = mapped_column(Integer, primary_key=True, autoincrement=True)
     nome: Mapped[str] = mapped_column(String, nullable=False, unique=True)
+    #migration 
    
     reservas: Mapped[List["Reserva"]] = relationship("Reserva", back_populates="sala")
 
@@ -73,6 +74,7 @@ class Reserva(Base):
     hora_final: Mapped[time] = mapped_column(Time, nullable=False)
     nome_materia: Mapped[str] = mapped_column(String, nullable=False)
     ativo: Mapped[bool] = mapped_column(Boolean, default=True)
+   #campo de descrição
    
    
     # atributos extras
