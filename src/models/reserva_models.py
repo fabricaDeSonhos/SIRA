@@ -16,7 +16,11 @@ from sqlalchemy.orm import (
 )
 
 # --- Base Declarativa para o SQLAlchemy 2.0 ---
-from .base import Base
+from .database import Base
+
+from .user_models import User  
+
+
 # --- Enum atualizado com o status "FIXA" ---
 class ReservationStatus(enum.Enum):
     """Define os possíveis status de uma reserva."""
@@ -27,7 +31,6 @@ class ReservationStatus(enum.Enum):
 
 # --- Modelo Reserva com a nova sintaxe ---
 class Reserva(Base):
-   
     __tablename__ = "reservas"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)   
@@ -40,13 +43,19 @@ class Reserva(Base):
     end_time: Mapped[time] = mapped_column(comment="Horário de término da reserva")
     
     # Para Strings, ainda é necessário especificar o comprimento
-    subject_name: Mapped[str] = mapped_column(String(100), comment="Nome da matéria ou finalidade")
+    subject_name: Mapped[str] = mapped_column(String(100), comment="Nome da matéria", nullable=False)
 
     # Usando o Enum atualizado, com um valor padrão
     status: Mapped[ReservationStatus] = mapped_column(
         EnumDB(ReservationStatus), 
         default=ReservationStatus.ACTIVE, 
         nullable=False
+    )
+
+    details: Mapped[str] = mapped_column(
+        String(300), 
+        nullable=False,
+        comment="Detalhes específicos da reserva."
     )
     
     # Timestamps usando funções do servidor de banco de dados (mais robusto)
@@ -59,11 +68,17 @@ class Reserva(Base):
 
     # --- Relacionamentos com Type Hinting moderno ---
     # O nome da classe entre aspas ("User") evita problemas de importação circular
-    user: Mapped["User"] = relationship(back_populates="reservas")
-    room: Mapped["Room"] = relationship(back_populates="reservas")
+    user: Mapped["User"] = relationship("User", back_populates="reservas") # Deve corresponder ao nome do relacionamento em user_models.py
+    #room: Mapped["Room"] = relationship(back_populates="reservas")
 
     def __repr__(self):
-        return (
-            f"<Reserva(id={self.id}, room_id={self.room_id}, "
-            f"date='{self.reservation_date}', status='{self.status.value}')>"
-        )
+        return f"<Reserva(id={self.id}, user_id='{self.user_id}', is_active={self.is_active})>"
+
+        #return (
+        #    f"<Reserva(id={self.id}, room_id={self.room_id}, "
+        #    f"date='{self.reservation_date}', status='{self.status.value}')>"
+        #)
+    
+
+
+

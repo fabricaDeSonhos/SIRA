@@ -5,8 +5,8 @@ from datetime import date, time
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from src.models.user import UserFactory, TipoUsuario
-from src.models.reserva import Base, Sala, ReservaProxy, Reserva
+from src.user import UserFactory, TipoUsuario
+from src.reserva import Base, Sala, ReservaProxy, Reserva
 
 DB_FILE = "test_reserva.db"
 

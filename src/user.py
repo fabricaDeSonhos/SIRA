@@ -13,7 +13,7 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Time, Date
 from datetime import datetime, time, date
-from .base import Base
+from .models.base import Base
 # Enum para tipos de usuário
 class TipoUsuario(PyEnum):
     COMUM = "comum"

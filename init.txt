@@ -5,6 +5,7 @@ install:
 pip install flask flask_sqlalchemy flask_cors flask-bcrypt flask-jwt-extended flask-migrate
 pip install pytest
 pip install sqlalchemy
+pip install argon2-cffi
 
 
 rodar:

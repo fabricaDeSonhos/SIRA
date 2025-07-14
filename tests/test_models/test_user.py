@@ -5,8 +5,8 @@ import hashlib
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from src.models.user import UserFactory, TipoUsuario, User
-from src.models.reserva import Base, ReservaProxy
+from src.user import UserFactory, TipoUsuario, User
+from src.reserva import Base, ReservaProxy
 
 DB_FILE = "test_user.db"
 

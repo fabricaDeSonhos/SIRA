@@ -1,4 +1,4 @@
-from .estado_reserva import ReservaAtiva, ReservaCancelada, ReservaConcluida
+from .models.estado_reserva import ReservaAtiva, ReservaCancelada, ReservaConcluida
 
 import uuid
 from sqlalchemy import Column, String, Boolean, ForeignKey, Time, Date, Integer
@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column, DeclarativeBase
 from datetime import time, date
 from typing import TYPE_CHECKING, List
 from sqlalchemy.ext.declarative import declarative_base
-from .base import Base
+from .models.base import Base
 
 if TYPE_CHECKING:
     from .user import User
