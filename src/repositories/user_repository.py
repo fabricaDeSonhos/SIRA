@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 # Importe seus módulos e os modelos
 from src.models.user_models import User, Admin, TipoUsuario
-from src.utils import hashing_sennha, email_verifications # Supondo que estejam em core/
+from src.utils import hashing_senha, email_verification # Supondo que estejam em core/
 
 class UserRepository:
     def __init__(self, db_session: Session):
@@ -27,11 +27,11 @@ class UserRepository:
         Este método é o "ponto de entrada" para novos usuários no sistema.
         """
         # 1. Validar o email (formato e se já existe)
-        email_verifications.verificar_email_para_cadastro(email, self.db)
+        email_verification.verificar_email_para_cadastro(email, self.db)
         
         # 2. Validar a força da senha e gerar o hash e o salt
         try:
-            salt_hex, hash_hex = hashing_sennha.hash_and_validate(password)
+            salt_hex, hash_hex = hashing_senha.hash_and_validate(password)
         except ValueError as e:
             # Propaga o erro de senha fraca
             raise e
@@ -82,3 +82,4 @@ class UserRepository:
         self.db.commit()
         self.db.refresh(user)
         return user
+    

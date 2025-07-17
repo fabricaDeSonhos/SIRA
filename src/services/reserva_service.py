@@ -2,11 +2,12 @@
 
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session
+import uuid
 
 from ..models.user_models import User, Admin
 from ..models.reserva_models import Reserva
 from ..repositories.reserva_repositories import ReservaRepository
-from ..policy.Reserva_Policy import ReservaPolicy # Para verificações de visualização
+from ..policy.reserva_policy import ReservaPolicy # Para verificações de visualização
 
 class ReservaService:
     """

@@ -25,18 +25,6 @@ class TipoUsuario(enum.Enum):
     COMUM = "comum"
     ADMIN = "admin"
 
-# Modelo de exemplo para Reserva, necessário para o relacionamento
-class Reservation(Base):
-    """Modelo de exemplo para uma Reserva."""
-    __tablename__ = "reservations"
-    
-    id: Mapped[int] = mapped_column(primary_key=True)
-    details: Mapped[str] = mapped_column(String(300))
-    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
-    
-    user_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("users.id"))
-    user: Mapped["User"] = relationship(back_populates="reservations")
-
 # --- Modelo User (Classe Pai) ---
 class User(Base):
     """
@@ -72,11 +60,11 @@ class User(Base):
     }
     
     # --- Relacionamentos ---
-    reservations: Mapped[List["Reservation"]] = relationship(
-        "Reservation", 
-        back_populates="user",
-        cascade="all, delete-orphan"
-    )
+    # reservations: Mapped[List["Reservation"]] = relationship(
+    #     "Reservation", 
+    #     back_populates="user",
+    #     cascade="all, delete-orphan"
+    # )
 
     def __repr__(self):
         return f"<User(id={self.id}, email='{self.email}', type='{self.type}')>"

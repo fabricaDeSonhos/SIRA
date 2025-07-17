@@ -17,7 +17,7 @@ from sqlalchemy.orm import (
 
 # --- Base Declarativa para o SQLAlchemy 2.0 ---
 from .database import Base
-
+# from .sala_models import Room
 from .user_models import User  
 
 
@@ -38,6 +38,8 @@ class Reserva(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     room_id: Mapped[int] = mapped_column(ForeignKey("rooms.id"), nullable=False)
     
+    # Relacionamento para acessar os dados da sala (ex: reserva.room.name)
+    room: Mapped["Room"] = relationship("Room", back_populates="reservas")    
     reservation_date: Mapped[date] = mapped_column(comment="Data da reserva")
     start_time: Mapped[time] = mapped_column(comment="Horário de início da reserva")
     end_time: Mapped[time] = mapped_column(comment="Horário de término da reserva")
@@ -72,7 +74,7 @@ class Reserva(Base):
     #room: Mapped["Room"] = relationship(back_populates="reservas")
 
     def __repr__(self):
-        return f"<Reserva(id={self.id}, user_id='{self.user_id}', is_active={self.is_active})>"
+        return f"<Reserva(id={self.id}, user_id='{self.user_id}', room_id={self.room_id})>"
 
         #return (
         #    f"<Reserva(id={self.id}, room_id={self.room_id}, "
