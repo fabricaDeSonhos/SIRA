@@ -7,7 +7,7 @@ import uuid
 from ..models.user_models import User, Admin
 from ..models.reserva_models import Reserva
 from ..repositories.reserva_repositories import ReservaRepository
-from ..policy.reserva_policy import ReservaPolicy # Para verificações de visualização
+from ..policies.reserva_policy import ReservaPolicy # Para verificações de visualização
 
 class ReservaService:
     """
@@ -17,7 +17,7 @@ class ReservaService:
         self.acting_user = acting_user
         self.db = db_session
         self.repo = ReservaRepository(db_session)
-        self.policy = ReservaPolicy()
+        self.policies = ReservaPolicy()
 
     def create_reserva(self, details: str, is_fixed: bool = False) -> Reserva:
         """
@@ -38,7 +38,7 @@ class ReservaService:
             return None
         
         # O serviço verifica a permissão de LEITURA
-        self.policy.can_view(self.acting_user, reserva)
+        self.policies.can_view(self.acting_user, reserva)
         return reserva
 
     def cancelar_reserva(self, reserva_id: int) -> Reserva:

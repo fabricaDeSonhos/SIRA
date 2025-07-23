@@ -1,0 +1,36 @@
+Explicação da Arquitetura em Camadas
+
+Nossa arquitetura segue um padrão de fluxo unidirecional, o que a torna organizada e fácil de manter. 
+Cada camada tem uma responsabilidade bem definida:
+
+1-🌐 API / Rota (Flask): A porta de entrada do sistema. 
+É responsável por receber as requisições HTTP (ex: de um navegador ou aplicativo móvel), 
+validar os dados de entrada (ex: se um e-mail foi enviado) e chamar a camada de serviço apropriada.
+Ela não contém regras de negócio.
+
+2-⚙️ Camada de Serviços (services): O cérebro da aplicação. 
+Orquestra as operações e contém a lógica de negócio de alto nível. 
+Um serviço não fala diretamente com o banco de dados; 
+em vez disso, ele delega as tarefas para os repositórios. 
+Ex: ReservaService possui o método cancelar_reserva, que é uma operação de negócio.
+
+3-🛡️ Camada de Políticas (policies): O "segurança" do sistema. 
+Esta camada centraliza todas as regras de autorização (o que um usuário pode fazer). 
+Antes de uma ação crítica ser executada (como criar ou deletar algo), 
+a camada de repositório consulta a política para obter um "sim" ou "não".
+
+4-🗃️ Camada de Repositórios (repositories): A única camada que fala diretamente com o banco de dados.
+Ela encapsula toda a lógica de acesso a dados (queries SELECT, INSERT, UPDATE). 
+É responsável por traduzir as solicitações do serviço em comandos que o SQLAlchemy entende.
+
+5-🧱 Camada de Modelos (models): A planta baixa do nosso banco de dados. 
+Define a estrutura das tabelas, os campos e os relacionamentos entre elas (User tem muitas Reservas, etc.).
+São classes "passivas" que apenas representam os dados.
+
+6-🛠️ Utils (Utils): Uma pasta de suporte que contém utilitários transversais, 
+como as funções para fazer hash de senhas (hashing_sennha.py), que podem ser usadas por qualquer outra camada
+
+
+O fluxo de uma requisição para criar uma reserva seria: 
+API → ReservaService → ReservaRepository → ReservaPolicy (verifica permissão) → 
+ReservaRepository (cria o ReservaModel) → Banco de Dados.

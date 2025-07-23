@@ -1,17 +1,20 @@
-# /repositories/room_repositories.py (Novo arquivo)
-
+#
 from typing import List, Optional, Dict, Any
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session
 
 from ..models.user_models import User
-from ..models.sala_models import Room
-from ..policy.room_policy import RoomPolicy
-
+from ..models.room_models import Room
+from ..policies.room_policy import RoomPolicy # <-- Correção de typo: 'policies'
+from ..utils.exceptions import DuplicateRoomError # <-- MELHORIA: Exceção customizada
 
 class RoomRepository:
     def __init__(self, db_session: Session):
         self.db = db_session
-        self.policy = RoomPolicy()
+        self.policies = RoomPolicy()
+
+    def get_by_id(self, room_id: int) -> Optional[Room]:
+        """ (NOVO) Busca uma sala pelo seu ID. Essencial para updates. """
+        return self.db.query(Room).filter(Room.id == room_id).first()
 
     def get_by_name(self, name: str) -> Optional[Room]:
         """Busca uma sala pelo seu nome único."""
@@ -26,16 +29,26 @@ class RoomRepository:
 
     def create(self, acting_user: User, room_data: Dict[str, Any]) -> Room:
         """Cria uma nova sala."""
-        # 1. Verifica a permissão
-        self.policy.can_manage(acting_user)
+        self.policies.can_manage(acting_user)
 
-        # 2. Verifica se o nome já existe
         if self.get_by_name(room_data['name']):
-            raise ValueError(f"A sala com o nome '{room_data['name']}' já existe.")
+            # MELHORIA: Lança uma exceção específica em vez de ValueError.
+            raise DuplicateRoomError(f"A sala com o nome '{room_data['name']}' já existe.")
 
-        # 3. Cria e salva
         new_room = Room(**room_data)
         self.db.add(new_room)
         self.db.commit()
         self.db.refresh(new_room)
         return new_room
+
+    def update(self, acting_user: User, room: Room, update_data: Dict[str, Any]) -> Room:
+        """ (NOVO) Atualiza os dados de uma sala existente. """
+        self.policies.can_manage(acting_user)
+
+        for key, value in update_data.items():
+            if hasattr(room, key) and key not in ['id', 'name']: # Não permitir mudar ID ou nome
+                setattr(room, key, value)
+        
+        self.db.commit()
+        self.db.refresh(room)
+        return room

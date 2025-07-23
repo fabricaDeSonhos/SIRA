@@ -26,10 +26,10 @@ pytest
 
 padrões grasp usados :
 1-Information Expert
-Onde já aparece: Sala conhece suas próprias reservas; Reserva conhece seu estado e notifica observadores.
+Sala conhece suas próprias reservas; Reserva conhece seu estado e notifica observadores.
 
 2-Creator
-Onde aparece: User/Admin criando instâncias de Reserva; o ReservaProxy instanciando Reserva.
+User/Admin criando instâncias de Reserva; o ReservaProxy instanciando Reserva.
 
 3-Controller
 Já em uso ou próximo passo: a classe UserService (ou futura camada REST) pode agir como controller, recebendo chamadas da API e orquestrando User, Sala e ReservaProxy.

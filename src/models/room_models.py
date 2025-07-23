@@ -1,18 +1,21 @@
-# /models/room_models.py (Novo arquivo)
+# /models/room_models.py (Nome de arquivo corrigido)
 
 from typing import List
-from sqlalchemy import String, Integer, Boolean
+from sqlalchemy import String, Integer, Boolean, CheckConstraint # <-- Importar CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
-# from .reserva_models import Reserva # Import para o type hint
-
 
 class Room(Base):
     """
     Modelo SQLAlchemy para uma Sala de Reunião/Evento.
     """
     __tablename__ = "rooms"
+    
+    # Adicionando um comentário de tabela para documentação
+    __table_args__ = (
+        CheckConstraint('capacity > 0', name='cc_room_capacity_positive'),
+    )
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
@@ -30,6 +33,7 @@ class Room(Base):
         comment="Descrição amigável da sala."
     )
     
+    # MELHORIA: A CheckConstraint acima garante que este valor será sempre > 0 no banco.
     capacity: Mapped[int] = mapped_column(
         Integer,
         nullable=False,
@@ -44,7 +48,6 @@ class Room(Base):
         comment="Se a sala está disponível para novas reservas."
     )
     
-    # Relacionamento inverso: a partir de uma sala, podemos ver todas as suas reservas
     reservas: Mapped[List["Reserva"]] = relationship(
         "Reserva", 
         back_populates="room",

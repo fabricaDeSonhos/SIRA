@@ -1,6 +1,7 @@
 # Em policies/reservation_policy.py
 
-from models.user_models import User, Admin, Reservation
+from src.models.user_models import User, Admin
+from src.models.reserva_models import Reserva
 
 class ReservaPolicy:
     """
@@ -24,7 +25,7 @@ class ReservaPolicy:
         
         return True # Se nenhuma exceção foi levantada, a ação é permitida.
 
-    def can_view(self, user: User, reservation: Reservation):
+    def can_view(self, user: User, reservation: Reserva):
         """Verifica se o usuário pode visualizar uma reserva específica."""
         self._is_user_active(user)
 
@@ -37,7 +38,7 @@ class ReservaPolicy:
         
         return True
 
-    def can_update(self, user: User, reservation: Reservation):
+    def can_update(self, user: User, reservation: Reserva):
         """Verifica se o usuário pode atualizar uma reserva específica."""
         self._is_user_active(user)
 
@@ -50,7 +51,7 @@ class ReservaPolicy:
 
         return True
 
-    def can_delete(self, user: User, reservation: Reservation):
+    def can_delete(self, user: User, reservation: Reserva):
         """Verifica se o usuário pode deletar uma reserva específica."""
         # A lógica para deletar e atualizar costuma ser a mesma.
         self.can_update(user, reservation)

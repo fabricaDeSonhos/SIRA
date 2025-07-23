@@ -2,6 +2,9 @@ import enum
 import uuid
 from typing import List
 
+# Base declarativa do SQLAlchemy
+from .database import Base
+
 from sqlalchemy import (
     Boolean,
     String,
@@ -15,9 +18,6 @@ from sqlalchemy.orm import (
     mapped_column,
     relationship
 )
-
-# Base declarativa do SQLAlchemy
-from .database import Base
 
 # Enum para os tipos de usuário, alinhado com user_service.py
 class TipoUsuario(enum.Enum):
@@ -60,11 +60,11 @@ class User(Base):
     }
     
     # --- Relacionamentos ---
-    # reservations: Mapped[List["Reservation"]] = relationship(
-    #     "Reservation", 
-    #     back_populates="user",
-    #     cascade="all, delete-orphan"
-    # )
+    reservas: Mapped[List["Reserva"]] = relationship(
+        "Reserva", 
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
 
     def __repr__(self):
         return f"<User(id={self.id}, email='{self.email}', type='{self.type}')>"

@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from ..models.user_models import User, Admin
 from ..models.reserva_models import Reserva
 # Importe a política de permissões que criamos anteriormente
-from ..policy.reserva_policy import ReservaPolicy
+from ..policies.reserva_policy import ReservaPolicy
 
 
 class ReservaRepository:
@@ -17,7 +17,7 @@ class ReservaRepository:
     """
     def __init__(self, db_session: Session):
         self.db = db_session
-        self.policy = ReservaPolicy()
+        self.policies = ReservaPolicy()
 
     def get_by_id(self, reserva_id: int) -> Optional[Reserva]:
         """Busca uma reserva pelo seu ID."""
@@ -40,7 +40,7 @@ class ReservaRepository:
         Cria uma nova reserva no banco de dados.
         """
         # 1. VERIFICA A PERMISSÃO ANTES DE TUDO
-        self.policy.can_create(acting_user, reserva_data)
+        self.policies.can_create(acting_user, reserva_data)
 
         # 2. Se a política passou, cria o objeto
         nova_reserva = Reserva(
@@ -59,7 +59,7 @@ class ReservaRepository:
         Atualiza uma reserva existente.
         """
         # 1. VERIFICA A PERMISSÃO
-        self.policy.can_update(acting_user, reserva)
+        self.policies.can_update(acting_user, reserva)
         
         # 2. Aplica as atualizações
         for key, value in update_data.items():
