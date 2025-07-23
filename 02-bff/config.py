@@ -42,8 +42,6 @@ elif SIRA_DB == "MYSQL":
     # mysql connection
     DATABASE_URL = "mysql+pymysql://sira:minhasenha@localhost/sira"
 
-db = SQLAlchemy(model_class=Base)
-
 # create the app
 app = Flask(__name__)
 
@@ -52,4 +50,4 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable unnecessary modification tracking
 
 # initialize the app with the extension
-db.init_app(app)
+db = SQLAlchemy(app)

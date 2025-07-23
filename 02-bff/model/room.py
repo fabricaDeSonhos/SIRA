@@ -9,4 +9,4 @@ class Room(db.Model):
     active: Mapped[bool] = mapped_column(db.Boolean, default=True)
     
     def __repr__(self):
-        return f"<Room(id={self.id}, name={self.name}, active={self.active})>"
+        return f"Room(id={self.id}, name={self.name}, active={self.active})"
