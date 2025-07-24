@@ -15,22 +15,21 @@ classes whose names start with test or Test .
 import pytest
 
 from config import *
-#from model.room import *
-from service.room_service import *
+from service.common_service import *
 
-def test_room_creation():
+def test_creation():
     with app.app_context():
-        room = create_room(name="Conference Room", active=True)
+        obj = create_object(Room, name="Conference Room", active=True)
         
-        assert room.id is not None
+        assert obj.id is not None
         #assert isinstance(room.id, UUID)
-        assert isinstance(room.id, int)
-        assert room.name == "Conference Room"
-        assert room.active is True
+        assert isinstance(obj.id, int)
+        assert obj.name == "Conference Room"
+        assert obj.active is True
 
-def test_room_delete_first_room():
+def test_obj_delete():
     with app.app_context():
-        room = get_room_by_name("Conference Room")
-        assert room.name == "Conference Room"
-        ok = delete_room(room)
+        obj = get_object_by_name(Room, "Conference Room")
+        assert obj.name == "Conference Room"
+        ok = delete_object(obj)
         assert ok == True

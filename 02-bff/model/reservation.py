@@ -1,6 +1,9 @@
 from config import *
 from utils import *
 
+# import required by pytest: User must know Reservation
+from model.user import *
+
 class Reservation(db.Model):
     __tablename__ = 'reservations'
     
@@ -27,6 +30,10 @@ class Reservation(db.Model):
     canceler_user: Mapped[Optional["User"]] = db.relationship(
         back_populates="cancelations",
         foreign_keys=[canceler_user_id])
-    
+
+    batch_id: Mapped[UUID] = db.Column(Uuid(as_uuid=True), nullable=True)
+ 
     def __repr__(self):
-        return f"Reservation(id={self.id}, date={self.date}, active={self.active})"
+        return f'''Reservation(id={self.id}, 
+        date={self.date}, active={self.active},
+        Purpose={self.purpose})'''

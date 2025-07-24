@@ -1,5 +1,8 @@
 from config import *
 
+# import required by pytest: Reservation must know User
+from model.reservation import *
+
 class User(db.Model):
     __tablename__ = 'users'
     
