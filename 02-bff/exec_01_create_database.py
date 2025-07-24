@@ -1,6 +1,7 @@
 from config import *
 from model.room import *
 from model.user import *
+from model.reservation import *
 
 # Create the tables in the database
 with app.app_context():

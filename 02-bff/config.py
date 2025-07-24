@@ -1,14 +1,3 @@
-''' references:
-
-https://flask-sqlalchemy.readthedocs.io/en/stable/models/#defining-models
-
-for the pytest: (didnt work yet)
-$ pip install pytest-flask-sqlalchemy --break-system-packages
-$ pip install pytest-flask --break-system-packages
-
-
-'''
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
@@ -18,6 +7,10 @@ from uuid import uuid4, UUID
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import Uuid
+
+from datetime import datetime, date, time
+
+from typing import List, Optional
 
 class Base(DeclarativeBase):
   pass
@@ -51,3 +44,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable unnecessary modi
 
 # initialize the app with the extension
 db = SQLAlchemy(app)
+
+''' references:
+https://flask-sqlalchemy.readthedocs.io/en/stable/models/#defining-models
+
+for the pytest: (didnt work yet)
+$ pip install pytest-flask-sqlalchemy --break-system-packages
+$ pip install pytest-flask --break-system-packages
+
+'''
+
