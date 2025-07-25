@@ -1,4 +1,4 @@
-from config import *
+from src.config import *
 
 class Room(db.Model):
     __tablename__ = 'rooms'

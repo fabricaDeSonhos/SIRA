@@ -1,15 +1,18 @@
 # SIRA's backend
 
-* Installation:
+* Folders:
 
-pip install -r requirements.txt
+1) doc
+2) setup
+3) src
+4) tests
 
-* Generate new requirements (if necessary):
+* References:
 
-pip freeze > requirements
+https://choosealicense.com/
 
-* Testing:
+https://docs.python-guide.org/writing/structure/
+https://packaging.python.org/en/latest/tutorials/packaging-projects/
+https://docs.python.org/3/tutorial/modules.html#packages
 
-- run exec_01... to create the database
-- run exer_02... to run basic tests
-- run pytest to execute the major tests
+

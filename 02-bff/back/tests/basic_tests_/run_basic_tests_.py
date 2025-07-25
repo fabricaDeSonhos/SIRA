@@ -1,8 +1,8 @@
-from config import *
-from basic_test_.common_test_ import *
-from basic_test_.reservation_test_ import *
-from model.room import *
-from model.user import *
+from src.config import *
+from common_test_ import *
+from reservation_test_ import *
+from src.model.room import *
+from src.model.user import *
 
 with app.app_context():
     

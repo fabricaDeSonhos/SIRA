@@ -1,6 +1,6 @@
-from config import *
-from service.common_service import *
-from service.reservation_service import *
+from src.config import *
+from src.service.common_service import *
+from src.service.reservation_service import *
        
 # Example usage:
 def reservation_test_():

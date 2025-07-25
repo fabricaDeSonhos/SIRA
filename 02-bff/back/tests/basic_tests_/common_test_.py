@@ -1,5 +1,5 @@
-from config import *
-from service.common_service import *
+from src.config import *
+from src.service.common_service import *
 
 def generic_basic_test_(m_class, **kwargs):
 

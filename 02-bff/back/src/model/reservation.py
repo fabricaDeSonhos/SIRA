@@ -1,8 +1,8 @@
-from config import *
-from utils import *
+from src.config import *
+from src.utils import *
 
 # import required by pytest: User must know Reservation
-from model.user import *
+from src.model.user import *
 
 class Reservation(db.Model):
     __tablename__ = 'reservations'

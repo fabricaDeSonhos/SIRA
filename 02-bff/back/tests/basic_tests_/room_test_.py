@@ -1,4 +1,4 @@
-from config import *
+from src.config import *
 from common_test_ import *
     
 '''    

@@ -1,6 +1,6 @@
-from config import *
-from model.user import *
-from model.room import *
+from src.config import *
+from src.model.user import *
+from src.model.room import *
 
 # https://stackoverflow.com/questions/73837260/using-kwargs-with-filter-by-sqlalchemy
 # https://medium.com/@nadiaaoliverr/o-que-significa-args-e-kwargs-em-python-d18a4120b744
