@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify, request, abort
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 
@@ -12,16 +12,27 @@ from datetime import datetime, date, time
 
 from typing import List, Optional
 
+import os
 class Base(DeclarativeBase):
   pass
 
 DATABASE_URL = ""
 
-# TODO: get database definition from environment variable
 # persistency of classes were tested in 
 # sqlite and mysql, in 17/07/2025
+# default configuration: sqlite
 SIRA_DB = "SQLITE"
 #SIRA_DB = "MYSQL"
+
+# Accessing an environment variable directly
+try:
+    db_env = os.environ['SIRA_DB']
+    if db_env == "SQLITE":
+      pass # already defined
+    if db_env == "MYSQL":
+      SIRA_DB = "MYSQL"
+except KeyError:
+    print("SIRA_DB environment variable is not set, considering default database: SQLITE.")
 
 if SIRA_DB == "SQLITE":
     # some commands to make the database be created

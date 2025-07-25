@@ -8,7 +8,7 @@ pip install -r requirements.txt
 
 pip freeze > requirements
 
-2) You MUST configure PYTHONPATH to make the code works:
+2) You MUST configure PYTHONPATH to make the code works: (update the below path to the path where YOUR source code is)
 
 Linux/macOS
 export PYTHONPATH=/home/friend/01-github/SIRA/02-bff/back:$PYTHONPATH
