@@ -88,25 +88,26 @@ def get_specific_object(mclass, obj_id):
         obj = get_object_by_id(mclass, obj_id)           # get the object by id    
         if not obj:                                    # if user does not exists...  
             return jsonify({"result": "error", "details": f"{mclass}({obj_id}) not found "}), 404    # object not found
-        response = serialize_model(object)                # serialize the user
+        response = serialize_model(obj)                # serialize the user
         myjson.update({"details": response})            # add the serialized object to the answer   
+        print(myjson)
         return myjson
     except Exception as ex:
         return {"result": "error", "details": f"error during specific object ({mclass}) retrieval: {ex}"}
 
 @app.route('/users/<int:obj_id>', methods=['GET'])
 def get_user(obj_id):
-    myjson = get_object_by_id(User, obj_id)  
+    myjson = get_specific_object(User, obj_id)  
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 404
 
 @app.route('/rooms/<int:obj_id>', methods=['GET'])
 def get_room(obj_id):
-    myjson = get_object_by_id(Room, obj_id)  
+    myjson = get_specific_object(Room, obj_id)  
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 404
 
 @app.route('/reservations/<uuid:obj_id>', methods=['GET'])
-def get_room(obj_id):
-    myjson = get_object_by_id(Reservation, obj_id)
+def get_reservation(obj_id):
+    myjson = get_specific_object(Reservation, obj_id)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 404
 
 # --- PUT's (UPDATE) ---
@@ -189,6 +190,6 @@ def delete_reservation(obj_id):
 
 # Only run if directly executed
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run() # debug=True)
 
 print("Routes loaded successfully.")
