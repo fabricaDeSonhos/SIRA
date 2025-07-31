@@ -19,10 +19,7 @@ def create_simple_object(mclass, data):
 def create_user():
     data = request.json                         # get the data
     answer = create_simple_object(User, data)   # try to create the object
-    if answer["result"] == "ok":                # check the answer
-        return jsonify(answer), 201             # Created :-)
-    else:
-        return jsonify(answer), 500             # Internal Server Error :-(
+    return jsonify(answer), 201 if answer["result"] == "ok" else 500 # return created or internal error
 
 @app.route('/rooms', methods=['POST'])
 def create_room():
@@ -40,10 +37,24 @@ def create_reservation_route():
         if not room or not user:                         # if room or user does not exists... error!
             return jsonify({"result": "error", "details": f"Invalid room_id ({room}) or user_id ({user})"}), 500    # error :-(
         else:
+            # data conversion: convert date and time strings to date and time objects
+            if 'date' in data and isinstance(data['date'], str):
+                data['date'] = datetime.strptime(data['date'], "%Y-%m-%d").date()
+            if 'start_time' in data and isinstance(data['start_time'], str):
+                data['start_time'] = datetime.strptime(data['start_time'], "%H:%M:%S").time()
+            if 'end_time' in data and isinstance(data['end_time'], str):
+                data['end_time'] = datetime.strptime(data['end_time'], "%H:%M:%S").time()
+
+            print("ok 1")
             # try to create the reservation; all fields are performed except room_id and user_id (already are in)
             res = create_reservation(room, user, **{k: v for k, v in data.items() if k not in ['room_id', 'user_id']})
-            return jsonify(serialize_model(res)), 201      # happy return in this case :-)
+            print("ok 2")
+            response = serialize_model(res)             # serialize the reservation object
+            print("ok 3")
+            myjson.update({"details": response})        # add the serialized object to the answer
+            return jsonify(myjson), 201      # happy return in this case :-)
     except Exception as ex:
+        print(ex)
         return jsonify({"result": "error", "details": f"error during reservation creation: {ex}"}), 500
 
 

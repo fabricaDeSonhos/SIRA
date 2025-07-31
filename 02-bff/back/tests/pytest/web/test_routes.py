@@ -28,20 +28,19 @@ def test_user_crud(client):
                       headers=headers, 
                       json={"name": "Alice", "email": "alice@example.com", "password": "pass"})
     assert res.status_code == 201
-    
-    # field "id" from "details" content
+        
+    # get the field "id" from "details" content
     json = res.get_json()
-    assert "id" in json["details"]
     assert json["result"] == "ok"
-    user_id = json["details"]["id"]
+    assert "id" in json["details"]
+    person = json["details"]
+    user_id = person["id"]
     assert user_id is not None
     assert isinstance(user_id, int)
-    #assert json["details"]["name"] == "Alice"
-    #assert json["details"]["email"] == ""
-    assert json["details"]["password"] == "pass"
+    assert person["password"] == "pass"
     print(f"User created with ID: {user_id}")
-    print(f"details: {json["details"]}")
-    print(f"id: {json["details"]["id"]}")
+    print(f"details: {person}")
+    # print(f"id: {json["details"]["id"]}")
     
     
     # GET SPECIFIC
@@ -63,25 +62,35 @@ def test_user_crud(client):
     res = client.delete(f"/users/{user_id}")
     assert res.status_code == 204
 
-def xxtest_room_crud(client):
+def test_room_crud(client):
     res = client.post('/rooms', json={"name": "Room A"})
     assert res.status_code == 201
-    room_id = res.get_json()["id"]
+    room_id = res.get_json()["details"]["id"]
 
     res = client.get(f"/rooms/{room_id}")
     assert res.status_code == 200
 
     res = client.put(f"/rooms/{room_id}", json={"name": "Updated Room"})
     assert res.status_code == 200
-    assert res.get_json()["name"] == "Updated Room"
+    assert res.get_json()["details"]["name"] == "Updated Room"
 
     res = client.delete(f"/rooms/{room_id}")
     assert res.status_code == 204
 
 def xxtest_reservation_crud(client):
     # Create user and room first
-    user = client.post('/users', json={"name": "Bob", "email": "bob@example.com", "password": "pass"}).get_json()
-    room = client.post('/rooms', json={"name": "Room B"}).get_json()
+    r1 = client.post('/users', json={"name": "Bob", "email": "bob@example.com", "password": "pass"}).get_json()
+    if r1["result"] != "ok":
+        pytest.fail(f"Failed to create user: {r1['details']}")
+    user = r1["details"]
+    assert "id" in user
+    # assert isinstance(user["id"], int)
+    r2 = client.post('/rooms', json={"name": "Room B"}).get_json()
+    if r2["result"] != "ok":
+        pytest.fail(f"Failed to create room: {r2['details']}")
+    # assert "id" in r2["details"]
+    # assert isinstance(r2["details"]["id"], int)
+    room = r2["details"]
 
     res = client.post('/reservations', json={
         "user_id": user["id"],
