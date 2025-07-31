@@ -1,7 +1,9 @@
-from src.config import *
+#from src.config import *
+from src.route.routes import app, db, User, Room, Reservation
+# Remove or comment out: from src.config import *
 #from app import app, db, User, Room, Reservation
 #from uuid import uuid4
-#from datetime import date, time
+from datetime import date, time
 
 import pytest
 
@@ -15,9 +17,14 @@ def client():
         yield client
 
 def test_user_crud(client):
-    res = client.post('/users', json={"name": "Alice", "email": "alice@example.com", "password": "pass"})
+    headers = {"Content-Type": "application/json"}
+    res = client.post('/users', 
+                      headers=headers, 
+                      json={"name": "Alice", "email": "alice@example.com", "password": "pass"})
     assert res.status_code == 201
-    user_id = res.get_json()["id"]
+    
+    # field "id" from "details" content
+    user_id = res.get_json()["details"]["id"]
 
     res = client.get(f"/users/{user_id}")
     assert res.status_code == 200
@@ -43,6 +50,7 @@ def test_room_crud(client):
 
     res = client.delete(f"/rooms/{room_id}")
     assert res.status_code == 204
+
 
 def test_reservation_crud(client):
     # Create user and room first

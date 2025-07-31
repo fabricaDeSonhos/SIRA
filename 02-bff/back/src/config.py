@@ -64,3 +64,5 @@ $ pip install pytest-flask-sqlalchemy --break-system-packages
 $ pip install pytest-flask --break-system-packages
 
 '''
+
+print("Configuration loaded successfully.")
