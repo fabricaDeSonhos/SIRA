@@ -109,70 +109,83 @@ def get_room(obj_id):
     myjson = get_object_by_id(Reservation, obj_id)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 404
 
-
 # --- PUT's (UPDATE) ---
 
-@app.route('/users/<int:user_id>', methods=['PUT'])
-def update_user(user_id):
-    user = get_object_by_id(User, user_id)
-    if not user:
-        abort(404)
-    for key, value in request.json.items():
-        setattr(user, key, value)
-    db.session.commit()
-    return jsonify(serialize_model(user))
+def update_object(mclass, obj_id):
+    try:
+        myjson = {"result": "ok"}                       # prepare a "good" default answer :-)   
+    
+        obj = get_object_by_id(mclass, obj_id)
+        if not obj:
+            return {"result": "error", "details": f"{mclass}({obj_id}) not found "}
+        for key, value in request.json.items():         # update the object
+            setattr(obj, key, value)
+        db.session.commit()                            # confirm the update
+        response = serialize_model(obj)                # serialize the updated object
+        myjson.update({"details": response})           # add the serialized object to the answer
+        return myjson
+    except Exception as ex:
+        return {"result": "error", "details": f"error during object ({mclass}) update: {ex}"}
 
-@app.route('/rooms/<int:room_id>', methods=['PUT'])
-def update_room(room_id):
-    room = get_object_by_id(Room, room_id)
-    if not room:
-        abort(404)
-    for key, value in request.json.items():
-        setattr(room, key, value)
-    db.session.commit()
-    return jsonify(serialize_model(room))
+@app.route('/users/<int:obj_id>', methods=['PUT'])
+def update_user(obj_id):
+    myjson = update_object(User, obj_id)
+    return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
+@app.route('/rooms/<int:obj_id>', methods=['PUT'])
+def update_room(obj_id):
+    myjson = update_object(Room, obj_id)
+    return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
-@app.route('/reservations/<uuid:res_id>', methods=['PUT'])
-def update_reservation(res_id):
-    reservation = get_object_by_id(Reservation, res_id)
-    if not reservation:
-        abort(404)
-    for key, value in request.json.items():
-        setattr(reservation, key, value)
-    db.session.commit()
-    return jsonify(serialize_model(reservation))
+@app.route('/reservations/<uuid:obj_id>', methods=['PUT'])
+def update_reservation(obj_id):
+    myjson = update_object(Reservation, obj_id)
+    return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
 # --- DELETE's ---
 
-@app.route('/users/<int:user_id>', methods=['DELETE'])
-def delete_user(user_id):
-    user = get_object_by_id(User, user_id)
-    if not user:
-        abort(404)
-    db.session.delete(user)
-    db.session.commit()
-    return '', 204
+def hard_delete_object(mclass, obj_id):
+    try:
+        myjson = {"result": "ok"}                       # prepare a "good" default answer :-)   
+    
+        obj = get_object_by_id(mclass, obj_id)
+        if not obj:
+            return {"result": "error", "details": f"{mclass}({obj_id}) not found "}
+        db.session.delete(obj)
+        db.session.commit()
+        myjson.update({"details": "ok"})
+        return myjson
+    except Exception as ex:
+        return {"result": "error", "details": f"error during object ({mclass}) exclusion: {ex}"}
 
-@app.route('/rooms/<int:room_id>', methods=['DELETE'])
-def delete_room(room_id):
-    room = get_object_by_id(Room, room_id)
-    if not room:
-        abort(404)
-    db.session.delete(room)
-    db.session.commit()
-    return '', 204
+def soft_delete_object(mclass, obj_id):
+    try:
+        myjson = {"result": "ok"}                       # prepare a "good" default answer :-)   
+    
+        obj = get_object_by_id(mclass, obj_id)
+        if not obj:
+            return {"result": "error", "details": f"{mclass}({obj_id}) not found "}
+        obj.active = False  # set the object as inactive
+        db.session.commit()
+        myjson.update({"details": "The Active property of the object was set to False"})
+        return myjson
+    except Exception as ex:
+        return {"result": "error", "details": f"error during object ({mclass}) exclusion: {ex}"}
 
-@app.route('/reservations/<uuid:res_id>', methods=['DELETE'])
-def delete_reservation(res_id):
-    reservation = get_object_by_id(Reservation, res_id)
-    if not reservation:
-        abort(404)
-    db.session.delete(reservation)
-    db.session.commit()
-    return '', 204
+@app.route('/users/<int:obj_id>', methods=['DELETE'])
+def delete_user(obj_id):
+    myjson = soft_delete_object(User, obj_id)
+    return jsonify(myjson), 204 if myjson['result'] == 'ok' else 500
 
+@app.route('/rooms/<int:obj_id>', methods=['DELETE'])
+def delete_room(obj_id):
+    myjson = soft_delete_object(Room, obj_id)
+    return jsonify(myjson), 204 if myjson['result'] == 'ok' else 500
 
+@app.route('/reservations/<uuid:obj_id>', methods=['DELETE'])
+def delete_reservation(obj_id):
+    myjson = soft_delete_object(Reservation, obj_id)
+    return jsonify(myjson), 204 if myjson['result'] == 'ok' else 500
 
 # Only run if directly executed
 if __name__ == '__main__':
