@@ -1,13 +1,15 @@
 * Setup:
 
+Go to the folder SIRA/02-bff/back, in terminal
+
 1) Activate the virtual environment:
 
-python3 -m venv sira_back
+source setup/sira_back/bin/activate
 
 2) Configure environment variables
 
 Linux:
-Execute env.sh
+. setup/env.sh
 
 Windows:
 TODO
@@ -29,29 +31,37 @@ export SIRA_DB=SQLITE
 or
 export SIRA_DB=MYSQL
 
-3) Create the database
+3) You can remove the sira.bd file and re-create the database:
 
-python3 create_database.py
+rm src/sira.db
+
+python3 setup/create_database.py
 
 4) Install requirements (if necessary):
 
 pip3 install -r requirements.txt
 
-* Maintenance: generate new requirements (if necessary):
-
-pip3 freeze > requirements
-
-Otherwise, you can install libraries by hand:
+* Alternatively, you can install libraries by hand:
 
 pip3 install flask
 pip3 install flask_sqlalchemy
 pip3 install flask_cors
 pip3 install pytest
 
-5) Run the tests:
+* Maintenance: when necessary, generate new requirements:
 
-in tests folder:
+pip3 freeze > requirements
+
+5) Run the backend tests:
+
+In "tests" folder, run:
 $ python3 basic_tests_/run_basic_tests_.py
 
-in pytest folder:
+in "pytest" folder, run:
 $ pytest
+
+6) Now you can run the backend :-)
+
+In folder "SIRA/02-bff/back/src", run:
+
+flask run --debug
