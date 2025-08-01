@@ -1,8 +1,5 @@
-#from src.config import *
-from src.route.routes import app, db, User, Room, Reservation
-# Remove or comment out: from src.config import *
-#from app import app, db, User, Room, Reservation
-#from uuid import uuid4
+# from src.config import app, db (não sei porque esse não funciona)
+from src.route.routes import app, db
 from datetime import date, time
 
 import pytest
@@ -77,7 +74,7 @@ def test_room_crud(client):
     res = client.delete(f"/rooms/{room_id}")
     assert res.status_code == 204
 
-def xxtest_reservation_crud(client):
+def test_reservation_crud(client):
     # Create user and room first
     r1 = client.post('/users', json={"name": "Bob", "email": "bob@example.com", "password": "pass"}).get_json()
     if r1["result"] != "ok":
@@ -101,14 +98,16 @@ def xxtest_reservation_crud(client):
         "purpose": "Meeting"
     })
     assert res.status_code == 201
-    reservation_id = res.get_json()["details"]["id"]
+    answer = res.get_json()
+    assert answer["result"] == "ok"
+    reservation_id = answer["details"]["id"]
 
     res = client.get(f"/reservations/{reservation_id}")
     assert res.status_code == 200
 
     res = client.put(f"/reservations/{reservation_id}", json={"purpose": "Updated Meeting"})
     assert res.status_code == 200
-    assert res.get_json()["purpose"] == "Updated Meeting"
+    assert res.get_json()["details"]["purpose"] == "Updated Meeting"
 
     res = client.delete(f"/reservations/{reservation_id}")
     assert res.status_code == 204

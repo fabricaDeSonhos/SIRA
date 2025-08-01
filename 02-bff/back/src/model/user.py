@@ -1,7 +1,7 @@
 from src.config import *
 
 # import required by pytest: Reservation must know User
-from src.model.reservation import *
+# from src.model.reservation import *
 
 class User(db.Model):
     __tablename__ = 'users'

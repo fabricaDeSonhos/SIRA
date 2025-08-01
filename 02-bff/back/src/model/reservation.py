@@ -2,7 +2,7 @@ from src.config import *
 from src.utils import *
 
 # import required by pytest: User must know Reservation
-from src.model.user import *
+# from src.model.user import *
 
 class Reservation(db.Model):
     __tablename__ = 'reservations'

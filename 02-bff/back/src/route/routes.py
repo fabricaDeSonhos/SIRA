@@ -1,6 +1,9 @@
 from src.config import *
 from src.service.reservation_service import *
 from src.service.common_service import *
+from src.model.user import *
+from src.model.reservation import *
+from src.model.room import *
 
 # generic object creation: auxiliar function
 def create_simple_object(mclass, data):
