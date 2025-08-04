@@ -2,7 +2,7 @@ function reserva(lab, matéria, dia, início, duração) {
   return { lab, matéria, dia, início, duração: duração * 60 }
 }
 
-// Dia formatado como YYYY-MM-DD
+// Mock: reservas fixas (não podem ser removidas via interface)
 const hoje = new Date()
 const diaHoje = hoje.toISOString().slice(0, 10)
 const diaOntem = new Date(hoje.getTime() - 86400000).toISOString().slice(0, 10)
@@ -31,15 +31,28 @@ export function get_reservas(dia) {
   const dados = localStorage.getItem("reservas")
   const locais = dados ? JSON.parse(dados) : []
 
-  // retorna todas as reservas para aquele dia
   return [...__reservas, ...locais].filter(r => r.dia === dia)
 }
 
-// add_reserva: só salva no localStorage
+// ADD reserva: salva somente no localStorage
 export function add_reserva(reserva) {
   const dados = localStorage.getItem("reservas")
   const reservas = dados ? JSON.parse(dados) : []
 
   reservas.push(reserva)
   localStorage.setItem("reservas", JSON.stringify(reservas))
+}
+
+// REMOVE reserva específica (somente do localStorage)
+export function remover_reserva({ dia, início, lab }) {
+  const dados = localStorage.getItem("reservas")
+  if (!dados) return
+
+  const reservas = JSON.parse(dados)
+
+  const novas = reservas.filter(r =>
+    !(r.dia === dia && r.início === início && r.lab === lab)
+  )
+
+  localStorage.setItem("reservas", JSON.stringify(novas))
 }

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import styles from "./visao-diaria.module.css"
 
 import { get_reservas } from '../lib/api.js' 

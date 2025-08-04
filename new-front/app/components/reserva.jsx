@@ -3,7 +3,6 @@ import { hora_para_texto } from '../lib/tempo.js'
 import { useContext } from 'react'
 
 import styles from './visao-diaria.module.css'
-
 import { AbrirReservaModalContext } from './reservaContext.js'
 
 export default function Reserva({ matéria, dia, início, duração, lab, vazia }) {
@@ -20,16 +19,18 @@ export default function Reserva({ matéria, dia, início, duração, lab, vazia 
 
   const labs_names = ["A03", "A04", "D04", "D05", "D06", "D07"]
   const opts = {
-    dia: dia,
+    dia,
     início: hora_para_texto(início),
     fim: hora_para_texto(início + duração / 60),
     lab: labs_names[lab - 1],
+    matéria,
+    modoEdicao: !vazia,
   }
 
   if (vazia) {
     return (
       <div
-        className={`${styles.reserva_vazia} ${styles.vazio}`}
+        className={styles.reserva_vazia}
         style={posicionamento}
         onClick={() => abrirReserva(opts)}
         title={`Clique para reservar ${opts.lab} às ${opts.início}`}
@@ -38,8 +39,17 @@ export default function Reserva({ matéria, dia, início, duração, lab, vazia 
   }
 
   return (
-    <div title={matéria} className={styles.reserva} style={posicionamento}>
-      {corpo}
+    <div className={styles.reserva} style={posicionamento}>
+      <div>{corpo}</div>
+      <div className={styles.acoes}>
+        <button
+          className={styles.botaoEditar}
+          title="Editar reserva"
+          onClick={() => abrirReserva(opts)}
+        >
+          ✏️
+        </button>
+      </div>
     </div>
   )
 }
