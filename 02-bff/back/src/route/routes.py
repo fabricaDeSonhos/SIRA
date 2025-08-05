@@ -70,11 +70,12 @@ def create_reservation_route():
 def get_objects(mclass):
     try:
         myjson = {"result": "ok"}   
-        objs = get_all_objects(mclass)                   # get all objects
+        objs = get_objects(mclass)                   # get all objects
         response = [serialize_model(u) for u in objs]  # serialize the objects
         myjson.update({"details": response})            # add the serialized object to the answer
         return myjson
     except Exception as ex:
+        print(f"Error during {mclass} listing: {ex}")
         return {"result": "error", "details": f"error during {mclass} listing: {ex}"}
 
 @app.route('/users', methods=['GET'])
@@ -171,6 +172,7 @@ def hard_delete_object(mclass, obj_id):
         myjson.update({"details": "ok"})
         return myjson
     except Exception as ex:
+        print(f"Error during hard delete of object {mclass} with id {obj_id}: {ex}")
         return {"result": "error", "details": f"error during object ({mclass}) exclusion: {ex}"}
 
 def soft_delete_object(mclass, obj_id):
@@ -185,6 +187,7 @@ def soft_delete_object(mclass, obj_id):
         myjson.update({"details": "The Active property of the object was set to False"})
         return myjson
     except Exception as ex:
+        print(f"Error during soft delete of object {mclass} with id {obj_id}: {ex}")
         return {"result": "error", "details": f"error during object ({mclass}) exclusion: {ex}"}
 
 @app.route('/users/<int:obj_id>', methods=['DELETE'])
@@ -197,10 +200,18 @@ def delete_room(obj_id):
     myjson = soft_delete_object(Room, obj_id)
     return jsonify(myjson), 204 if myjson['result'] == 'ok' else 500
 
-@app.route('/reservations/<uuid:obj_id>', methods=['DELETE'])
-def delete_reservation(obj_id):
-    myjson = soft_delete_object(Reservation, obj_id)
-    return jsonify(myjson), 204 if myjson['result'] == 'ok' else 500
+@app.route('/reservations/<uuid:obj_id>/<int:canceler_user_id>', methods=['DELETE'])
+def delete_reservation(obj_id, canceler_user_id):
+    try:
+        canceler_user = get_object_by_id(User, canceler_user_id) # get the user who is canceling this reservation
+        if not canceler_user:
+            print(f"Invalid canceler_user_id: {canceler_user_id}")
+            return jsonify({"result": "error", "details": f"Invalid canceler_user_id ({canceler_user_id})"}), 500    # error :-(
+        myjson = soft_delete_reservation_by_id(canceler_user=canceler_user, reservation_id=obj_id)
+        return jsonify(myjson), 204 if myjson['result'] == 'ok' else 500
+    except Exception as ex:
+        print(f"Error during reservation deletion: {ex}")
+        return jsonify({"result": "error", "details": f"error during canceler_user retrieval: {ex}"}), 500
 
 # Only run if directly executed
 if __name__ == '__main__':

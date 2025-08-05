@@ -28,7 +28,7 @@ class Reservation(db.Model):
     
     canceler_user_id: Mapped[Optional[int]] = mapped_column(db.ForeignKey("users.id"), nullable=True)
     canceler_user: Mapped[Optional["User"]] = db.relationship(
-        back_populates="cancelations",
+        backref="cancelations",
         foreign_keys=[canceler_user_id])
 
     batch_id: Mapped[UUID] = db.Column(Uuid(as_uuid=True), nullable=True)

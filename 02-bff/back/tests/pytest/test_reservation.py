@@ -17,13 +17,12 @@ def test_creation():
         assert isinstance(obj.id, UUID)
         assert obj.purpose == "Matemática 201 info"
         assert obj.active is True
-
-#def test_obj_delete():
-#    with app.app_context():
+        assert obj.room_id == room.id
+        assert obj.user_id == user.id
  
         # testing delete method
         uuid = obj.id
         obj = get_object_by_id(Reservation, uuid)
         assert obj.purpose == "Matemática 201 info"
-        ok = delete_object(obj)
-        assert ok == True
+        answer = soft_delete_reservation(user, obj)
+        assert answer['result'] == "ok"

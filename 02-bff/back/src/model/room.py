@@ -8,7 +8,7 @@ class Room(db.Model):
     name: Mapped[str] = mapped_column(String(1024), nullable=False)
     active: Mapped[bool] = mapped_column(db.Boolean, default=True)
     
-    reservations: Mapped[List["Reservation"]] = db.relationship(back_populates="room")
+    reservations: Mapped[List["Reservation"]] = db.relationship("Reservation", back_populates="room")
     
     def __repr__(self):
         return f"Room(id={self.id}, name={self.name}, active={self.active})"

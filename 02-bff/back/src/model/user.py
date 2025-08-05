@@ -14,11 +14,16 @@ class User(db.Model):
     active: Mapped[bool] = mapped_column(db.Boolean, default=True)
     
     reservations: Mapped[List["Reservation"]] = db.relationship(
-        back_populates="user", foreign_keys="Reservation.user_id")
+        "Reservation", 
+        back_populates="user", 
+        foreign_keys="Reservation.user_id")
     
+    '''
     cancelations: Mapped[List["Reservation"]] = db.relationship(
-        back_populates="user", foreign_keys="Reservation.canceler_user_id")
-    
+        "Reservation", 
+        back_populates="canceler_user", 
+        foreign_keys="Reservation.canceler_user_id")
+    '''
     def __repr__(self):
         return f"<User(id={self.id}, name={self.name}, email={self.email}, "+\
                 "password={self.password}, admin={self.admin}, active={self.active})>"

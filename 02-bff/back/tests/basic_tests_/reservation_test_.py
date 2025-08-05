@@ -12,7 +12,7 @@ def reservation_test_():
     res = create_reservation(room, user, purpose="Matemática 201 info")   
 
     # Retrieve and print all objects
-    all = get_all_objects(Reservation)
+    all = get_reservations()
     print(all)
 
     # Retrieve a specific object by ID
@@ -20,9 +20,9 @@ def reservation_test_():
 
     # delete 
     print("removing object (expecting 1 'True')")
-    print(delete_object(res))
+    print(soft_delete_reservation_by_id(user, res.id))
     
     # check if there are no rooms
     print("NO MORE objects: ")
-    all = get_all_objects(Reservation)
+    all = get_reservations()
     print(all)

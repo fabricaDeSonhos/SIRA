@@ -6,7 +6,7 @@ def generic_basic_test_(m_class, **kwargs):
     obj1 = create_object(m_class, **kwargs)
     
     # Retrieve and print all rooms
-    all_objs = get_all_objects(m_class)
+    all_objs = get_objects(m_class)
     print(all_objs)
 
     # Retrieve a specific object by ID
@@ -14,10 +14,10 @@ def generic_basic_test_(m_class, **kwargs):
 
     # delete the room
     print("removing objects (expecting 1 'True')")
-    print(delete_object(obj1))
+    print(soft_delete_object(obj1))
 
     # check if there are no rooms
     print("NO MORE OBJECTS: ")
-    all_objs = get_all_objects(m_class)
+    all_objs = get_objects(m_class)
     print(all_objs)
     

@@ -19,5 +19,5 @@ def test_obj_delete():
     with app.app_context():
         obj = get_object_by_name(User, "Jack Johnson")
         assert obj.name == "Jack Johnson"
-        ok = delete_object(obj)
+        ok = soft_delete_object(obj)
         assert ok == True

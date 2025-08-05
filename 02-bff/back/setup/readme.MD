@@ -54,11 +54,9 @@ pip3 freeze > requirements
 
 5) Run the backend tests:
 
-In "tests" folder, run:
-$ python3 basic_tests_/run_basic_tests_.py
+$ python3 tests/basic_tests_/run_basic_tests_.py
 
-in "pytest" folder, run:
-$ pytest
+$ pytest -s
 
 6) Now you can run the backend :-)
 

@@ -109,5 +109,5 @@ def test_reservation_crud(client):
     assert res.status_code == 200
     assert res.get_json()["details"]["purpose"] == "Updated Meeting"
 
-    res = client.delete(f"/reservations/{reservation_id}")
+    res = client.delete(f"/reservations/{reservation_id}/{user['id']}")
     assert res.status_code == 204
