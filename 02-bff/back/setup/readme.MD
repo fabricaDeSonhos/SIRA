@@ -63,3 +63,9 @@ $ pytest -s
 In folder "SIRA/02-bff/back/src", run:
 
 flask run --debug
+
+7) After start the backend, you can also, in another terminal, run basic web tests:
+
+In the "back" folder:
+
+$ python3 tests/basic_tests_/web/basic_web_tests_.py 
