@@ -4,6 +4,7 @@ charset-normalizer==3.4.2
 click==8.2.1
 Flask==3.1.1
 flask-cors==6.0.1
+Flask-JWT-Extended==4.7.1
 Flask-SQLAlchemy==3.1.1
 greenlet==3.2.3
 idna==3.10
@@ -14,6 +15,7 @@ MarkupSafe==3.0.2
 packaging==25.0
 pluggy==1.6.0
 Pygments==2.19.2
+PyJWT==2.10.1
 pytest==8.4.1
 requests==2.32.4
 SQLAlchemy==2.0.42

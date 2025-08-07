@@ -5,6 +5,48 @@ from src.model.user import *
 from src.model.reservation import *
 from src.model.room import *
 
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+
+jwt = JWTManager(app)
+
+# --- security: LOGIN
+@app.route('/login', methods=['POST'])
+def login():
+    try:
+        data = request.json  # get the data
+        if not data or 'email' not in data or 'password' not in data:
+            return jsonify({"result": "error", "details": "Invalid login data"}), 400  # bad request
+
+        email = data['email']
+        # BY NOW, the username that is coming from the front is the email
+        user = get_user_by_email(email)  
+        if not user or not user.check_password(data['password']):  # check password
+            return jsonify({"result": "error", "details": "Invalid email or password"}), 401  # unauthorized
+
+        token = create_access_token(identity=email)
+        response = serialize_model(user)  # serialize the user object
+        response.update({"token": token})  # add the token to the response
+        return jsonify({"result": "ok", "details": response}), 200  # ok response
+    except Exception as ex:
+        return jsonify({"result": "error", "details": f"Error during login: {ex}"}), 500
+
+# --- security: LOGOUT
+# NOT IMPLEMENTED YET
+@app.route('/logout', methods=['POST'])
+@jwt_required()
+def logout():
+    try:
+        jti = get_jwt_identity()  # get the JWT identity (email)
+        # Here you would typically add the jti to a blacklist or similar mechanism
+        return jsonify({"result": "ok", "details": "Logged out successfully"}), 200  # ok response
+    except Exception as ex:
+        return jsonify({"result": "error", "details": f"Error during logout: {ex}"}), 500
+    
+# --- POST's (creation) ---
+
 # generic object creation: auxiliar function
 def create_simple_object(mclass, data):
     try:
@@ -16,9 +58,8 @@ def create_simple_object(mclass, data):
     except Exception as ex:
         return {"result":"error", "details":f"error during object creation: {ex}"}
 
-# --- POST's (creation) ---
-
 @app.route('/users', methods=['POST'])
+@jwt_required()
 def create_user():
     data = request.json                         # get the data
     answer = create_simple_object(User, data)   # try to create the object

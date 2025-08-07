@@ -47,6 +47,7 @@ pip3 install flask
 pip3 install flask_sqlalchemy
 pip3 install flask_cors
 pip3 install pytest
+pip3 install flask_jwt_extended
 
 * Maintenance: when necessary, generate new requirements:
 
