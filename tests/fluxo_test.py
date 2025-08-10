@@ -1,4 +1,4 @@
-# /tests/test_fluxo_completo.py
+# test para ver o fluxo do banco de dados
 
 import os
 import pytest
@@ -19,7 +19,7 @@ from src.repositories.reserva_repositories import ReservaRepository
 # --- Fixtures do Pytest (Configuração do Teste) ---
 
 # Define o nome do arquivo do banco de dados para que possamos inspecioná-lo depois
-DB_FILE = "test_fluxo_completo.db"
+DB_FILE = "tests/tests_outputs/fluxo_test.db"
 
 @pytest.fixture(scope="session")
 def engine():

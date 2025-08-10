@@ -1,5 +1,7 @@
 # Em main.py ou onde você inicializa o Flask
 
+# em desenvolvimento
+
 from models.database import engine, Base
 from utils.seeding import seed_initial_rooms
 from sqlalchemy.orm import Session

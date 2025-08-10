@@ -163,7 +163,6 @@ class AdminService(UserService):
     def altera_info_outros(self, target_user_id: str, update_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Muda qualquer informação de outro usuário comum.
-        SUGESTÃO: Uma política deve verificar se um admin pode alterar outro admin.
         """
         target_user = self.user_repo.get_by_id(target_user_id)
         if not target_user:

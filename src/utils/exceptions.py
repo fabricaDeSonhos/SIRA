@@ -6,3 +6,7 @@ class DuplicateRoomError(Exception):
     """
     def __init__(self, message: str):
         super().__init__(message)
+
+class DuplicateEmailError(Exception):
+    """Exceção para quando um email já está cadastrado"""
+    pass

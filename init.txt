@@ -6,6 +6,9 @@ pip install flask flask_sqlalchemy flask_cors flask-bcrypt flask-jwt-extended fl
 pip install pytest
 pip install sqlalchemy
 pip install argon2-cffi
+pip install -e .
+
+
 
 
 rodar:
@@ -13,6 +16,10 @@ com o ambiente venv ativo:
 PYTHONPATH=src
 python -m flask --app src.app run
 pytest --maxfail=1 --disable-warnings -q
+
+pytest -v -s tests/fluxo_test.py
+pytest -v -s tests/introduce_test.py
+pytest -v -s tests/tests_repositories/users_tests.py
 
 sair:
 deactivate
@@ -46,3 +53,7 @@ Já em uso: User vs Admin trocando comportamento de forma transparente (métodos
 
 padrão arquitetural:
 Camadas (Layered Architecture) com Elementos de Domain-Driven Design
+
+
+
+
