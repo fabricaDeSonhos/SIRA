@@ -4,7 +4,7 @@ Go to the folder SIRA/02-bff/back, in terminal
 
 1) Activate the virtual environment:
 
-source setup/sira_back/bin/activate
+source setup/venv/bin/activate
 
 2) Configure environment variables
 
