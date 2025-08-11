@@ -8,6 +8,8 @@ source setup/sira_back/bin/activate
 
 2) Configure environment variables
 
+Open the set/env.sh and adjust the absolute PATH inside it. After this, run:
+
 Linux:
 . setup/env.sh
 
