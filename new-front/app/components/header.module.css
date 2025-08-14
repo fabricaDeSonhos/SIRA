@@ -1,0 +1,44 @@
+.headerContainer {
+  width: 100%;
+  background-color: #e8f5f2;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  max-width: 90rem;
+  margin: 1rem auto;
+  border-radius: 12px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #004d40;
+  margin-right: 2rem;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #004d40;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar a:hover {
+  background-color: #cdeae1;
+  color: #00332b;
+}
