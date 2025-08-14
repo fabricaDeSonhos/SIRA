@@ -83,7 +83,7 @@ export default function NovaReserva({ dia, início, fim, lab, matéria = "", mod
             🗑️ Excluir
           </button>
         )}
-        <Button desc="Cancelar" onClick={fecharReserva} />
+        <Button desc="Cancelar" onClick={() => fecharReserva("")} />
       </div>
     </form>
   )
