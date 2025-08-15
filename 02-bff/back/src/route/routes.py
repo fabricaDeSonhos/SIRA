@@ -108,7 +108,7 @@ def create_reservation_route():
 # --- GET's LIST ---
 
 # auxiliar function
-def get_objects(mclass):
+def get_objects_helper(mclass):
     try:
         myjson = {"result": "ok"}   
         objs = get_objects(mclass)                   # get all objects
@@ -121,17 +121,17 @@ def get_objects(mclass):
 
 @app.route('/users', methods=['GET'])
 def list_users():
-    myjson = get_objects(User)
+    myjson = get_objects_helper(User)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
 @app.route('/rooms', methods=['GET'])
 def list_rooms():
-    myjson = get_objects(Room)
+    myjson = get_objects_helper(Room)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
 @app.route('/reservations', methods=['GET'])
 def list_reservations():
-    myjson = get_objects(Reservation)
+    myjson = get_objects_helper(Reservation)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
 
