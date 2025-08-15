@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, abort
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
+from flask_cors import CORS
 
 from uuid import uuid4, UUID
 
@@ -48,6 +49,7 @@ elif SIRA_DB == "MYSQL":
 
 # create the app
 app = Flask(__name__)
+CORS(app)
 
 # Configure the SQLAlchemy URI (using SQLite for simplicity)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
