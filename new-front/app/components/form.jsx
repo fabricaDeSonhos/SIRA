@@ -19,7 +19,7 @@ export function Select({desc, options, value, name}) {
     <div id={id} className={styles.select}>
       <label htmlFor={ id }>{ desc }</label>
       <select id={id} defaultValue={value} name={name}>
-        {options.map(o => <option>{o}</option>)}
+        {options.map(o => <option key={o}>{o}</option>)}
       </select>
     </div>
   )
