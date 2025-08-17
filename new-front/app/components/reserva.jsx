@@ -13,7 +13,7 @@ export default function Reserva({ id, matéria, dia, início, duração, lab, va
 
   const posicionamento = {
     gridRow: topo,
-    gridRowEnd: 'span ' + duração,
+    gridRowEnd: 'span ' + Math.floor(duração),
     gridColumn: lab + 1,
   }
 
