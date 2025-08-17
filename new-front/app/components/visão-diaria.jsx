@@ -1,6 +1,6 @@
 import styles from "./visao-diaria.module.css"
 
-import { get_reservas } from '../lib/api.js' 
+import { get_reservas, useReservations } from '../lib/api.js' 
 import Reserva from './reserva.jsx'
 
 
@@ -13,10 +13,13 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite }) {
     : new Date(dia).toISOString().slice(0, 10)
 
   const reservas_data = get_reservas(data_formatada)
+  const {reservations, error, isLoading} = useReservations()
 
-  const reservas = reservas_data.map((r, i) => (
+  console.log(reservations)
+  const reservas = isLoading ? [] : reservations.map((r, i) => (
     <Reserva
-      key={`reserva-${i}`}
+      key={r.id}
+      id={r.id}
       matéria={r.matéria}
       início={r.início}
       duração={r.duração}

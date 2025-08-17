@@ -5,7 +5,7 @@ import { useContext } from 'react'
 import styles from './visao-diaria.module.css'
 import { AbrirReservaModalContext } from './reservaContext.js'
 
-export default function Reserva({ matéria, dia, início, duração, lab, vazia }) {
+export default function Reserva({ id, matéria, dia, início, duração, lab, vazia }) {
   const abrirReserva = useContext(AbrirReservaModalContext)
 
   const topo = Math.max((início - 8) * 60 + 1, 2)
@@ -19,6 +19,7 @@ export default function Reserva({ matéria, dia, início, duração, lab, vazia 
 
   const labs_names = ["A03", "A04", "D04", "D05", "D06", "D07"]
   const opts = {
+    id,
     dia,
     início: hora_para_texto(início),
     fim: hora_para_texto(início + duração / 60),

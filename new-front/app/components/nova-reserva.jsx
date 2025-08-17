@@ -8,11 +8,16 @@ import { tempo_para_número } from '../lib/tempo.js'
 
 import { useContext } from 'react'
 import { FecharReservaModalContext } from './reservaContext.js'
+import {useReservations, useReservation} from '../lib/api.js'
+
 import moment from 'moment'
 
-export default function NovaReserva({ dia, início, fim, lab, matéria = "", modoEdicao = false }) {
+export default function NovaReserva({id,  dia, início, fim, lab, matéria = "", modoEdicao = false }) {
   const LABS = ["A03", "A04", "D04", "D05", "D06", "D07"]
   const fecharReserva = useContext(FecharReservaModalContext)
+
+
+  const {addReserva, deleteReserva} = useReservations()
 
   const [disciplina, professor] = matéria.split(" - ")
 
@@ -39,13 +44,23 @@ export default function NovaReserva({ dia, início, fim, lab, matéria = "", mod
         lab: LABS.indexOf(lab) + 1,
       })
     }
-
+    /*
     add_reserva({
       matéria: `${disp} - ${prof}`,
       dia: novoDia,
       início: novoInício,
       duração: (novoFim - novoInício) * 60,
       lab: novoLab,
+    })
+    */
+
+    addReserva({
+      room_id: novoLab,
+      date: diaInput,
+      start_time: inícioInput + ":00",
+      end_time: fimInput + ":00",
+      purpose: disp,
+
     })
 
     fecharReserva("Reserva salva com sucesso!")
@@ -54,13 +69,15 @@ export default function NovaReserva({ dia, início, fim, lab, matéria = "", mod
   const handleExcluir = async () => {
     const confirmar = window.confirm("Tem certeza que deseja excluir esta reserva?")
     if (!confirmar) return
-
+    /*
     await remover_reserva({
       dia: moment(dia).format("YYYY-MM-DD"),
       início: tempo_para_número(início),
       lab: LABS.indexOf(lab) + 1,
     })
+    */
 
+    deleteReserva(id)
     fecharReserva("Reserva excluída!")
   }
 

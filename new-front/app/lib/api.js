@@ -1,3 +1,7 @@
+
+import useSWR from 'swr';
+import {tempo_para_número} from './tempo.js'
+
 function reserva(lab, matéria, dia, início, duração) {
   return { lab, matéria, dia, início, duração: duração * 60 }
 }
@@ -55,4 +59,102 @@ export function remover_reserva({ dia, início, lab }) {
   )
 
   localStorage.setItem("reservas", JSON.stringify(novas))
+}
+
+
+
+
+const API_BASE_URL = "http://localhost:5000";
+
+export const fetcher = async (url) => {
+  const res = await fetch(`${API_BASE_URL}${url}`);
+  if (!res.ok) {
+    const error = new Error("An error occurred while fetching the data.");
+    error.status = res.status;
+    throw error;
+  }
+  return res.json();
+
+};
+
+
+
+function api2reserva(api_res) {
+  const hoje = new Date()
+  const diaHoje = hoje.toISOString().slice(0, 10)
+
+  const id = api_res.id
+  const lab = api_res.room_id
+  const matéria = api_res.purpose
+  const dia = diaHoje
+  const início = tempo_para_número(api_res.start_time)
+  const duração = tempo_para_número(api_res.end_time) - início
+
+  return {id, lab, matéria, dia, início, duração: duração*60}
+}
+
+export const useReservations = () => {
+  const { data, error, isLoading, mutate } = useSWR('/reservations', fetcher);
+  console.log(data)
+  const reservations = !isLoading ? data.details.map(api2reserva) : data
+  
+  const addReserva = async (newItem) => {
+    newItem.user_id = 7
+    // Optimistic update: Immediately update the local cache
+    mutate({details: [...(reservations || []), newItem]}, false);
+
+  /*
+    {
+     userId,
+     roomId,
+     date,
+     startTime,
+     endTime
+    }
+    */
+    try {
+      // Make the POST request to the API
+      await fetch(`${API_BASE_URL}/reservations`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newItem),
+      });
+
+      // Re-validate the data from the server
+      mutate();
+    } catch (e) {
+      // Revert to the previous data if the request fails
+      mutate(reservations);
+      console.error("Failed to add item:", e);
+    }
+  };
+
+  const deleteReserva = async (reservaId) => {
+      // Optimistic update
+      const optimisticData = reservations.filter((u) => u.id !== reservaId);
+      mutate({details: optimisticData}, false);
+
+      try {
+        await fetch(`${API_BASE_URL}/reservations/${reservaId}/7`, {
+          method: 'DELETE',
+        });
+        // Re-fetch
+        mutate();
+      } catch (error) {
+        // Revert
+        mutate({details: reservations});
+      }
+    };
+
+  return { reservations, error, isLoading, addReserva, deleteReserva};
+};
+
+export const useReservation = (reservaId) => {
+  const { data, error, isLoading, mutate } = useSWR(reservaId ? `/reservations/${reservaId}` : null, fetcher);
+
+  const reservation = !isLoading ? api2reserva(data.details) : data
+
+  return { reservation, error, isLoading, mutate, deleteReserva };
 }

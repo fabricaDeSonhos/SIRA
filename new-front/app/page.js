@@ -43,6 +43,7 @@ export default function Home() {
 
   const mostrarReservaModal = (opt) => {
     setNovaReservaOpts({
+      id: opt.id,
       dia: opt.dia,
       início: opt.início,
       fim: opt.fim,
