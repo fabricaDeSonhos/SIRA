@@ -6,6 +6,13 @@ function reserva(lab, matéria, dia, início, duração) {
   return { lab, matéria, dia, início, duração: duração * 60 }
 }
 
+function update_obj(source, changes) {
+  for (let key in changes) {
+    if (key in source)
+      source[key] = changes[key]
+  }
+}
+
 // Mock: reservas fixas (não podem ser removidas via interface)
 const hoje = new Date()
 const diaHoje = hoje.toISOString().slice(0, 10)
@@ -98,21 +105,16 @@ const _useReservations = () => {
   const { data, error, isLoading, mutate } = useSWR('/reservations', fetcher);
   
   const addReserva = async (newItem) => {
+    // user_id 7 is an admin
+    // obviously, this will change when authentication is implemented
     newItem.user_id = 7
+
+
     // Optimistic update: Immediately update the local cache
     const optimisticData = data
     optimisticData.details = [...(optimisticData.details || []), newItem]
     mutate(optimisticData, false);
 
-  /*
-    {
-     userId,
-     roomId,
-     date,
-     startTime,
-     endTime
-    }
-    */
     try {
       // Make the POST request to the API
       await fetch(`${API_BASE_URL}/reservations`, {
@@ -151,15 +153,38 @@ const _useReservations = () => {
       }
     };
 
-  return { data, error, isLoading, addReserva, deleteReserva};
+  // changesObj is a reservation object, only edited values are present
+  const putReserva = async (reservaId, changesObj) => {
+    const od = data 
+
+    const i = od.details.findIndex(x => x.id == reservaId)
+    update_obj(od.details[i], changesObj)
+
+    mutate(od, false)
+
+    try {
+      await fetch(`${API_BASE_URL}/reservations/${reservaId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(changesObj)
+      })
+      mutate()
+    } catch (error) {
+      mutate(data)
+    }
+  }
+
+  return { data, error, isLoading, addReserva, deleteReserva, putReserva};
 };
 export const useReservations = () => {
 
-  const {data, error, isLoading, mutate, addReserva, deleteReserva} = _useReservations()
+  const {data, error, isLoading, mutate, addReserva, deleteReserva, putReserva} = _useReservations()
   console.log(data)
   const reservations = !isLoading ? data.details.map(api2reserva) : data
 
-  return { reservations, error, isLoading, addReserva, deleteReserva};
+  return { reservations, error, isLoading, addReserva, deleteReserva, putReserva};
 }
 
 export const useReservation = (reservaId) => {

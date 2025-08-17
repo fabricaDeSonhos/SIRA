@@ -17,7 +17,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
   const fecharReserva = useContext(FecharReservaModalContext)
 
 
-  const {addReserva, deleteReserva} = useReservations()
+  const {addReserva, deleteReserva, putReserva} = useReservations()
 
   const [disciplina, professor] = matéria.split(" - ")
 
@@ -38,21 +38,16 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
     const novoLab = LABS.indexOf(labInput) + 1
 
     if (modoEdicao) {
-      remover_reserva({
-        dia: moment(dia).format("YYYY-MM-DD"),
-        início: tempo_para_número(início),
-        lab: LABS.indexOf(lab) + 1,
-      })
-    }
-    /*
-    add_reserva({
-      matéria: `${disp} - ${prof}`,
-      dia: novoDia,
-      início: novoInício,
-      duração: (novoFim - novoInício) * 60,
-      lab: novoLab,
-    })
-    */
+
+      const reservaObj = {
+        start_time: inícioInput + ":00",
+        end_time: fimInput + ":00",
+        purpose: disp,
+        date: diaInput,
+        room_id: novoLab,
+      }
+      putReserva(id, reservaObj)
+    } else {
 
     addReserva({
       room_id: novoLab,
@@ -62,6 +57,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
       purpose: disp,
 
     })
+    }
 
     fecharReserva("Reserva salva com sucesso!")
   }
@@ -87,7 +83,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
       <h2>{modoEdicao ? "Editar Reserva" : "Nova Reserva"}</h2>
 
       <Input name="prof" desc="Professor" defaultValue={professor || ""} />
-      <Input name="disp" desc="Disciplina" defaultValue={disciplina || ""} />
+      <Input name="disp" desc="Disciplina" value={matéria} />
       <Input name="dia" type="date" desc="Dia" value={dia} />
       <Input name="início" type="time" desc="Início" value={início} />
       <Input name="fim" type="time" desc="Fim" value={fim} />
