@@ -214,6 +214,12 @@ def update_object(mclass, obj_id):
         if not obj:
             return {"result": "error", "details": f"{mclass}({obj_id}) not found "}
         for key, value in request.json.items():         # update the object
+            if 'date' == key and isinstance(value, str):
+                value = datetime.strptime(value, "%Y-%m-%d").date()
+            if 'start_time' == key and isinstance(value, str):
+                value = datetime.strptime(value, "%H:%M:%S").time()
+            if 'end_time' == key and isinstance(value, str):
+                value = datetime.strptime(value, "%H:%M:%S").time()
             setattr(obj, key, value)
         db.session.commit()                            # confirm the update
         response = serialize_model(obj)                # serialize the updated object
