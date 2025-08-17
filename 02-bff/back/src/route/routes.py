@@ -119,6 +119,17 @@ def get_objects_helper(mclass):
         print(f"Error during {mclass} listing: {ex}")
         return {"result": "error", "details": f"error during {mclass} listing: {ex}"}
 
+def get_reservations_helper():
+    try:
+        myjson = {"result": "ok"}   
+        objs = get_reservations()                   # get all objects
+        response = [serialize_model(u) for u in objs]  # serialize the objects
+        myjson.update({"details": response})            # add the serialized object to the answer
+        return myjson
+    except Exception as ex:
+        print(f"Error during {mclass} listing: {ex}")
+        return {"result": "error", "details": f"error during {mclass} listing: {ex}"}
+
 @app.route('/users', methods=['GET'])
 def list_users():
     myjson = get_objects_helper(User)
@@ -131,7 +142,7 @@ def list_rooms():
 
 @app.route('/reservations', methods=['GET'])
 def list_reservations():
-    myjson = get_objects_helper(Reservation)
+    myjson = get_reservations_helper()
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
 
