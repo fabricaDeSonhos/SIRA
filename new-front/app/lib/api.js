@@ -93,15 +93,16 @@ function api2reserva(api_res) {
   return {id, lab, matéria, dia, início, duração: duração*60}
 }
 
-export const useReservations = () => {
+
+const _useReservations = () => {
   const { data, error, isLoading, mutate } = useSWR('/reservations', fetcher);
-  console.log(data)
-  const reservations = !isLoading ? data.details.map(api2reserva) : data
   
   const addReserva = async (newItem) => {
     newItem.user_id = 7
     // Optimistic update: Immediately update the local cache
-    mutate({details: [...(reservations || []), newItem]}, false);
+    const optimisticData = data
+    optimisticData.details = [...(optimisticData.details || []), newItem]
+    mutate(optimisticData, false);
 
   /*
     {
@@ -126,15 +127,17 @@ export const useReservations = () => {
       mutate();
     } catch (e) {
       // Revert to the previous data if the request fails
-      mutate(reservations);
+      mutate(data);
       console.error("Failed to add item:", e);
     }
   };
 
   const deleteReserva = async (reservaId) => {
       // Optimistic update
-      const optimisticData = reservations.filter((u) => u.id !== reservaId);
-      mutate({details: optimisticData}, false);
+      const optimisticData = data
+      optimisticData.details = data.details.filter((u) => u.id !== reservaId);
+
+      mutate(optimisticData, false);
 
       try {
         await fetch(`${API_BASE_URL}/reservations/${reservaId}/7`, {
@@ -144,15 +147,23 @@ export const useReservations = () => {
         mutate();
       } catch (error) {
         // Revert
-        mutate({details: reservations});
+        mutate(data);
       }
     };
 
-  return { reservations, error, isLoading, addReserva, deleteReserva};
+  return { data, error, isLoading, addReserva, deleteReserva};
 };
+export const useReservations = () => {
+
+  const {data, error, isLoading, mutate, addReserva, deleteReserva} = _useReservations()
+  console.log(data)
+  const reservations = !isLoading ? data.details.map(api2reserva) : data
+
+  return { reservations, error, isLoading, addReserva, deleteReserva};
+}
 
 export const useReservation = (reservaId) => {
-  const { data, error, isLoading, mutate } = useSWR(reservaId ? `/reservations/${reservaId}` : null, fetcher);
+  const { data, error, isLoading, mutate, addReserva, deleteReserva } = useSWR(reservaId ? `/reservations/${reservaId}` : null, fetcher);
 
   const reservation = !isLoading ? api2reserva(data.details) : data
 
