@@ -6,7 +6,7 @@ from typing import List, Optional, Dict, Any
 from sqlalchemy.orm import Session
 
 from ..models.user_models import User, Admin
-from ..models.reserva_models import Reserva
+from ..models.reserva_models import Reserva, ReservationStatus
 # Importe a política de permissões que criamos anteriormente
 from ..policies.reserva_policy import ReservaPolicy
 
@@ -19,7 +19,7 @@ class ReservaRepository:
         self.db = db_session
         self.policies = ReservaPolicy()
 
-    def get_by_id(self, reserva_id: int) -> Optional[Reserva]:
+    def get_by_id(self, reserva_id: uuid.UUID) -> Optional[Reserva]:
         """Busca uma reserva pelo seu ID."""
         return self.db.query(Reserva).filter(Reserva.id == reserva_id).first()
 
@@ -31,7 +31,7 @@ class ReservaRepository:
         """
         query = self.db.query(Reserva).filter(Reserva.user_id == user_id)
         if active_only:
-            query = query.filter(Reserva.is_active == True)
+            query = query.filter(Reserva.status == ReservationStatus.ACTIVE)
         
         return query.order_by(Reserva.created_at.desc()).all()
 
@@ -43,10 +43,10 @@ class ReservaRepository:
         self.policies.can_create(acting_user, reserva_data)
 
         # 2. Se a política passou, cria o objeto
-        nova_reserva = Reserva(
-            **reserva_data,
-            user_id=acting_user.id
-        )
+        nova_reserva = Reserva(**reserva_data)
+
+        if reserva_data.get("status") == ReservationStatus.FIXED:
+            self.policies.can_create_fixed_reserva(acting_user)
 
         # 3. Persiste no banco
         self.db.add(nova_reserva)

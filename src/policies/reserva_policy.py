@@ -25,6 +25,16 @@ class ReservaPolicy:
         
         return True # Se nenhuma exceção foi levantada, a ação é permitida.
 
+    def can_create_fixed_reserva(self, user: User):
+            """
+            Verifica a permissão específica para criar uma reserva FIXA.
+            Apenas Admins podem fazer isso.
+            """
+            self._is_user_active(user) # Garante que o usuário está ativo
+            if not isinstance(user, Admin):
+                raise PermissionError("Apenas administradores podem criar reservas fixas.")
+            return True
+
     def can_view(self, user: User, reservation: Reserva):
         """Verifica se o usuário pode visualizar uma reserva específica."""
         self._is_user_active(user)
@@ -55,4 +65,16 @@ class ReservaPolicy:
         """Verifica se o usuário pode deletar uma reserva específica."""
         # A lógica para deletar e atualizar costuma ser a mesma.
         self.can_update(user, reservation)
+        return True
+    
+    def can_create_for_another_user(self, user: User):
+        """
+        Verifica se o usuário tem permissão para criar uma reserva em nome de outro.
+        Apenas Admins podem fazer isso.
+        """
+        self._is_user_active(user) # Reutiliza a verificação de usuário ativo
+
+        if not isinstance(user, Admin):
+            raise PermissionError("Apenas administradores podem criar reservas para outros usuários.")
+        
         return True

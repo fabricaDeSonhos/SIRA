@@ -49,7 +49,7 @@ class Reserva(Base):
 
     # Usando o Enum atualizado, com um valor padrão
     status: Mapped[ReservationStatus] = mapped_column(EnumDB(ReservationStatus),default=ReservationStatus.ACTIVE,nullable=False)
-    details: Mapped[str] = mapped_column(String(300),nullable=False,comment="Detalhes específicos da reserva.")
+    details: Mapped[str] = mapped_column(String(300),nullable=True,comment="Detalhes específicos da reserva.")
     
     # Timestamps usando funções do servidor de banco de dados (mais robusto)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now(), nullable=False)

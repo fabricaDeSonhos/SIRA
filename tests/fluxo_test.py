@@ -27,6 +27,11 @@ def engine():
     Fixture que cria o motor do banco de dados uma vez por sessão de teste.
     Garante um banco de dados limpo a cada execução.
     """
+
+    # Garante que o diretório de saída para o banco de dados de teste exista.
+    db_dir = os.path.dirname(DB_FILE)
+    os.makedirs(db_dir, exist_ok=True)
+
     # 1) Antes de tudo, apaga o arquivo velho (se existir) para garantir um teste limpo
     if os.path.exists(DB_FILE):
         os.remove(DB_FILE)

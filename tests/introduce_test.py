@@ -23,6 +23,11 @@ DB_FILE = "tests/tests_outputs/introduce_test.db"
 
 @pytest.fixture(scope="session")
 def engine():
+
+        # Garante que o diretório de saída para o banco de dados de teste exista.
+    db_dir = os.path.dirname(DB_FILE)
+    os.makedirs(db_dir, exist_ok=True)
+
     # 1) Remove banco velho
     if os.path.exists(DB_FILE):
         os.remove(DB_FILE)

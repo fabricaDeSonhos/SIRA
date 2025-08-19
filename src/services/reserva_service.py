@@ -14,22 +14,49 @@ class ReservaService:
     Camada de serviço que orquestra as operações de negócio para Reservas.
     """
     def __init__(self, acting_user: User, db_session: Session):
+        if not acting_user:
+            raise ValueError("Um usuário ativo é necessário para inicializar o serviço.")
+    
         self.acting_user = acting_user
         self.db = db_session
         self.repo = ReservaRepository(db_session)
         self.policies = ReservaPolicy()
 
-    def create_reserva(self, details: str, is_fixed: bool = False) -> Reserva:
+    def create_reserva(self, reserva_data: Dict[str, Any]) -> Reserva:
         """
-        Cria uma nova reserva para o usuário logado.
-        :param details: Detalhes da reserva.
-        :param is_fixed: Se a reserva é fixa (requer permissão de admin).
+        Cria uma nova reserva para o usuário que está agindo (acting_user).
+        Este é o método padrão para usuários comuns e admins que reservam para si mesmos.
         """
-        reserva_data = {"details": details, "is_fixed": is_fixed}
-        # Delega a criação e a verificação de permissão para o repositório
-        return self.repo.create(self.acting_user, reserva_data)
+        # Prepara o payload, garantindo que a reserva seja para o usuário logado.
+        payload = reserva_data.copy()
+        payload['user_id'] = self.acting_user.id
+        
+        print(f"Usuário '{self.acting_user.name}' está criando uma reserva para si mesmo.")
+        
+        # Chama o repositório com os dados já processados.
+        return self.repo.create(self.acting_user, payload)
 
-    def get_reserva_by_id(self, reserva_id: int) -> Optional[Reserva]:
+    def create_reserva_for_user(self, target_user_id: uuid.UUID, reserva_data: Dict[str, Any]) -> Reserva:
+        """
+        (Admin-only) Cria uma nova reserva em nome de outro usuário.
+        
+        :param target_user_id: O ID do usuário para quem a reserva será criada.
+        :param reserva_data: Dicionário com os detalhes da reserva.
+        """
+        # --- LÓGICA DE NEGÓCIO E SEGURANÇA ---
+        # 2. Se a política não levantou um erro, o serviço prossegue com a lógica de negócio
+        self.policies.can_create_for_another_user(self.acting_user)
+
+        # Prepara o payload, garantindo que a reserva seja para o usuário alvo.
+        payload = reserva_data.copy()
+        payload['user_id'] = target_user_id
+
+        print(f"Admin '{self.acting_user.name}' está criando uma reserva para o usuário ID: {target_user_id}")
+
+        # Chama o repositório com os dados processados.
+        return self.repo.create(self.acting_user, payload)
+
+    def get_reserva_by_id(self, reserva_id: uuid.UUID) -> Optional[Reserva]:
         """
         Busca uma reserva por ID e verifica se o usuário tem permissão para vê-la.
         """
@@ -41,7 +68,7 @@ class ReservaService:
         self.policies.can_view(self.acting_user, reserva)
         return reserva
 
-    def cancelar_reserva(self, reserva_id: int) -> Reserva:
+    def cancelar_reserva(self, reserva_id: uuid.UUID) -> Reserva:
         """
         Cancela uma reserva, tornando-a inativa.
         """

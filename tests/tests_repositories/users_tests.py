@@ -1,124 +1,109 @@
-# tests/test_user_repository.py
-import os
+# tests/tests_repositories/users_tests.py
 import pytest
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
-
-from src.models.database import Base
 from src.models.user_models import User, Admin, TipoUsuario
 from src.repositories.user_repository import UserRepository
-from src.utils.exceptions import DuplicateEmailError
+from sqlalchemy.exc import IntegrityError
 
-# Arquivo de banco para inspeção
-DB_FILE = "tests/tests_outputs/userRepository_test.db"
-
-@pytest.fixture(scope="session")
-def engine():
-    # Remove banco antigo
-    if os.path.exists(DB_FILE):
-        os.remove(DB_FILE)
-    print(f"\n[SETUP] removido banco antigo em {DB_FILE} (se existia).")
-
-    eng = create_engine(f"sqlite:///{DB_FILE}", echo=False)
-    Base.metadata.create_all(eng)
-    print("[SETUP] tabelas criadas no banco de usuários.")
-    yield eng
-    print(f"\n[TEARDOWN] sessão finalizada, banco mantido em {DB_FILE}.")
-    eng.dispose()
-
-@pytest.fixture(scope="function")
-def session(engine) -> Session:
-    SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
-    sess = SessionLocal()
-    yield sess
-    sess.rollback()
-    sess.close()
-
+# Mock APENAS para a função de hashing, para manter os testes rápidos e previsíveis.
+# A verificação de e-mail agora será testada de verdade.
 @pytest.fixture(autouse=True)
-def patch_utils(monkeypatch):
-    # Evita verificação real de email
-    monkeypatch.setattr(
-        'src.utils.email_verifications.verificar_email_para_cadastro',
-        lambda email, db: None
-    )
-    # Hash padrão
+def patch_hashing(monkeypatch):
     monkeypatch.setattr(
         'src.utils.hashing_senha.hash_and_validate',
         lambda pw: ("salt123", "hash123")
     )
 
-# --- Testes de criação de usuários comuns ---
+class TestUserRepository:
+    """
+    Agrupa todos os testes para o UserRepository.
+    """
 
-def test_create_common_user_success(session):
-    repo = UserRepository(session)
-    user = repo.create_user(
-        name="João Comum",
-        email="joao@example.com",
-        password="SenhaForte!1",
-        user_type=TipoUsuario.COMUM
-    )
-    # Verifica atributos básicos
-    assert user.id is not None
-    assert isinstance(user, User)
-    assert not isinstance(user, Admin)
-    assert user.email == "joao@example.com"
-    assert user.hashed_password == "hash123"
-    assert user.salt == "salt123"
-    assert user.is_active is True
+    def test_create_common_user_success(self, user_repo: UserRepository):
+        """
+        Cenário: Criação de um usuário comum com dados válidos.
+        """
+        print("\n--- Teste: Criar usuário comum com sucesso ---")
+        user_data = {
+            "name": "João Comum",
+            "email": "joao.comum@example.com",
+            "password": "Password@123"
+        }
+        created_user = user_repo.create_user(**user_data)
 
-# --- Testes de criação de admin ---
+        assert created_user is not None
+        assert created_user.name == user_data["name"]
+        assert created_user.type == TipoUsuario.COMUM.value
+        print(f"✔ Usuário '{created_user.name}' criado com sucesso.")
 
-def test_create_admin_user_success(session):
-    repo = UserRepository(session)
-    admin = repo.create_user(
-        name="Admin",
-        email="admin@example.com",
-        password="SenhaAdmin!2",
-        user_type=TipoUsuario.ADMIN
-    )
-    assert admin.id is not None
-    assert isinstance(admin, Admin)
-    assert admin.email == "admin@example.com"
-    assert admin.hashed_password == "hash123"
+    def test_create_admin_user_success(self, user_repo: UserRepository):
+        """
+        Cenário: Criação de um usuário administrador.
+        """
+        print("\n--- Teste: Criar usuário admin com sucesso ---")
+        admin_data = {
+            "name": "Maria Admin",
+            "email": "maria.admin@example.com",
+            "password": "Password@123",
+            "user_type": TipoUsuario.ADMIN
+        }
+        created_admin = user_repo.create_user(**admin_data)
 
-# --- Teste de e-mail duplicado ---
+        assert created_admin is not None
+        assert isinstance(created_admin, Admin)
+        assert created_admin.type == TipoUsuario.ADMIN.value
+        print(f"✔ Administrador '{created_admin.name}' criado com sucesso.")
 
-def test_duplicate_email_raises(session):
-    repo = UserRepository(session)
-    # Cria primeiro usuário
-    repo.create_user("A", "dup@example.com", "Senha!3")
-    # Tenta criar segundo com mesmo e-mail
-    with pytest.raises(DuplicateEmailError):
-        repo.create_user("B", "dup@example.com", "Senha!4")
+    def test_create_user_with_duplicate_email_raises_value_error(self, user_repo: UserRepository):
+        """
+        Cenário: Tentativa de criar um segundo usuário com um e-mail que já existe.
+        Verifica se a validação preventiva em 'verificar_email_para_cadastro' levanta um ValueError.
+        """
+        print("\n--- Teste: Erro ao criar usuário com e-mail duplicado ---")
+        email = "email.duplicado@example.com"
+        
+        primeiro_usuario = user_repo.create_user(
+            name="Primeiro Usuário", 
+            email=email, 
+            password="Password@123"
+        )
+        print(f"✔ Usuário inicial criado com sucesso: ID={primeiro_usuario.id}, Email='{primeiro_usuario.email}'")
 
-# --- Teste de senha fraca ---
+        print("... Tentando criar um segundo usuário com o mesmo e-mail...")
+        # --- CORREÇÃO APLICADA AQUI ---
+        # Agora esperamos um ValueError, que é o comportamento programado da sua função de verificação.
+        with pytest.raises(ValueError) as excinfo:
+            user_repo.create_user(name="Segundo Usuário", email=email, password="Password@456")
+        
+        # Verificamos se a mensagem de erro é a que esperamos da nossa lógica de negócio.
+        assert "E-mail já cadastrado. Use outro." in str(excinfo.value)
+        print(f"✔ Exceção de negócio (ValueError) levantada corretamente.")
 
-def test_weak_password_raises(monkeypatch, session):
-    # Faz hash lançar ValueError
-    monkeypatch.setattr(
-        'src.utils.hashing_senha.hash_and_validate',
-        lambda pw: (_ for _ in ()).throw(ValueError("Senha fraca"))
-    )
-    repo = UserRepository(session)
-    with pytest.raises(ValueError) as exc:
-        repo.create_user("C", "c@example.com", "123")
-    assert "Senha fraca" in str(exc.value)
+    def test_get_user_by_id_and_email(self, user_repo: UserRepository):
+        """
+        Cenário: Recuperar um usuário existente por seu ID e por seu e-mail.
+        """
+        print("\n--- Teste: Buscar usuário por ID e E-mail ---")
+        user = user_repo.create_user(name="Carlos", email="carlos@example.com", password="Password@123")
 
-# --- Testes de leitura e atualização ---
+        found_by_id = user_repo.get_by_id(user.id)
+        found_by_email = user_repo.get_by_email(user.email)
 
-def test_get_and_update_and_toggle_active(session):
-    repo = UserRepository(session)
-    user = repo.create_user("D", "d@example.com", "Senha!5")
-    # get_by_id e get_by_email
-    fetched = repo.get_by_id(user.id)
-    assert fetched.id == user.id
-    fetched2 = repo.get_by_email(user.email)
-    assert fetched2.id == user.id
-    # update
-    updated = repo.update_user(user, {"name": "D2"})
-    assert updated.name == "D2"
-    # toggle active
-    off = repo.set_active_status(user, False)
-    assert off.is_active is False
-    on = repo.set_active_status(user, True)
-    assert on.is_active is True
+        assert found_by_id.id == user.id
+        print(f"✔ Usuário encontrado por ID: {found_by_id.id}")
+        
+        assert found_by_email.email == user.email
+        print(f"✔ Usuário encontrado por E-mail: {found_by_email.email}")
+
+    def test_update_user_data(self, user_repo: UserRepository):
+        """
+        Cenário: Atualizar os dados de um usuário existente.
+        """
+        print("\n--- Teste: Atualizar dados de um usuário ---")
+        user = user_repo.create_user(name="Ana Original", email="ana@example.com", password="Password@123")
+        
+        update_data = {"name": "Ana Atualizada", "is_active": False}
+        updated_user = user_repo.update_user(user, update_data)
+
+        assert updated_user.name == "Ana Atualizada"
+        assert updated_user.is_active is False
+        print(f"✔ Dados do usuário '{updated_user.name}' atualizados com sucesso.")

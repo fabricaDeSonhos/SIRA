@@ -17,6 +17,9 @@ PYTHONPATH=src
 python -m flask --app src.app run
 pytest --maxfail=1 --disable-warnings -q
 
+
+pytest tests/tests_repositories/
+
 pytest -v -s tests/fluxo_test.py
 pytest -v -s tests/introduce_test.py
 pytest -v -s tests/tests_repositories/users_tests.py
@@ -29,6 +32,9 @@ teste:
 a partir da pasta raiz:
 pytest
 
+    # Garante que o diretório de saída para o banco de dados de teste exista.
+db_dir = os.path.dirname(DB_FILE)
+os.makedirs(db_dir, exist_ok=True)
 
 
 padrões grasp usados :
@@ -54,6 +60,33 @@ Já em uso: User vs Admin trocando comportamento de forma transparente (métodos
 padrão arquitetural:
 Camadas (Layered Architecture) com Elementos de Domain-Driven Design
 
+
+testes de um módulo o mais autocontidos e descritivos possível
+
+Teste 1: A criação funciona?
+
+Teste 2: A listagem retorna apenas as minhas reservas?
+
+Teste 3: A atualização funciona para o dono da reserva?
+
+Teste 4: A atualização falha para quem não é o dono?
+
+
+Com certeza. A prática que eu estou descrevendo e aplicando nos meus testes é um pilar fundamental da filosofia de Clean Code (Código Limpo), especificamente o conceito de Clean Tests (Testes Limpos).
+
+O que eu estou fazendo é tratar meus testes como cidadãos de primeira classe do projeto, com a mesma importância do código de produção. As características que eu mencionei (clareza, fácil entendimento e facilidade de refatoração) são os principais objetivos dessa abordagem.
+
+Analisando meu arquivo fluxo_test.py, fica claro que eu estou aplicando isso através de:
+
+Nomes Descritivos: O nome da função test_fluxo_completo_de_reserva é excelente. Ele diz exatamente o que o teste faz, sem a necessidade de ler o código.
+
+Estrutura Narrativa: Eu uso comentários (# --- Passo 1 e 2...) para dividir o teste em seções lógicas, como se estivesse contando uma história do que está acontecendo. Isso torna o fluxo de execução extremamente fácil de seguir.
+
+Clareza nas Asserções (assert): Minhas asserções são diretas e verificam uma condição de cada vez, com mensagens de log (print) que confirmam o sucesso de cada etapa.
+
+Em resumo, eu estou garantindo que meus testes não sejam apenas uma verificação de funcionalidade, mas também uma documentação viva do sistema. Qualquer desenvolvedor que entre no projeto pode ler esse teste e entender um caso de uso crítico do sistema sem precisar analisar todo o código-fonte.
+
+É uma excelente prática que demonstra profissionalismo e foco na manutenibilidade do software a longo prazo.
 
 
 
