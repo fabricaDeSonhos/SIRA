@@ -8,9 +8,13 @@ from src.service.common_service import *
 # except get_reservation_by_id 
 
 def get_conflicting_reservations(room_id, start_time, end_time):
+    if start_time is None or end_time is None:
+        # precisa de melhor tratamento de erros aqui
+        raise ValueError("start_time and end_time must not be None")
+
     existing_reservations = db.session.query(Reservation).filter(
         Reservation.room_id == room_id,
-        Reservation.active == True,
+        Reservation.active.is_(True),
         Reservation.start_time < end_time,
         Reservation.end_time > start_time
     ).all()

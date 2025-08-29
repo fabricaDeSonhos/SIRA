@@ -77,8 +77,15 @@ def test_room_crud(client):
 def test_reservation_crud(client):
     # Create user and room first
     r1 = client.post('/users', json={"name": "Bob", "email": "bob@example.com", "password": "pass"}).get_json()
-    if r1["result"] != "ok":
-        pytest.fail(f"Failed to create user: {r1['details']}")
+    assert r1 is not None
+    assert "result" in r1
+    assert "details" in r1
+    assert r1["details"] is not None
+    assert r1["result"] is not None
+    assert r1["result"] == "ok"
+    #if r1["result"] != "ok":
+    #    pytest.fail(f"Failed to create user: {r1['details']}")
+    
     user = r1["details"]
     assert "id" in user
     # assert isinstance(user["id"], int)
