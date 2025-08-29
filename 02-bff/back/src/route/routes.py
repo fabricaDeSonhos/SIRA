@@ -74,7 +74,6 @@ def create_room():
 @app.route('/reservations', methods=['POST'])
 def create_reservation_route():
     try:
-        myjson = {"result": "ok"}                        # prepare a "good" default answer :-)
         data = request.json                              # get request data
         room = get_object_by_id(Room, data['room_id'])   # get the room object
         user = get_object_by_id(User, data['user_id'])   # get the user object
@@ -89,17 +88,21 @@ def create_reservation_route():
             if 'end_time' in data and isinstance(data['end_time'], str):
                 data['end_time'] = datetime.strptime(data['end_time'], "%H:%M:%S").time()
 
-            print("ok 1")
             # try to create the reservation; all fields are performed except room_id and user_id (already are in)
-            res = create_reservation(room, user, **{k: v for k, v in data.items() if k not in ['room_id', 'user_id']})
-            print("ok 2")
-            response = serialize_model(res)             # serialize the reservation object
-            print("ok 3")
-            myjson.update({"details": response})        # add the serialized object to the answer
-            return jsonify(myjson), 201      # happy return in this case :-)
+            new_reservation = create_reservation(room, user, **{k: v for k, v in data.items() if k not in ['room_id', 'user_id']})
+            
+            # error?
+            if response.get("result") == "error":  # error during reservation creation (probably conflict)
+                return jsonify(response), 409
+            
+            response = serialize_model(response.get("details"))  # serialize the created reservation
+            
+            return jsonify({"result":"ok", "details":response}), 201      # happy return in this case :-)
     except Exception as ex:
         print(ex)
         return jsonify({"result": "error", "details": f"error during reservation creation: {ex}"}), 500
+
+
 
 
 
