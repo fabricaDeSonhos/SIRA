@@ -27,3 +27,9 @@ class User(db.Model):
     def __repr__(self):
         return f"<User(id={self.id}, name={self.name}, email={self.email}, "+\
                 "password={self.password}, admin={self.admin}, active={self.active})>"
+    
+    def check_password(self, password):
+        return self.password == password
+        # return check_password_hash(self.password, password)
+        # return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+        

@@ -13,6 +13,11 @@ from datetime import datetime, date, time
 
 from typing import List, Optional
 
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+
 import os
 class Base(DeclarativeBase):
   pass
@@ -54,6 +59,11 @@ CORS(app)
 # Configure the SQLAlchemy URI (using SQLite for simplicity)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable unnecessary modification tracking
+
+# JWT configuration
+jwt = JWTManager(app)
+app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # <-- Add this line
+
 
 # initialize the app with the extension
 db = SQLAlchemy(app)
