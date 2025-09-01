@@ -6,7 +6,6 @@ import styles from "./page.module.css"
 import { Checkbox, Button } from './components/form.jsx'
 
 import VisaoDiaria from "./components/visão-diaria.jsx"
-import VisaoSemanal from "./components/visao-semanal.jsx"
 import NovaReserva from "./components/nova-reserva.jsx"
 
 import { AbrirReservaModalContext, FecharReservaModalContext } from './components/reservaContext.js'
@@ -18,7 +17,6 @@ export default function Home() {
   const [noiteFiltro, setNoiteFiltro] = useState(true)
   const [reserva, setReserva] = useState(false)
   const [toast, setToast] = useState("")
-  const [visualizacaoSemanal, setVisualizacaoSemanal] = useState(false)
 
   const [novaReservaOpts, setNovaReservaOpts] = useState({
     dia: "2025-06-07",
@@ -80,27 +78,14 @@ export default function Home() {
 
   return (
     <div>
-      <h1>{visualizacaoSemanal ? "Visualização Semanal" : "Visualização Diária"}</h1>
+      <h1>Visualização Diária</h1>
 
       <div className={styles.filtros}>
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <input
-              type="checkbox"
-              checked={visualizacaoSemanal}
-              onChange={() => setVisualizacaoSemanal(!visualizacaoSemanal)}
-            />
-            Visualização semanal
-          </label>
-        </div>
-
-        {!visualizacaoSemanal && (
           <div className={styles.mudança_de_dia}>
             <Button onClick={dec_dia} desc="←" />
             <p>{dia.toDateString()}</p>
             <Button onClick={inc_dia} desc="→" />
           </div>
-        )}
 
         <div className={styles.filtro}>
           <Checkbox setChecked={setManhãFiltro} checked={manhãFiltro} desc="Manhã" />
@@ -111,9 +96,6 @@ export default function Home() {
 
       <AbrirReservaModalContext value={mostrarReservaModal}>
         <FecharReservaModalContext value={fecharReservaModal}>
-          {visualizacaoSemanal ? (
-            <VisaoSemanal manhã={manhãFiltro} tarde={tardeFiltro} noite={noiteFiltro} />
-          ) : (
             <VisaoDiaria
               dia={dia}
               manhã={manhãFiltro}
@@ -121,7 +103,6 @@ export default function Home() {
               noite={noiteFiltro}
               aoClicarNaÁreaBranca={lidarComCliqueNaÁreaBranca}
             />
-          )}
 
           {/* Botão flutuante */}
           <button className={styles.fab} onClick={abrirReservaVaziaManual} title="Nova Reserva Manual">
