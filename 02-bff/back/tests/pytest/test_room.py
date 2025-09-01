@@ -19,13 +19,14 @@ from src.service.common_service import *
 
 def test_creation():
     with app.app_context():
-        obj = create_object(Room, name="Conference Room", active=True)
+        obj = create_object(Room, name="Conference Room", active=True, type="Laboratório de Informática")
         
         assert obj.id is not None
         #assert isinstance(room.id, UUID)
         assert isinstance(obj.id, int)
         assert obj.name == "Conference Room"
         assert obj.active is True
+        assert obj.type == "Laboratório de Informática"
 
 def test_obj_delete():
     with app.app_context():
