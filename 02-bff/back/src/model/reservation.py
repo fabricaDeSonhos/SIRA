@@ -7,7 +7,9 @@ from src.utils import *
 class Reservation(db.Model):
     __tablename__ = 'reservations'
     
-    id: Mapped[UUID] = db.Column(Uuid(as_uuid=True), primary_key=True, default=uuid4)    
+    #id: Mapped[UUID] = db.Column(Uuid(as_uuid=True), primary_key=True, default=uuid4)    
+    # we come back do "int" at reservation id because we can identify easily the reservation number
+    id: Mapped[int] = mapped_column(primary_key=True)
     
     user_id: Mapped[int] = mapped_column(db.ForeignKey("users.id"), nullable=False)
     user: Mapped["User"] = db.relationship(

@@ -1,3 +1,4 @@
+from numpy import object_
 from src.config import *
 from src.service.reservation_service import *
 from src.service.common_service import *
@@ -5,12 +6,12 @@ from src.model.user import *
 from src.model.reservation import *
 from src.model.room import *
 
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
-from flask_jwt_extended import JWTManager
 
-jwt = JWTManager(app)
+'''
+curl -X POST http://localhost:5000/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "jo@gmail.com", "password": "123"}'
+'''
 
 # --- security: LOGIN
 @app.route('/login', methods=['POST'])
@@ -59,7 +60,7 @@ def create_simple_object(mclass, data):
         return {"result":"error", "details":f"error during object creation: {ex}"}
 
 @app.route('/users', methods=['POST'])
-@jwt_required()
+#@jwt_required()
 def create_user():
     data = request.json                         # get the data
     answer = create_simple_object(User, data)   # try to create the object
@@ -70,6 +71,19 @@ def create_room():
     data = request.json                                                 # get the data
     answer = create_simple_object(Room, data)                           # create the object
     return jsonify(answer), 201 if answer["result"] == "ok" else 500    # return ok or error
+
+'''
+curl -X POST http://localhost:5000/reservations \
+  -H "Content-Type: application/json" \
+  -d '{
+    "room_id": 1,
+    "user_id": 1,
+    "date": "2023-10-10",
+    "start_time": "10:00:00",
+    "end_time": "11:00:00",
+    "purpose": "Matemática 201 info"
+  }'
+'''
 
 @app.route('/reservations', methods=['POST'])
 def create_reservation_route():
@@ -89,15 +103,15 @@ def create_reservation_route():
                 data['end_time'] = datetime.strptime(data['end_time'], "%H:%M:%S").time()
 
             # try to create the reservation; all fields are performed except room_id and user_id (already are in)
-            new_reservation = create_reservation(room, user, **{k: v for k, v in data.items() if k not in ['room_id', 'user_id']})
+            response = create_reservation(room, user, **{k: v for k, v in data.items() if k not in ['room_id', 'user_id']})
             
             # error?
             if response.get("result") == "error":  # error during reservation creation (probably conflict)
                 return jsonify(response), 409
             
-            response = serialize_model(response.get("details"))  # serialize the created reservation
-            
-            return jsonify({"result":"ok", "details":response}), 201      # happy return in this case :-)
+            object_json = response.get("details")
+
+            return jsonify({"result":"ok", "details":object_json}), 201      # happy return in this case :-)
     except Exception as ex:
         print(ex)
         return jsonify({"result": "error", "details": f"error during reservation creation: {ex}"}), 500
@@ -134,6 +148,7 @@ def get_reservations_helper():
         return {"result": "error", "details": f"error during {mclass} listing: {ex}"}
 
 @app.route('/users', methods=['GET'])
+#@jwt_required()
 def list_users():
     myjson = get_objects_helper(User)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500

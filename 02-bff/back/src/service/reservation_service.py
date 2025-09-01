@@ -9,6 +9,7 @@ from src.service.common_service import *
 
 def get_conflicting_reservations(room_id, start_time, end_time):
     if start_time is None or end_time is None:
+        
         # precisa de melhor tratamento de erros aqui
         raise ValueError("start_time and end_time must not be None")
 
@@ -38,12 +39,15 @@ def create_reservation(room, user, **kwargs):
     # conflict found?
     if existing_reservations:
         # answer with error
-        return {"result": "error", "details": "Existem reservas conflitantes para este período: " + str(ids)}
+        return {"result": "error", "details": f"Conflicting reservations found with IDs: {existing_reservations}"}
     
     obj = Reservation(room=room, user=user, **kwargs)
     db.session.add(obj)
     db.session.commit()
-    return {"result": "ok", "details": "Existem reservas conflitantes para este período: " + str(ids)}
+    db.session.refresh(obj)
+    obj_json = serialize_model(obj)
+    print(f"Created reservation: {obj_json}")
+    return {"result": "ok", "details": obj_json}
     
 def soft_delete_reservation_by_id(canceler_user, reservation_id):
     try:

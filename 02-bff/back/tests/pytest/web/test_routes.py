@@ -1,4 +1,5 @@
 # from src.config import app, db (não sei porque esse não funciona)
+from email.header import Header
 from src.route.routes import app, db
 from datetime import date, time
 
@@ -15,15 +16,34 @@ def client():
 
 def test_user_crud(client):
 
-    # GET ALL
-    res = client.get(f"/users")
-    assert res.status_code == 200
+    headers = {"Content-Type": "application/json"}
 
+    # obtain a TOKEN
+    res = client.post('/login', data={"email": "admin", "password": "admin"},
+                        headers=headers)
+    
+    assert res.status_code == 200
+    json = res.get_json()
+    assert json["result"] == "ok"
+    assert "token" in json["details"]   
+
+    token = json["details"]["token"]
+
+    # GET ALL
+    res = client.get(f"/users", headers={"Authorization": f"Bearer {token}"})
+    assert res.status_code == 200
+    json = res.get_json()
+    assert json["result"] == "ok"
+    assert isinstance(json["details"], list)
+    print(f"Users found: {len(json['details'])}")
+    
     # POST
     headers = {"Content-Type": "application/json"}
     res = client.post('/users', 
                       headers=headers, 
                       json={"name": "Alice", "email": "alice@example.com", "password": "pass"})
+    print(res.status_code)
+    print(res.get_json())
     assert res.status_code == 201
         
     # get the field "id" from "details" content
@@ -75,7 +95,8 @@ def test_room_crud(client):
     assert res.status_code == 204
 
 def test_reservation_crud(client):
-    # Create user and room first
+    
+    # Create user
     r1 = client.post('/users', json={"name": "Bob", "email": "bob@example.com", "password": "pass"}).get_json()
     assert r1 is not None
     assert "result" in r1
@@ -83,31 +104,34 @@ def test_reservation_crud(client):
     assert r1["details"] is not None
     assert r1["result"] is not None
     assert r1["result"] == "ok"
-    #if r1["result"] != "ok":
-    #    pytest.fail(f"Failed to create user: {r1['details']}")
     
     user = r1["details"]
     assert "id" in user
-    # assert isinstance(user["id"], int)
+    
+    # Create room
     r2 = client.post('/rooms', json={"name": "Room B"}).get_json()
     if r2["result"] != "ok":
         pytest.fail(f"Failed to create room: {r2['details']}")
-    # assert "id" in r2["details"]
-    # assert isinstance(r2["details"]["id"], int)
+    
     room = r2["details"]
 
+    # Create reservation
     res = client.post('/reservations', json={
-        "user_id": user["id"],
         "room_id": room["id"],
-        "date": str(date.today()),
+        "user_id": user["id"],
+        "purpose": "Team Meeting",
+        "date": "2023-10-10",
         "start_time": "10:00:00",
-        "end_time": "11:00:00",
-        "purpose": "Meeting"
+        "end_time": "11:00:00"
     })
+
     assert res.status_code == 201
     answer = res.get_json()
     assert answer["result"] == "ok"
-    reservation_id = answer["details"]["id"]
+    reservation = answer["details"]
+    assert "id" in reservation
+    reservation_id = reservation["id"]
+    #reservation_id = answer["details"]["id"]
 
     res = client.get(f"/reservations/{reservation_id}")
     assert res.status_code == 200
