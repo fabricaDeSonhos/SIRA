@@ -23,14 +23,23 @@ def test_creation():
 
         result = create_reservation(room, user, purpose="Matemática 201 info", start_time =start_time_obj, end_time=end_time_obj, date=date_obj)
         obj = result['details']
-        
-        assert obj.id is not None
+
+        assert result['result'] == "ok"
+        assert obj is not None
+        print(f"Created reservation in test_creation: {obj}")
         #assert isinstance(obj.id, UUID) # we are using Integer now
-        assert isinstance(obj.id, int)
-        assert obj.purpose == "Matemática 201 info"
-        assert obj.active is True
-        assert obj.room_id == room.id
-        assert obj.user_id == user.id
+        assert isinstance(obj["id"], int)
+        assert obj["id"] is not None
+        assert obj["created_at"] is not None
+        assert obj["purpose"] == "Matemática 201 info"
+        assert obj["active"] is True
+        assert obj["room_id"] == room.id
+        assert obj["user_id"] == user.id
+        assert obj["canceler_user_id"] is None
+        assert obj["date"] == date_r
+        assert obj["start_time"] == start_time
+        assert obj["end_time"] == end_time
+            
 
         # create a conflicting reservation
         result2 = create_reservation(room, user, purpose="Matemática 201 info", start_time =start_time_obj, end_time=end_time_obj, date=date_obj)
@@ -43,7 +52,7 @@ def test_creation():
         
 
         # testing delete method
-        id = obj.id
+        id = obj["id"]
         obj = get_object_by_id(Reservation, id)
         assert obj.purpose == "Matemática 201 info"
         answer = soft_delete_reservation(user, obj)

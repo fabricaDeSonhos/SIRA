@@ -32,6 +32,7 @@ def login():
         response.update({"token": token})  # add the token to the response
         return jsonify({"result": "ok", "details": response}), 200  # ok response
     except Exception as ex:
+        print(f"Error during login: {ex}")
         return jsonify({"result": "error", "details": f"Error during login: {ex}"}), 500
 
 # --- security: LOGOUT
@@ -60,13 +61,14 @@ def create_simple_object(mclass, data):
         return {"result":"error", "details":f"error during object creation: {ex}"}
 
 @app.route('/users', methods=['POST'])
-#@jwt_required()
+@jwt_required()
 def create_user():
     data = request.json                         # get the data
     answer = create_simple_object(User, data)   # try to create the object
     return jsonify(answer), 201 if answer["result"] == "ok" else 500 # return created or internal error
 
 @app.route('/rooms', methods=['POST'])
+@jwt_required()
 def create_room():
     data = request.json                                                 # get the data
     answer = create_simple_object(Room, data)                           # create the object
@@ -86,6 +88,7 @@ curl -X POST http://localhost:5000/reservations \
 '''
 
 @app.route('/reservations', methods=['POST'])
+@jwt_required()
 def create_reservation_route():
     try:
         data = request.json                              # get request data
@@ -144,21 +147,23 @@ def get_reservations_helper():
         myjson.update({"details": response})            # add the serialized object to the answer
         return myjson
     except Exception as ex:
-        print(f"Error during {mclass} listing: {ex}")
-        return {"result": "error", "details": f"error during {mclass} listing: {ex}"}
+        print(f"Error during Reservations listing: {ex}")
+        return {"result": "error", "details": f"error during Reservations listing: {ex}"}
 
 @app.route('/users', methods=['GET'])
-#@jwt_required()
+@jwt_required()
 def list_users():
     myjson = get_objects_helper(User)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
 @app.route('/rooms', methods=['GET'])
+@jwt_required()
 def list_rooms():
     myjson = get_objects_helper(Room)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
 @app.route('/reservations', methods=['GET'])
+@jwt_required()
 def list_reservations():
     myjson = get_reservations_helper()
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
@@ -181,16 +186,20 @@ def get_specific_object(mclass, obj_id):
         return {"result": "error", "details": f"error during specific object ({mclass}) retrieval: {ex}"}
 
 @app.route('/users/<int:obj_id>', methods=['GET'])
+@jwt_required()
 def get_user(obj_id):
     myjson = get_specific_object(User, obj_id)  
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 404
 
 @app.route('/rooms/<int:obj_id>', methods=['GET'])
+@jwt_required()
 def get_room(obj_id):
     myjson = get_specific_object(Room, obj_id)  
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 404
 
-@app.route('/reservations/<uuid:obj_id>', methods=['GET'])
+# @app.route('/reservations/<uuid:obj_id>', methods=['GET'])
+@app.route('/reservations/<int:obj_id>', methods=['GET'])
+@jwt_required()
 def get_reservation(obj_id):
     myjson = get_specific_object(Reservation, obj_id)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 404
@@ -214,16 +223,20 @@ def update_object(mclass, obj_id):
         return {"result": "error", "details": f"error during object ({mclass}) update: {ex}"}
 
 @app.route('/users/<int:obj_id>', methods=['PUT'])
+@jwt_required()
 def update_user(obj_id):
     myjson = update_object(User, obj_id)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
 @app.route('/rooms/<int:obj_id>', methods=['PUT'])
+@jwt_required()
 def update_room(obj_id):
     myjson = update_object(Room, obj_id)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
-@app.route('/reservations/<uuid:obj_id>', methods=['PUT'])
+# @app.route('/reservations/<uuid:obj_id>', methods=['PUT'])
+@app.route('/reservations/<int:obj_id>', methods=['PUT'])
+@jwt_required()
 def update_reservation(obj_id):
     myjson = update_object(Reservation, obj_id)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
@@ -261,16 +274,20 @@ def soft_delete_object(mclass, obj_id):
         return {"result": "error", "details": f"error during object ({mclass}) exclusion: {ex}"}
 
 @app.route('/users/<int:obj_id>', methods=['DELETE'])
+@jwt_required()
 def delete_user(obj_id):
     myjson = soft_delete_object(User, obj_id)
     return jsonify(myjson), 204 if myjson['result'] == 'ok' else 500
 
 @app.route('/rooms/<int:obj_id>', methods=['DELETE'])
+@jwt_required()
 def delete_room(obj_id):
     myjson = soft_delete_object(Room, obj_id)
     return jsonify(myjson), 204 if myjson['result'] == 'ok' else 500
 
-@app.route('/reservations/<uuid:obj_id>/<int:canceler_user_id>', methods=['DELETE'])
+# @app.route('/reservations/<uuid:obj_id>/<int:canceler_user_id>', methods=['DELETE'])
+@app.route('/reservations/<int:obj_id>/<int:canceler_user_id>', methods=['DELETE'])
+@jwt_required()
 def delete_reservation(obj_id, canceler_user_id):
     try:
         canceler_user = get_object_by_id(User, canceler_user_id) # get the user who is canceling this reservation
