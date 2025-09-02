@@ -1,15 +1,20 @@
 :root {
+
+  /* --font-sans and --font-monospace are defined on layout.js */
   --border: 1px solid lightgray;
   --reserva-color: green;
-
-  --pequeno: 0.7rem;
-  --regular: 1rem;
-  --grande: 1.5rem;
+  --phi: 1.66;
+  
+  --pequeno: 0.8rem;
+  --regular: calc(var(--pequeno) * var(--phi));
+  --grande: calc(var(--regular) * var(--phi));
 
   --round-radius: 5px;
 
-  --destaque: #004d4d; 
+  --destaque: green; 
+  --secundario: #a5d6a7;
   --inativo: lightgray;
+  --alerta: red;
 
 }
 
@@ -23,7 +28,7 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -48,6 +53,7 @@ a {
 
 h1{
   text-align: center;
+  font-weight: normal;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }

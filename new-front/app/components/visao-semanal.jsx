@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import {data_bonita} from '../lib/tempo.js'
 import VisaoDiaria from './visão-diaria.jsx'
 import styles from './visao-diaria.module.css'
 import { Button } from './form.jsx'
@@ -50,13 +51,13 @@ export default function VisaoSemanal({ manhã = true, tarde = true, noite = true
         style={{
           display: 'flex',
           flexWrap: 'nowrap',
-          gap: '2rem',
+          gap: '1rem',
           overflowX: 'auto',
           paddingBottom: '1rem'
         }}
       >
         {diasSemana.map((dia, index) => (
-          <div key={index} style={{ minWidth: '680px' }}>
+          <div key={index} >
             <h3 style={{
               textAlign: 'center',
               marginBottom: '0.5rem',
@@ -64,11 +65,7 @@ export default function VisaoSemanal({ manhã = true, tarde = true, noite = true
               fontSize: '1rem',
               color: '#222'
             }}>
-              {new Date(dia).toLocaleDateString("pt-BR", {
-                weekday: 'long',
-                day: '2-digit',
-                month: 'short'
-              })}
+              {data_bonita(dia).dia_semana}
             </h3>
 
             <VisaoDiaria
@@ -76,6 +73,8 @@ export default function VisaoSemanal({ manhã = true, tarde = true, noite = true
               manhã={manhã}
               tarde={tarde}
               noite={noite}
+              noHours={index>0}
+              noText
             />
           </div>
         ))}

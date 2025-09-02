@@ -5,7 +5,7 @@ import { useContext } from 'react'
 import styles from './visao-diaria.module.css'
 import { AbrirReservaModalContext } from './reservaContext.js'
 
-export default function Reserva({ id, matéria, dia, início, duração, lab, vazia }) {
+export default function Reserva({ id, matéria, dia, início, duração, lab, vazia, noText }) {
   const abrirReserva = useContext(AbrirReservaModalContext)
 
   const topo = Math.max((início - 8) * 60 + 1, 2)
@@ -41,7 +41,7 @@ export default function Reserva({ id, matéria, dia, início, duração, lab, va
 
   return (
     <div className={styles.reserva} style={posicionamento}>
-      <div>{corpo}</div>
+      {!noText && <>      <div>{corpo}</div>
       <div className={styles.acoes}>
         <button
           className={styles.botaoEditar}
@@ -51,6 +51,8 @@ export default function Reserva({ id, matéria, dia, início, duração, lab, va
           ✏️
         </button>
       </div>
+      </>}
+
     </div>
   )
 }

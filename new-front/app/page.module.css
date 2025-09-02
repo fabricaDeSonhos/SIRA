@@ -1,17 +1,32 @@
+
+.body {
+  display: flex;
+  flex-flow: column wrap;
+  height: 100vh;
+}
+
 .mudança_de_dia {
   display: flex;
+  font-size: var(--grande);
+
 }
 
 .mudança_de_dia p {
-  width: 10rem;
-  text-align: center;
+  padding: 0 var(--pequeno);
+  font-weight: lighter;
+}
+
+.dia_semana {
+  font-weight: bold;
 }
 
 .filtros {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
+
+  margin-left: var(--regular);
 }
 
 .filtro {
@@ -20,7 +35,7 @@
 }
 
 .filtro div {
-  margin-left: 5px;
+  margin: 0 var(--regular);
 }
 
 .modal {
@@ -46,6 +61,7 @@
   cursor: pointer;
   transition: transform 0.2s ease;
   z-index: 10;
+  font-weight: bold;
 }
 
 .fab:hover {

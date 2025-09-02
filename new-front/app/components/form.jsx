@@ -28,7 +28,7 @@ export function Select({desc, options, value, name}) {
 export function Checkbox({desc,checked=false, setChecked}) {
   const id = useId()
   return (
-    <div id={ id} className={styles.chekbox}>
+    <div id={ id} className={styles.checkbox}>
       <input id={id} type="checkbox" defaultChecked={checked} onChange={e => {setChecked(e.target.checked);}}/>
       <label htmlFor={ id }>{ " " +  desc }</label>
     </div>

@@ -22,6 +22,11 @@
   flex-flow: row nowrap;
 }
 
+.checkbox:has(input[type="checkbox"]:not(:checked)) {
+  font-weight: lighter;
+
+}
+
 .button {
   background-color: var(--inativo);
   border-radius: var(--round-radius);

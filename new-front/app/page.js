@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import styles from "./page.module.css"
 
+import {data_bonita} from './lib/tempo.js'
 import { Checkbox, Button } from './components/form.jsx'
 
 import VisaoDiaria from "./components/visão-diaria.jsx"
@@ -77,16 +78,16 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <h1>Visualização Diária</h1>
+    <div className={styles.body}>
 
       <div className={styles.filtros}>
           <div className={styles.mudança_de_dia}>
             <Button onClick={dec_dia} desc="←" />
-            <p>{dia.toDateString()}</p>
+            <p><span className={styles.dia_semana}>{data_bonita(dia).dia_semana}</span> <br/> {data_bonita(dia).dia_n} de {data_bonita(dia).mes}</p>
             <Button onClick={inc_dia} desc="→" />
           </div>
 
+        <h1>Visão Diária</h1>
         <div className={styles.filtro}>
           <Checkbox setChecked={setManhãFiltro} checked={manhãFiltro} desc="Manhã" />
           <Checkbox setChecked={setTardeFiltro} checked={tardeFiltro} desc="Tarde" />
@@ -104,12 +105,13 @@ export default function Home() {
               aoClicarNaÁreaBranca={lidarComCliqueNaÁreaBranca}
             />
 
-          {/* Botão flutuante */}
+          {/* Botão flutuante 
           <button className={styles.fab} onClick={abrirReservaVaziaManual} title="Nova Reserva Manual">
-            ➕
+            +
           </button>
-
+          */}
           {/* Modal */}
+
           <div className={styles.modal}>
             {reserva && <NovaReserva {...novaReservaOpts} />}
           </div>
