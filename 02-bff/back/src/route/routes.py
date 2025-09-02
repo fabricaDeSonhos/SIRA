@@ -161,6 +161,20 @@ def list_rooms():
     myjson = get_objects_helper(Room)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
+@app.route('/rooms/labs', methods=['GET'])
+#@jwt_required()
+def list_labs():
+    my_json = ""
+    try:
+        myjson = {"result": "ok"}   
+        objs = db.session.query(Room).filter(Room.type == "Laboratório de Informática", Room.active == True).all()
+        response = [serialize_model(u) for u in objs]  # serialize the objects
+        myjson.update({"details": response})            # add the serialized object to the answer
+    except Exception as ex:
+        print(f"Error during info labs listing: {ex}")
+        myjson = {"result": "error", "details": f"error during info labsl isting: {ex}"}
+    return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
+
 @app.route('/reservations', methods=['GET'])
 #@jwt_required()
 def list_reservations():
