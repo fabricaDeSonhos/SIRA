@@ -1,14 +1,14 @@
 :root {
-  --verde-principal: #37966f; /* botões, destaques */
-  --verde-hover: #2f7a5d; /* hover de botões, títulos */
-  --verde-claro-botao: #cdebdd; /* botões secundários, fundo */
-  --fundo-pagina: #eef9f2; /* fundo geral */
-  --branco: #ffffff; /* fundo card, tabela */
-  --cinza-escuro: #4b5563; /* textos secundários */
-  --cinza-medio: #6b7280; /* permissões visitantes */
-  --cinza-claro: #e5e7eb; /* bordas tabela */
-  --vermelho: #d33; /* alertas / admin */
-  --vermelho-hover: #a00; /* hover alertas */
+  --verde-principal: #37966f; 
+  --verde-hover: #2f7a5d; 
+  --verde-claro-botao: #cdebdd; 
+  --fundo-pagina: #eef9f2; 
+  --branco: #ffffff; 
+  --cinza-escuro: #4b5563; 
+  --cinza-medio: #6b7280; 
+  --cinza-claro: #e5e7eb; 
+  --vermelho: #d33; 
+  --vermelho-hover: #a00; 
 }
 
 /* Título principal */
