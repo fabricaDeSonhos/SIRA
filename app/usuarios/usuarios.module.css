@@ -1,0 +1,112 @@
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.titulo {
+  text-align: center;
+  color: #1a3d2f;
+  margin-bottom: 30px;
+}
+
+.returnLink {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #fff;
+  background-color: #2e7d5b;
+  padding: 10px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.returnLink:hover {
+  background-color: #256b4c;
+}
+
+.userTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+}
+
+.userTable th {
+  background-color: #4caf7c;
+  color: #fff;
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.userTable td {
+  padding: 14px 16px;
+  border-top: 1px solid #f1f1f1;
+  font-size: 15px;
+}
+
+/* Tornando elementos globais válidos no CSS Module */
+:global(select) {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.btnAlterar {
+  background-color: #4caf7c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btnAlterar:hover {
+  background-color: #3e8f65;
+}
+
+/* Globalizando tbody, thead, tr, td para Next.js CSS Modules */
+:global(tbody),
+:global(thead),
+:global(tr),
+:global(td) {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  :global(.userTable),
+  :global(thead),
+  :global(tbody),
+  :global(th),
+  :global(td),
+  :global(tr) {
+    display: block;
+  }
+
+  :global(.userTable tr) {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    padding: 10px;
+  }
+
+  :global(.userTable td) {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: none;
+  }
+
+  :global(.userTable th) {
+    display: none;
+  }
+}

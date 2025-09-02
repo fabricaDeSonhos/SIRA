@@ -1,0 +1,80 @@
+.mudança_de_dia {
+  display: flex;
+}
+
+.mudança_de_dia p {
+  width: 10rem;
+  text-align: center;
+}
+
+.filtros {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.filtro {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.filtro div {
+  margin-left: 5px;
+}
+
+.modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+/* Botão flutuante: Nova Reserva */
+.fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  z-index: 10;
+}
+
+.fab:hover {
+  transform: scale(1.1);
+}
+
+/* Toast de sucesso */
+.toast {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4caf50;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: bold;
+  z-index: 20;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  animation: fadein 0.3s ease-in-out;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
