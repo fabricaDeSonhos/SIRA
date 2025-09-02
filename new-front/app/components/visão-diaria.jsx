@@ -94,10 +94,105 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
       <div className={styles.almoco}></div>
       <div className={styles.lanche_tarde}></div>
       <div className={styles.janta}></div>
+      <div className={styles.lanche_tarde}></div>
       {reservas_vazia}
       {manhã ? reservas_manhã : []}
       {tarde ? reservas_tarde : []}
       {noite ? reservas_noite : []}
+
+
+
+      <Reserva
+        key={0}
+        id={0}
+        matéria={"Computação"}
+        início={8}
+        duração={60}
+        dia={"02/09/2025"}
+        lab={1}
+        vazia={false}
+
+        noText={false}
+        curso="bcc"
+      />
+      <Reserva
+        key={0}
+        id={0}
+        matéria={"Pedagogia"}
+        início={9}
+        duração={60}
+        dia={"02/09/2025"}
+        lab={1}
+        vazia={false}
+
+        noText={false}
+        curso="pedagogia"
+      />
+      <Reserva
+        key={0}
+        id={0}
+        matéria={"BEE"}
+        início={10}
+        duração={60}
+        dia={"02/09/2025"}
+        lab={1}
+        vazia={false}
+
+        noText={false}
+        curso="bee"
+      />
+      <Reserva
+        key={0}
+        id={0}
+        matéria={"Ensino Médio"}
+        início={8}
+        duração={60}
+        dia={"02/09/2025"}
+        lab={2}
+        vazia={false}
+
+        noText={false}
+        curso="medio"
+      />
+      <Reserva
+        key={0}
+        id={0}
+        matéria={"Informártica"}
+        início={9}
+        duração={60}
+        dia={"02/09/2025"}
+        lab={2}
+        vazia={false}
+
+        noText={false}
+        curso="info"
+      />
+      <Reserva
+        key={0}
+        id={0}
+        matéria={"Eletromecanica"}
+        início={10}
+        duração={60}
+        dia={"02/09/2025"}
+        lab={2}
+        vazia={false}
+
+        noText={false}
+        curso="eletromecanica"
+      />
+      <Reserva
+        key={0}
+        id={0}
+        matéria={"Mecatrônica"}
+        início={11}
+        duração={60}
+        dia={"02/09/2025"}
+        lab={2}
+        vazia={false}
+
+        noText={false}
+        curso="mecatronica"
+      />
     </div>
   )
 }

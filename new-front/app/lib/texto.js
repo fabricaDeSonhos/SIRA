@@ -6,3 +6,7 @@ Texto.limitado = (texto, limite) => {
     return texto.substr(0,limite-3) + "..."
   return texto
 }
+
+Texto.titleCase = (str) => {
+  return str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+}

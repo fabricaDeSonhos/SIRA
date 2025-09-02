@@ -77,6 +77,45 @@
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+.bcc{
+  color: var(--bcc);
+  background-color: var(--bcc-light);
+  border-left: 4px solid var(--bcc);
+}
+.pedagogia{
+  color: var(--pedagogia);
+  background-color: var(--pedagogia-light);
+  border-left: 4px solid var(--pedagogia);
+}
+
+.medio {
+  color: var(--medio);
+  background-color: var(--medio-light);
+  border-left: 4px solid var(--medio);
+}
+
+.info {
+  color: var(--info);
+  background-color: var(--info-light);
+  border-left: 4px solid var(--info);
+}
+.eletromecanica {
+  color: var(--eletromecanica);
+  background-color: var(--eletromecanica-light);
+  border-left: 4px solid var(--eletromecanica);
+}
+
+.mecatronica {
+  color: var(--mecatronica);
+  background-color: var(--mecatronica-light);
+  border-left: 4px solid var(--mecatronica);
+}
+
+.bee {
+  color: var(--bee);
+  background-color: var(--bee-light);
+  border-left: 4px solid var(--bee);
+}
 /* Bloco vazio clicável */
 .reserva_vazia {
   background-color: #f9f9f9;
