@@ -9,7 +9,9 @@ export default function Header() {
       <h1 className={styles.logo}>SIRA</h1>
       <nav className={styles.navbar}>
         <ul>
-          <li><Link href="/">Diária</Link></li>
+          <li>
+            <Link href="/">Diária</Link>
+          </li>
           <li>
             <Link href="/semanal">Semanal</Link>
           </li>

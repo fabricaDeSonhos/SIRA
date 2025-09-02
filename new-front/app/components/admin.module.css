@@ -1,0 +1,197 @@
+:root {
+  --verde-principal: #37966f; /* botões, destaques */
+  --verde-hover: #2f7a5d; /* hover de botões, títulos */
+  --verde-claro-botao: #cdebdd; /* botões secundários, fundo */
+  --fundo-pagina: #eef9f2; /* fundo geral */
+  --branco: #ffffff; /* fundo card, tabela */
+  --cinza-escuro: #4b5563; /* textos secundários */
+  --cinza-medio: #6b7280; /* permissões visitantes */
+  --cinza-claro: #e5e7eb; /* bordas tabela */
+  --vermelho: #d33; /* alertas / admin */
+  --vermelho-hover: #a00; /* hover alertas */
+}
+
+/* Título principal */
+.titulo {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--verde-hover);
+  margin-bottom: 2rem;
+}
+
+/* Card branco */
+.card {
+  background-color: var(--branco);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 36rem;
+  margin: 1.5rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Subtítulo dentro do card */
+.subtitulo {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--verde-principal);
+  margin-bottom: 0.5rem;
+}
+
+/* Contador de usuários */
+.userCount {
+  margin-bottom: 0.5rem;
+  color: var(--cinza-escuro);
+}
+
+/* Link de cadastro */
+.linkCadastro {
+  color: var(--verde-principal);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.linkCadastro:hover {
+  text-decoration: underline;
+  color: var(--verde-hover);
+}
+
+/* Card tabela */
+.cardTabela {
+  background-color: var(--branco);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 55rem;
+  margin: 1rem auto;
+}
+
+/* Título tabela */
+.subtituloTabela {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--verde-principal);
+  margin-bottom: 1.5rem;
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+/* Formulário grid */
+.formRow {
+  display: grid;
+  grid-template-columns: 3fr 2fr 60px;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Input e Select */
+.input,
+.select {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  outline: none;
+  font-size: 1rem;
+}
+
+.input:focus,
+.select:focus {
+  box-shadow: 0 0 0 2px var(--verde-principal);
+  border-color: var(--verde-principal);
+}
+
+/* Botão de adicionar */
+.addBtn {
+  background-color: var(--verde-principal);
+  color: var(--branco);
+  border: none;
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.addBtn:hover {
+  background-color: var(--verde-hover);
+  transform: scale(1.05);
+}
+
+/* Container da tabela */
+.tableContainer {
+  width: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background-color: var(--branco);
+}
+
+/* Tabela */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Cabeçalho da tabela */
+.tableHeader th {
+  background-color: var(--verde-principal);
+  color: var(--branco);
+  font-weight: 600;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+/* Linhas da tabela */
+.table tbody tr {
+  border-top: 1px solid var(--cinza-claro);
+}
+
+.table tbody td {
+  text-align: center;
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+/* Permissões */
+.permissionVisitante {
+  color: var(--cinza-medio);
+}
+
+.permissionReservador {
+  color: var(--verde-principal);
+  font-weight: 600;
+}
+
+.permissionAdmin {
+  color: var(--vermelho);
+  font-weight: 600;
+}
+
+/* Botão de deletar */
+.deleteBtn {
+  cursor: pointer;
+  color: var(--vermelho);
+  font-weight: bold;
+  background: none;
+  border: none;
+  transition: color 0.2s ease;
+}
+
+.deleteBtn:hover {
+  color: var(--vermelho-hover);
+}
+
+.textCinza {
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+}
