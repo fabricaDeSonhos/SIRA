@@ -1,4 +1,3 @@
-from numpy import object_
 from src.config import *
 from src.service.reservation_service import *
 from src.service.common_service import *
@@ -157,13 +156,13 @@ def list_users():
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
 @app.route('/rooms', methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def list_rooms():
     myjson = get_objects_helper(Room)
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
 
 @app.route('/reservations', methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def list_reservations():
     myjson = get_reservations_helper()
     return jsonify(myjson), 200 if myjson['result'] == 'ok' else 500
