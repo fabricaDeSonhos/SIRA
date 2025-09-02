@@ -1,11 +1,12 @@
+// reservas.js
 function reserva(lab, matéria, dia, início, duração) {
-  return { lab, matéria, dia, início, duração: duração * 60 }
+  return { lab, matéria, dia, início, duração: duração * 60 };
 }
 
 // Mock: reservas fixas (não podem ser removidas via interface)
-const hoje = new Date()
-const diaHoje = hoje.toISOString().slice(0, 10)
-const diaOntem = new Date(hoje.getTime() - 86400000).toISOString().slice(0, 10)
+const hoje = new Date();
+const diaHoje = hoje.toISOString().slice(0, 10);
+const diaOntem = new Date(hoje.getTime() - 86400000).toISOString().slice(0, 10);
 
 const __reservas = [
   reserva(1, "Projeto Integrador III - 302 Eletro - Prof. Rita", diaHoje, 8, 2.5),
@@ -24,35 +25,41 @@ const __reservas = [
 
   reserva(2, "BCCF07 Padrões de Projeto / Prof. Ricardo Ladeira", diaOntem, 13.5, 4),
   reserva(2, "BCCF07 Trabalho de Curso I / Prof. Ricardo Ladeira", diaOntem, 18.5, 4.5),
-]
+];
 
 // GET reservas: mescla localStorage + mock
 export function get_reservas(dia) {
-  const dados = localStorage.getItem("reservas")
-  const locais = dados ? JSON.parse(dados) : []
+  if (typeof window === "undefined") return __reservas.filter(r => r.dia === dia); // server-side
 
-  return [...__reservas, ...locais].filter(r => r.dia === dia)
+  const dados = localStorage.getItem("reservas");
+  const locais = dados ? JSON.parse(dados) : [];
+
+  return [...__reservas, ...locais].filter(r => r.dia === dia);
 }
 
 // ADD reserva: salva somente no localStorage
-export function add_reserva(reserva) {
-  const dados = localStorage.getItem("reservas")
-  const reservas = dados ? JSON.parse(dados) : []
+export function add_reserva(novaReserva) {
+  if (typeof window === "undefined") return; // não faz nada no server
 
-  reservas.push(reserva)
-  localStorage.setItem("reservas", JSON.stringify(reservas))
+  const dados = localStorage.getItem("reservas");
+  const reservas = dados ? JSON.parse(dados) : [];
+
+  reservas.push(novaReserva);
+  localStorage.setItem("reservas", JSON.stringify(reservas));
 }
 
 // REMOVE reserva específica (somente do localStorage)
 export function remover_reserva({ dia, início, lab }) {
-  const dados = localStorage.getItem("reservas")
-  if (!dados) return
+  if (typeof window === "undefined") return; // não faz nada no server
 
-  const reservas = JSON.parse(dados)
+  const dados = localStorage.getItem("reservas");
+  if (!dados) return;
 
-  const novas = reservas.filter(r =>
-    !(r.dia === dia && r.início === início && r.lab === lab)
-  )
+  const reservas = JSON.parse(dados);
 
-  localStorage.setItem("reservas", JSON.stringify(novas))
+  const novas = reservas.filter(
+    r => !(r.dia === dia && r.início === início && r.lab === lab)
+  );
+
+  localStorage.setItem("reservas", JSON.stringify(novas));
 }

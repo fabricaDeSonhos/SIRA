@@ -1,23 +1,29 @@
-import { Texto } from '../lib/texto.js'
-import { hora_para_texto } from '../lib/tempo.js'
-import { useContext } from 'react'
+// Reserva.jsx
+"use client";
 
-import styles from './visao-diaria.module.css'
-import { AbrirReservaModalContext } from './reservaContext.js'
+import { useState, useEffect, useContext } from "react";
+import { Texto } from "../lib/texto.js";
+import { hora_para_texto } from "../lib/tempo.js";
+import styles from "./visao-diaria.module.css";
+import { AbrirReservaModalContext, FecharReservaModalContext } from "./reservaContext.js";
 
 export default function Reserva({ matéria, dia, início, duração, lab, vazia }) {
-  const abrirReserva = useContext(AbrirReservaModalContext)
+  const abrirReserva = useContext(AbrirReservaModalContext);
 
-  const topo = Math.max((início - 8) * 60 + 1, 2)
-  const corpo = Texto.limitado(matéria, 40)
+  const [posicionamento, setPosicionamento] = useState({ gridRow: 0, gridRowEnd: 0, gridColumn: 0 });
+  const [corpo, setCorpo] = useState("");
 
-  const posicionamento = {
-    gridRow: topo,
-    gridRowEnd: 'span ' + duração,
-    gridColumn: lab + 1,
-  }
+  useEffect(() => {
+    setCorpo(Texto.limitado(matéria, 40));
+    const topoCalc = Math.max((início - 8) * 60 + 1, 2);
+    setPosicionamento({
+      gridRow: topoCalc,
+      gridRowEnd: 'span ' + duração,
+      gridColumn: lab + 1,
+    });
+  }, [matéria, início, duração, lab]);
 
-  const labs_names = ["A03", "A04", "D04", "D05", "D06", "D07"]
+  const labs_names = ["A03", "A04", "D04", "D05", "D06", "D07"];
   const opts = {
     dia,
     início: hora_para_texto(início),
@@ -25,7 +31,7 @@ export default function Reserva({ matéria, dia, início, duração, lab, vazia 
     lab: labs_names[lab - 1],
     matéria,
     modoEdicao: !vazia,
-  }
+  };
 
   if (vazia) {
     return (
@@ -35,7 +41,7 @@ export default function Reserva({ matéria, dia, início, duração, lab, vazia 
         onClick={() => abrirReserva(opts)}
         title={`Clique para reservar ${opts.lab} às ${opts.início}`}
       />
-    )
+    );
   }
 
   return (
@@ -51,5 +57,5 @@ export default function Reserva({ matéria, dia, início, duração, lab, vazia 
         </button>
       </div>
     </div>
-  )
+  );
 }

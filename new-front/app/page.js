@@ -1,24 +1,24 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import styles from "./page.module.css"
-
-import { Checkbox, Button } from './components/form.jsx'
-
-import VisaoDiaria from "./components/visão-diaria.jsx"
-import VisaoSemanal from "./components/visao-semanal.jsx"
-import NovaReserva from "./components/nova-reserva.jsx"
-
-import { AbrirReservaModalContext, FecharReservaModalContext } from './components/reservaContext.js'
+import { useState } from "react";
+import styles from "./page.module.css";
+import { Checkbox, Button } from "./components/form.jsx";
+import VisaoDiaria from "./components/visão-diaria.jsx";
+import VisaoSemanal from "./components/visao-semanal.jsx";
+import NovaReserva from "./components/nova-reserva.jsx";
+import { AbrirReservaModalContext, FecharReservaModalContext } from "./components/reservaContext.js";
+import { useLogin } from "./components/LoginContext";
 
 export default function Home() {
-  const [dia, setDia] = useState(new Date())
-  const [manhãFiltro, setManhãFiltro] = useState(true)
-  const [tardeFiltro, setTardeFiltro] = useState(true)
-  const [noiteFiltro, setNoiteFiltro] = useState(true)
-  const [reserva, setReserva] = useState(false)
-  const [toast, setToast] = useState("")
-  const [visualizacaoSemanal, setVisualizacaoSemanal] = useState(false)
+  const { logado } = useLogin();
+
+  const [dia, setDia] = useState(new Date());
+  const [manhãFiltro, setManhãFiltro] = useState(true);
+  const [tardeFiltro, setTardeFiltro] = useState(true);
+  const [noiteFiltro, setNoiteFiltro] = useState(true);
+  const [reserva, setReserva] = useState(false);
+  const [toast, setToast] = useState("");
+  const [visualizacaoSemanal, setVisualizacaoSemanal] = useState(false);
 
   const [novaReservaOpts, setNovaReservaOpts] = useState({
     dia: "2025-06-07",
@@ -27,21 +27,25 @@ export default function Home() {
     lab: "A04",
     matéria: "",
     modoEdicao: false
-  })
+  });
 
   const inc_dia = () => {
-    const novoDia = new Date(dia)
-    novoDia.setDate(novoDia.getDate() + 1)
-    setDia(novoDia)
-  }
+    const novoDia = new Date(dia);
+    novoDia.setDate(novoDia.getDate() + 1);
+    setDia(novoDia);
+  };
 
   const dec_dia = () => {
-    const novoDia = new Date(dia)
-    novoDia.setDate(novoDia.getDate() - 1)
-    setDia(novoDia)
-  }
+    const novoDia = new Date(dia);
+    novoDia.setDate(novoDia.getDate() - 1);
+    setDia(novoDia);
+  };
 
   const mostrarReservaModal = (opt) => {
+    if (!logado) {
+      alert("Você precisa estar logado para criar uma reserva.");
+      return;
+    }
     setNovaReservaOpts({
       dia: opt.dia,
       início: opt.início,
@@ -49,24 +53,20 @@ export default function Home() {
       lab: opt.lab,
       matéria: opt.matéria || "",
       modoEdicao: opt.modoEdicao || false
-    })
-    setReserva(true)
-  }
+    });
+    setReserva(true);
+  };
 
   const fecharReservaModal = (mensagem = "") => {
-    setReserva(false)
+    setReserva(false);
     if (mensagem) {
-      setToast(mensagem)
-      setTimeout(() => setToast(""), 3000)
+      setToast(mensagem);
+      setTimeout(() => setToast(""), 3000);
     }
-  }
-
-  const lidarComCliqueNaÁreaBranca = (dadosReserva) => {
-    mostrarReservaModal(dadosReserva)
-  }
+  };
 
   const abrirReservaVaziaManual = () => {
-    const hoje = new Date().toISOString().slice(0, 10)
+    const hoje = new Date().toISOString().slice(0, 10);
     mostrarReservaModal({
       dia: hoje,
       início: "08:00",
@@ -74,8 +74,8 @@ export default function Home() {
       lab: "A03",
       matéria: "",
       modoEdicao: false
-    })
-  }
+    });
+  };
 
   return (
     <div>
@@ -118,24 +118,30 @@ export default function Home() {
               manhã={manhãFiltro}
               tarde={tardeFiltro}
               noite={noiteFiltro}
-              aoClicarNaÁreaBranca={lidarComCliqueNaÁreaBranca}
+              aoClicarNaÁreaBranca={mostrarReservaModal}
             />
           )}
 
           {/* Botão flutuante */}
-          <button className={styles.fab} onClick={abrirReservaVaziaManual} title="Nova Reserva Manual">
+          <button
+            className={styles.fab}
+            onClick={abrirReservaVaziaManual}
+            title="Nova Reserva Manual"
+          >
             ➕
           </button>
 
           {/* Modal */}
-          <div className={styles.modal}>
-            {reserva && <NovaReserva {...novaReservaOpts} />}
-          </div>
+          {reserva && (
+            <div className={styles.modal}>
+              <NovaReserva {...novaReservaOpts} />
+            </div>
+          )}
         </FecharReservaModalContext>
       </AbrirReservaModalContext>
 
       {/* Toast */}
       {toast && <div className={styles.toast}>{toast}</div>}
     </div>
-  )
+  );
 }
