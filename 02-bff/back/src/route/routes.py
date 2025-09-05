@@ -199,6 +199,13 @@ def get_specific_object(mclass, obj_id):
     except Exception as ex:
         return {"result": "error", "details": f"error during specific object ({mclass}) retrieval: {ex}"}
 
+@app.route('/user', methods=['GET'])
+@jwt_required()
+def get_authenticated_user():
+    user_id = get_jwt_identity()
+    myjson = get_specific_object(User, user_id)  
+    return jsonify(myjson), 200 if myjson['result'] == 'ok' else 404
+
 @app.route('/users/<int:obj_id>', methods=['GET'])
 @jwt_required()
 def get_user(obj_id):

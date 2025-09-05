@@ -6,15 +6,13 @@ import Reserva from './reserva.jsx'
 
 export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText }) {
   const labs_names = ["A03", "A04", "D04", "D05", "D06", "D07"]
-
-  //Força o formato YYYY-MM-DD
+//Força o formato YYYY-MM-DD
   const data_formatada = typeof dia === "string"
     ? dia
     : new Date(dia).toISOString().slice(0, 10)
 
   const {reservations, error, isLoading} = useReservations()
 
-  console.log(reservations)
   const reservas = isLoading ? [] : reservations.map((r, i) => (
     <Reserva
       key={r.id}

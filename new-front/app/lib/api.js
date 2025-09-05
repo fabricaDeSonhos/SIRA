@@ -22,6 +22,20 @@ export const fetcher = async (url) => {
   return res.json();
 
 };
+export const fetcher_jwt = async (url, token) => {
+  const res = await fetch(`${API_BASE_URL}${url}`, {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  });
+  if (!res.ok) {
+    const error = new Error("An error occurred while fetching the data.");
+    error.status = res.status;
+    throw error;
+  }
+  return res.json();
+
+};
 
 function api2reserva(api_res) {
   const hoje = new Date()
@@ -121,7 +135,6 @@ export const useReservations = () => {
 
   const {token} = useAuth()
   const {data, error, isLoading, mutate, addReserva, deleteReserva, putReserva} = _useReservations(token)
-  console.log(data)
   const reservations = !isLoading ? data.details.map(api2reserva) : data
 
   return { reservations, error, isLoading, addReserva, deleteReserva, putReserva};
@@ -197,4 +210,13 @@ export function useAuth() {
   }
 
   return {token, login, logout, loading, error}
+}
+
+export function useUser() {
+  const auth = useAuth()
+
+  const {data, error, isLoading} = useSWR('/user', async (url) => fetcher_jwt(url, auth.token))
+
+  return {data, error, isLoading}
+
 }

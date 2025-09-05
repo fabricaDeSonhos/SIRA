@@ -11,7 +11,7 @@ import NovaReserva from "./components/nova-reserva.jsx"
 
 import { AbrirReservaModalContext, FecharReservaModalContext } from './components/reservaContext.js'
 
-import {useAuth} from './lib/api.js'
+import {useAuth, useUser} from './lib/api.js'
 
 export default function Home() {
   const [dia, setDia] = useState(new Date())
@@ -30,10 +30,13 @@ export default function Home() {
     modoEdicao: false
   })
 
-  const {token, login, logout, loading, error} = useAuth()
-  console.log('loading: ', loading)
-  console.log('token: ', token)
-  login("bob@example.com", 'pass')
+  const auth  = useAuth()
+  console.log('loading: ', auth.loading)
+  console.log('token: ', auth.token)
+  auth.login("bob@example.com", 'pass')
+
+  const user = useUser()
+  console.log('user: ', user.data)
 
 
   const inc_dia = () => {
