@@ -103,7 +103,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
 
 
       <Reserva
-        key={0}
+        key={10}
         id={0}
         matéria={"Computação"}
         início={8}
@@ -116,7 +116,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         curso="bcc"
       />
       <Reserva
-        key={0}
+        key={11}
         id={0}
         matéria={"Pedagogia"}
         início={9}
@@ -129,7 +129,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         curso="pedagogia"
       />
       <Reserva
-        key={0}
+        key={12}
         id={0}
         matéria={"BEE"}
         início={10}
@@ -142,7 +142,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         curso="bee"
       />
       <Reserva
-        key={0}
+        key={13}
         id={0}
         matéria={"Ensino Médio"}
         início={8}
@@ -155,7 +155,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         curso="medio"
       />
       <Reserva
-        key={0}
+        key={14}
         id={0}
         matéria={"Informártica"}
         início={9}
@@ -168,7 +168,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         curso="info"
       />
       <Reserva
-        key={0}
+        key={15}
         id={0}
         matéria={"Eletromecanica"}
         início={10}
@@ -181,7 +181,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         curso="eletromecanica"
       />
       <Reserva
-        key={0}
+        key={16}
         id={0}
         matéria={"Mecatrônica"}
         início={11}
