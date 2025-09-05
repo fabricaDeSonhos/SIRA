@@ -38,14 +38,10 @@ function api2reserva(api_res) {
 }
 
 
-const _useReservations = () => {
+const _useReservations = (token) => {
   const { data, error, isLoading, mutate } = useSWR('/reservations', fetcher);
   
   const addReserva = async (newItem) => {
-    // user_id 7 is an admin
-    // obviously, this will change when authentication is implemented
-    newItem.user_id = 7
-
 
     // Optimistic update: Immediately update the local cache
     const optimisticData = data
@@ -58,6 +54,7 @@ const _useReservations = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
         },
         body: JSON.stringify(newItem),
       });
@@ -71,7 +68,7 @@ const _useReservations = () => {
     }
   };
 
-  const deleteReserva = async (reservaId, jwt) => {
+  const deleteReserva = async (reservaId) => {
       // Optimistic update
       const optimisticData = data
       optimisticData.details = data.details.filter((u) => u.id !== reservaId);
@@ -79,10 +76,10 @@ const _useReservations = () => {
       mutate(optimisticData, false);
 
       try {
-        await fetch(`${API_BASE_URL}/reservations/${reservaId}/7`, {
+        await fetch(`${API_BASE_URL}/reservations/${reservaId}`, {
           method: 'DELETE',
           headers: {
-          "Authorization": 'Bearer' + jwt, 
+          "Authorization": 'Bearer ' + token, 
         }
 
         });
@@ -95,7 +92,7 @@ const _useReservations = () => {
     };
 
   // changesObj is a reservation object, only edited values are present
-  const putReserva = async (reservaId, changesObj, jwt) => {
+  const putReserva = async (reservaId, changesObj) => {
     const od = data 
 
     const i = od.details.findIndex(x => x.id == reservaId)
@@ -108,7 +105,7 @@ const _useReservations = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer' + jwt
+          'Authorization': 'Bearer ' + token 
         },
         body: JSON.stringify(changesObj)
       })
@@ -122,7 +119,8 @@ const _useReservations = () => {
 };
 export const useReservations = () => {
 
-  const {data, error, isLoading, mutate, addReserva, deleteReserva, putReserva} = _useReservations()
+  const {token} = useAuth()
+  const {data, error, isLoading, mutate, addReserva, deleteReserva, putReserva} = _useReservations(token)
   console.log(data)
   const reservations = !isLoading ? data.details.map(api2reserva) : data
 

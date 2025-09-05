@@ -26,7 +26,7 @@ def login():
         if not user or not user.check_password(data['password']):  # check password
             return jsonify({"result": "error", "details": "Invalid email or password"}), 401  # unauthorized
 
-        token = create_access_token(identity=email)
+        token = create_access_token(identity=user.id)
         response = serialize_model(user)  # serialize the user object
         response.update({"token": token})  # add the token to the response
         return jsonify({"result": "ok", "details": response}), 200  # ok response
@@ -90,11 +90,12 @@ curl -X POST http://localhost:5000/reservations \
 @jwt_required()
 def create_reservation_route():
     try:
+        user_id = get_jwt_identity()
         data = request.json                              # get request data
         room = get_object_by_id(Room, data['room_id'])   # get the room object
-        user = get_object_by_id(User, data['user_id'])   # get the user object
-        if not room or not user:                         # if room or user does not exists... error!
-            return jsonify({"result": "error", "details": f"Invalid room_id ({room}) or user_id ({user})"}), 500    # error :-(
+        user = get_object_by_id(User, user_id)   # get the user object
+        if not room:                         # if room or user does not exists... error!
+            return jsonify({"result": "error", "details": f"Invalid room_id ({room})"}), 500    # error :-(
         else:
             # data conversion: convert date and time strings to date and time objects
             if 'date' in data and isinstance(data['date'], str):
@@ -305,10 +306,11 @@ def delete_room(obj_id):
     return jsonify(myjson), 204 if myjson['result'] == 'ok' else 500
 
 # @app.route('/reservations/<uuid:obj_id>/<int:canceler_user_id>', methods=['DELETE'])
-@app.route('/reservations/<int:obj_id>/<int:canceler_user_id>', methods=['DELETE'])
+@app.route('/reservations/<int:obj_id>', methods=['DELETE'])
 @jwt_required()
-def delete_reservation(obj_id, canceler_user_id):
+def delete_reservation(obj_id):
     try:
+        canceler_user_id = get_jwt_identity()
         canceler_user = get_object_by_id(User, canceler_user_id) # get the user who is canceling this reservation
         if not canceler_user:
             print(f"Invalid canceler_user_id: {canceler_user_id}")
