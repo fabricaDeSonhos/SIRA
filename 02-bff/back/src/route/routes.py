@@ -9,7 +9,7 @@ from src.model.room import *
 '''
 curl -X POST http://localhost:5000/login \
   -H "Content-Type: application/json" \
-  -d '{"email": "jo@gmail.com", "password": "123"}'
+  -d '{"email": "jorge@yahoo.com", "password": "1234"}'
 '''
 
 # --- security: LOGIN
@@ -59,6 +59,11 @@ def create_simple_object(mclass, data):
     except Exception as ex:
         return {"result":"error", "details":f"error during object creation: {ex}"}
 
+
+'''
+curl http://localhost:5000/users -X POST -H 'content-type: application/json' -H 'Authorization: bearer
+-d '{"name": "jorge", "password": "1234", "email": "jorge@yahoo.com", "admin": false, "active": true}'
+'''
 @app.route('/users', methods=['POST'])
 @jwt_required()
 def create_user():

@@ -8,6 +8,9 @@ from src.model.room import *
 # --- create
 
 def create_object(m_class, **kwargs):
+    if m_class == User:
+        kwargs["password"] = bcrypt.generate_password_hash(kwargs["password"]).decode('utf-8')
+
     obj = m_class(**kwargs)
     db.session.add(obj)
     db.session.commit()

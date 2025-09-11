@@ -18,6 +18,8 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
+from flask_bcrypt import Bcrypt
+
 import os
 class Base(DeclarativeBase):
   pass
@@ -63,6 +65,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable unnecessary modi
 # JWT configuration
 jwt = JWTManager(app)
 app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # <-- Add this line
+
+bcrypt = Bcrypt(app)
+app.config['BCRYPT_HANDLE_LONG_PASSWORDS'] = True
 
 
 # initialize the app with the extension
