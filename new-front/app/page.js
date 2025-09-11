@@ -31,8 +31,8 @@ export default function Home() {
   })
 
   const auth  = useAuth()
-  //auth.login("bob@example.com", 'pass')
-  auth.login("admin", "admin")
+  auth.login("bob@example.com", 'pass')
+  //auth.login("admin", "admin")
 
   const user = useUser()
 

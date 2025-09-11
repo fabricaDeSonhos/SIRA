@@ -1,6 +1,6 @@
 import styles from "./visao-diaria.module.css"
 
-import { useReservations } from '../lib/api.js' 
+import { useReservations, useUser } from '../lib/api.js' 
 import Reserva from './reserva.jsx'
 
 
@@ -12,6 +12,8 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
     : new Date(dia).toISOString().slice(0, 10)
 
   const {reservations, error, isLoading} = useReservations()
+  const user = useUser()
+  console.log('user: ', user)
 
   const reservas = isLoading ? [] : reservations.map((r, i) => (
     <Reserva
@@ -24,6 +26,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
       lab={r.lab}
       vazia={false}
 
+      editavel={!user.isLoading && user.data.details.id == r.id}
       noText={noText}
     />
   ))
