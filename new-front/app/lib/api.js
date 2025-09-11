@@ -47,8 +47,9 @@ function api2reserva(api_res) {
   const dia = diaHoje
   const início = tempo_para_número(api_res.start_time)
   const duração = tempo_para_número(api_res.end_time) - início
+  const user_id= api_res.user_id
 
-  return {id, lab, matéria, dia, início, duração: duração*60}
+  return {id, user_id, lab, matéria, dia, início, duração: duração*60}
 }
 
 

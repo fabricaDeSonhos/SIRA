@@ -13,7 +13,6 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
 
   const {reservations, error, isLoading} = useReservations()
   const user = useUser()
-  console.log('user: ', user)
 
   const reservas = isLoading ? [] : reservations.map((r, i) => (
     <Reserva
@@ -26,7 +25,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
       lab={r.lab}
       vazia={false}
 
-      editavel={!user.isLoading && user.data.details.id == r.id}
+      editavel={!user.isLoading && user.data.details.id === r.user_id}
       noText={noText}
     />
   ))
