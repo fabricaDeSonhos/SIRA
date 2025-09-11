@@ -214,9 +214,7 @@ export function useAuth() {
 
 export function useUser() {
   const auth = useAuth()
+  const user = useSWR(!auth.loading ? '/user' : null, async (url) => fetcher_jwt(url, auth.token))
 
-  const {data, error, isLoading} = useSWR('/user', async (url) => fetcher_jwt(url, auth.token))
-
-  return {data, error, isLoading}
-
+  return user
 }

@@ -31,12 +31,10 @@ export default function Home() {
   })
 
   const auth  = useAuth()
-  console.log('loading: ', auth.loading)
-  console.log('token: ', auth.token)
-  auth.login("bob@example.com", 'pass')
+  //auth.login("bob@example.com", 'pass')
+  auth.login("admin", "admin")
 
   const user = useUser()
-  console.log('user: ', user.data)
 
 
   const inc_dia = () => {
