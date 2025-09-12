@@ -1,6 +1,7 @@
 import styles from "./visao-diaria.module.css"
 
 import { useReservations, useUser } from '../lib/api.js' 
+import {mesmo_dia} from '../lib/tempo.js'
 import Reserva from './reserva.jsx'
 
 
@@ -14,7 +15,103 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
   const {reservations, error, isLoading} = useReservations()
   const user = useUser()
 
-  const reservas = isLoading ? [] : reservations.map((r, i) => (
+  const dia_das_cores = new Date('2025-09-11T12:12:12')
+  console.log(dia_das_cores, dia)
+  const exemplo_das_cores = [     
+    <Reserva
+        key={10}
+        id={0}
+        matéria={"Computação"}
+        início={8}
+        duração={60}
+        dia={dia_das_cores}
+        lab={1}
+        vazia={false}
+
+        noText={false}
+        curso="bcc"
+      />,
+      <Reserva
+        key={11}
+        id={0}
+        matéria={"Pedagogia"}
+        início={9}
+        duração={60}
+        dia={dia_das_cores}
+        lab={1}
+        vazia={false}
+
+        noText={false}
+        curso="pedagogia"
+      />,
+      <Reserva
+        key={12}
+        id={0}
+        matéria={"BEE"}
+        início={10}
+        duração={60}
+        dia={dia_das_cores}
+        lab={1}
+        vazia={false}
+
+        noText={false}
+        curso="bee"
+      />,
+      <Reserva
+        key={13}
+        id={0}
+        matéria={"Ensino Médio"}
+        início={8}
+        duração={60}
+        dia={dia_das_cores}
+        lab={2}
+        vazia={false}
+
+        noText={false}
+        curso="medio"
+      />,
+      <Reserva
+        key={14}
+        id={0}
+        matéria={"Informártica"}
+        início={9}
+        duração={60}
+        dia={dia_das_cores}
+        lab={2}
+        vazia={false}
+
+        noText={false}
+        curso="info"
+      />,
+      <Reserva
+        key={15}
+        id={0}
+        matéria={"Eletromecanica"}
+        início={10}
+        duração={60}
+        dia={dia_das_cores}
+        lab={2}
+        vazia={false}
+
+        noText={false}
+        curso="eletromecanica"
+      />,
+      <Reserva
+        key={16}
+        id={0}
+        matéria={"Mecatrônica"}
+        início={11}
+        duração={60}
+        dia={dia_das_cores}
+        lab={2}
+        vazia={false}
+
+        noText={false}
+        curso="mecatronica"
+      />,
+  ].filter(_ => mesmo_dia(dia, dia_das_cores))
+
+  const reservas = isLoading ? [] : reservations.filter(r => mesmo_dia(r.dia, dia)).map((r, i) => (
     <Reserva
       key={r.id}
       id={r.id}
@@ -25,8 +122,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
       lab={r.lab}
       vazia={false}
 
-      editavel={!user.isLoading && user.data.details.id === r.user_id}
-      noText={noText}
+      editavel={!user.isLoading && user.data.details.id === r.user_id} noText={noText}
     />
   ))
 
@@ -102,97 +198,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
 
 
 
-      <Reserva
-        key={10}
-        id={0}
-        matéria={"Computação"}
-        início={8}
-        duração={60}
-        dia={"02/09/2025"}
-        lab={1}
-        vazia={false}
-
-        noText={false}
-        curso="bcc"
-      />
-      <Reserva
-        key={11}
-        id={0}
-        matéria={"Pedagogia"}
-        início={9}
-        duração={60}
-        dia={"02/09/2025"}
-        lab={1}
-        vazia={false}
-
-        noText={false}
-        curso="pedagogia"
-      />
-      <Reserva
-        key={12}
-        id={0}
-        matéria={"BEE"}
-        início={10}
-        duração={60}
-        dia={"02/09/2025"}
-        lab={1}
-        vazia={false}
-
-        noText={false}
-        curso="bee"
-      />
-      <Reserva
-        key={13}
-        id={0}
-        matéria={"Ensino Médio"}
-        início={8}
-        duração={60}
-        dia={"02/09/2025"}
-        lab={2}
-        vazia={false}
-
-        noText={false}
-        curso="medio"
-      />
-      <Reserva
-        key={14}
-        id={0}
-        matéria={"Informártica"}
-        início={9}
-        duração={60}
-        dia={"02/09/2025"}
-        lab={2}
-        vazia={false}
-
-        noText={false}
-        curso="info"
-      />
-      <Reserva
-        key={15}
-        id={0}
-        matéria={"Eletromecanica"}
-        início={10}
-        duração={60}
-        dia={"02/09/2025"}
-        lab={2}
-        vazia={false}
-
-        noText={false}
-        curso="eletromecanica"
-      />
-      <Reserva
-        key={16}
-        id={0}
-        matéria={"Mecatrônica"}
-        início={11}
-        duração={60}
-        dia={"02/09/2025"}
-        lab={2}
-        vazia={false}
-
-        noText={false}
-        curso="mecatronica"
-      />
+      {exemplo_das_cores}
     </div>
   )
 }

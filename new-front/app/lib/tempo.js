@@ -28,6 +28,12 @@ export function tempo_para_número(tempo) {
 
 }
 
+export function mesmo_dia(x,y) {
+    return x.getFullYear() === y.getFullYear() &&
+    x.getMonth() === y.getMonth() &&
+    x.getDate() === y.getDate();
+}
+
 export function data_bonita(dia) {
   const m = moment(dia).lang('pt-br')
   const dia_semana = Texto.titleCase(m.format('ddd'))

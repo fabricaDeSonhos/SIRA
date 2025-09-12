@@ -44,7 +44,7 @@ function api2reserva(api_res) {
   const id = api_res.id
   const lab = api_res.room_id
   const matéria = api_res.purpose
-  const dia = diaHoje
+  const dia = new Date(api_res.created_at)
   const início = tempo_para_número(api_res.start_time)
   const duração = tempo_para_número(api_res.end_time) - início
   const user_id= api_res.user_id
