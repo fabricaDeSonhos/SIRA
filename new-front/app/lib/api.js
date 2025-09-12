@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import {useState, useEffect} from 'react'
 import {tempo_para_número} from './tempo.js'
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "http://191.52.6.52:5000";
 
 function update_obj(source, changes) {
   for (let key in changes) {

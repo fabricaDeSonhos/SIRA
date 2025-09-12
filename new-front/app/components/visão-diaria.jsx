@@ -28,8 +28,9 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         lab={1}
         vazia={false}
 
-        noText={false}
+        noText={noText}
         curso="bcc"
+
       />,
       <Reserva
         key={11}
@@ -41,7 +42,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         lab={1}
         vazia={false}
 
-        noText={false}
+        noText={noText}
         curso="pedagogia"
       />,
       <Reserva
@@ -54,7 +55,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         lab={1}
         vazia={false}
 
-        noText={false}
+        noText={noText}
         curso="bee"
       />,
       <Reserva
@@ -67,7 +68,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         lab={2}
         vazia={false}
 
-        noText={false}
+        noText={noText}
         curso="medio"
       />,
       <Reserva
@@ -80,7 +81,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         lab={2}
         vazia={false}
 
-        noText={false}
+        noText={noText}
         curso="info"
       />,
       <Reserva
@@ -93,7 +94,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         lab={2}
         vazia={false}
 
-        noText={false}
+        noText={noText}
         curso="eletromecanica"
       />,
       <Reserva
@@ -106,7 +107,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         lab={2}
         vazia={false}
 
-        noText={false}
+        noText={noText}
         curso="mecatronica"
       />,
   ].filter(_ => mesmo_dia(dia, dia_das_cores))

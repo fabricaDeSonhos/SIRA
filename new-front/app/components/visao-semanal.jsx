@@ -69,7 +69,7 @@ export default function VisaoSemanal({ manhã = true, tarde = true, noite = true
             </h3>
 
             <VisaoDiaria
-              dia={dia}
+              dia={new Date(dia)}
               manhã={manhã}
               tarde={tarde}
               noite={noite}
