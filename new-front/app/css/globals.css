@@ -13,7 +13,8 @@
 
   --destaque: green; 
   --secundario: #a5d6a7;
-  --inativo: lightgray;
+  --inativo: gray;
+  --inativo-light: lightgray;
   --alerta: red;
 
 }

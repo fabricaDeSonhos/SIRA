@@ -34,7 +34,13 @@ export function Checkbox({desc,checked=false, setChecked}) {
     </div>
   )
 }
-export function Button({desc, highlight, onClick, submit}) {
-  const highlight_class = highlight ? styles.highlight : ""
-  return (<button className={styles.button + " " + highlight_class} type={submit ? "submit" : "button" } onClick={onClick}>{desc}</button>)
+export function Button({desc, color, onClick, submit}) {
+  if (!color)
+    color = "inativo"
+  const color_style = {
+    backgroundColor: `var(--${color}-light`,
+    color: `var(--${color})`,
+    border: `2px solid var(--${color})`
+  }
+  return (<button style={color_style} className={styles.button + " "} type={submit ? "submit" : "button" } onClick={onClick}>{desc}</button>)
 }

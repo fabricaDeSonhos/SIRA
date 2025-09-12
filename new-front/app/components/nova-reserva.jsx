@@ -26,7 +26,6 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
     const form = new FormData(event.target)
 
     const disp = form.get("disp")
-    const prof = form.get("prof")
     const diaInput = form.get("dia")
     const inícioInput = form.get("início")
     const fimInput = form.get("fim")
@@ -46,8 +45,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
         date: diaInput,
         room_id: novoLab,
       }
-      putReserva(id, reservaObj)
-    } else {
+      putReserva(id, reservaObj) } else {
 
     addReserva({
       room_id: novoLab,
@@ -82,21 +80,18 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
     <form className={styles.modal} onSubmit={handleEnviar}>
       <h2>{modoEdicao ? "Editar Reserva" : "Nova Reserva"}</h2>
 
-      <Input name="prof" desc="Professor" defaultValue={professor || ""} />
-      <Input name="disp" desc="Disciplina" value={matéria} />
+      <Input name="disp" desc="Propósito" value={matéria} />
       <Input name="dia" type="date" desc="Dia" value={dia} />
       <Input name="início" type="time" desc="Início" value={início} />
       <Input name="fim" type="time" desc="Fim" value={fim} />
       <Select name="lab" desc="Laboratório" options={LABS} value={lab} />
 
       <div className={styles.botoes}>
-        <Button submit desc={modoEdicao ? "Salvar Alterações" : "Reservar"} highlight />
+        <Button submit desc={modoEdicao ? "💾 Salvar" : "Reservar"} color="verde"/>
         {modoEdicao && (
-          <button type="button" className={styles.excluir} onClick={handleExcluir}>
-            🗑️ Excluir
-          </button>
+          <Button desc="🗑️ Excluir" onClick={handleExcluir} color="krimson"/>
         )}
-        <Button desc="Cancelar" onClick={() => fecharReserva("")} />
+        <Button desc="Cancelar" onClick={() => fecharReserva("")} color="preto"/>
       </div>
     </form>
   )

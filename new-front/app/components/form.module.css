@@ -33,6 +33,7 @@
   border: var(--border);
   min-width: 1rem;
   color: black;
+  padding: 4px;
 }
 
 .button:hover {
