@@ -157,10 +157,11 @@ export function useAuth() {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('jwt')
-    if (storedToken)
+    if (storedToken) {
       setToken(storedToken)
+      setLoading(false)
+    }
 
-    setLoading(false)
   }, [])
 
   const _login = async (email, password ) => {
@@ -215,8 +216,13 @@ export function useAuth() {
 }
 
 export function useUser() {
+
   const auth = useAuth()
-  const user = useSWR(!auth.loading ? '/user' : null, async (url) => fetcher_jwt(url, auth.token))
+  
+  const user = useSWR(!auth.loading ? ['/user', auth.token] : null, ([url,token]) => fetcher_jwt(url, token))
+
+  if (!user.data)
+    return {isLoading: true}
 
   return user
 }
