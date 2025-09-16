@@ -16,7 +16,6 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
   const user = useUser()
 
   const dia_das_cores = new Date('2025-09-11T12:12:12')
-  console.log(dia_das_cores, dia)
   const exemplo_das_cores = [     
     <Reserva
         key={10}
