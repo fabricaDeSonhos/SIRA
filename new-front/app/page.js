@@ -91,7 +91,7 @@ export default function Home() {
       <div className={styles.filtros}>
           <div className={styles.mudança_de_dia}>
             <Button onClick={dec_dia} desc="←" />
-            <p><span className={styles.dia_semana}>{data_bonita(dia).dia_semana}</span> <br/> {data_bonita(dia).dia_n} de {data_bonita(dia).mes}</p>
+            <p><span className={styles.dia_semana}>{data_bonita(dia).dia_semana}</span> {data_bonita(dia).dia_n} de {data_bonita(dia).mes}</p>
             <Button onClick={inc_dia} desc="→" />
           </div>
 
