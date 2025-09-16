@@ -3,7 +3,8 @@ import useSWR from 'swr';
 import {useState, useEffect} from 'react'
 import {tempo_para_número} from './tempo.js'
 
-const API_BASE_URL = "http://191.52.6.52:5000";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_PROD ? "/" : "http://localhost:5000"
 
 function update_obj(source, changes) {
   for (let key in changes) {
@@ -54,7 +55,7 @@ function api2reserva(api_res) {
 
 
 const _useReservations = (token) => {
-  const { data, error, isLoading, mutate } = useSWR('/reservations', fetcher);
+  const { data, error, isLoading, mutate } = useSWR('/reservations', fetcher, {refreshInterval: 1000});
   
   const addReserva = async (newItem) => {
 
