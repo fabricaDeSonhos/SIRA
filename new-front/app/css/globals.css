@@ -2,7 +2,7 @@
 
   /* --font-sans and --font-monospace are defined on layout.js */
   --border: 1px solid lightgray;
-  --reserva-color: green;
+  --reserva-color: var(--esmeralda);
   --phi: 1.66;
   
   --pequeno: 0.8rem;
@@ -11,7 +11,8 @@
 
   --round-radius: 5px;
 
-  --destaque: green; 
+  --destaque: var(--esmeralda); 
+  --destaque-light: var(--esmeralda-light); 
   --secundario: #a5d6a7;
   --inativo: gray;
   --inativo-light: lightgray;

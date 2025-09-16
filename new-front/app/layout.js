@@ -27,11 +27,11 @@ const hsl = (name, hue, saturation, lightness) => {
 const colors = {
    ...hsl("krimson", 0   , .63  , .43),
    ...hsl("bordo"  , 330 , 1    , .19),
-   ...hsl("roxo"   , 280 , 1    , .15),
+   ...hsl("violeta"   , 280 , 1    , .15),
    ...hsl("preto"  , 0   , 0    , .06),
-   ...hsl("azul"   , 226 , .73  , .30),
+   ...hsl("azure"   , 226 , .73  , .30),
    ...hsl("prata"  , 211 , .30  , .10),
-   ...hsl("verde"  , 120 , 1    , .15),
+   ...hsl("esmeralda"  , 120 , 1    , .15),
    ...hsl("ouro"   , 44  , .97  , .54),
    ...hsl("ebony"  , 29  , .67  , .15)
 

@@ -3,6 +3,7 @@
   display: grid;
   grid-template-columns: 4rem 1fr 1fr 1fr 1fr 1fr 1fr;
   height: 90vh;
+  transition: 200ms;
 }
 
 .noHours {
@@ -33,6 +34,7 @@
   padding-right: var(--pequeno);
 
   font-family: var(--font-monospace);
+  transition: 200ms;
 }
 
 .hora_n {

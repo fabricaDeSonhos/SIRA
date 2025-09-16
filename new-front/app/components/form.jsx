@@ -1,4 +1,4 @@
-import {useId} from 'react'
+import {useState, useId} from 'react'
 import styles from './form.module.css'
 
 export function Input({type="text", desc, value, name}) {
@@ -27,10 +27,20 @@ export function Select({desc, options, value, name}) {
 
 export function Checkbox({desc,checked=false, setChecked}) {
   const id = useId()
+  const [selected, setSelected] = useState(checked)
+
+  const toggle = () => {
+    setChecked(!checked)
+  }
   return (
+    /*
     <div className={styles.checkbox}>
       <input id={id} type="checkbox" defaultChecked={checked} onChange={e => {setChecked(e.target.checked);}}/>
       <label htmlFor={ id }>{ " " +  desc }</label>
+    </div>
+      */
+    <div className={[styles.checkbox, checked ? styles.checkboxSeleted : ''].join(" ")} onClick={toggle}>
+      {desc}
     </div>
   )
 }

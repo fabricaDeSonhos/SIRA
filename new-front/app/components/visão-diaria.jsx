@@ -134,11 +134,12 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
 
   for (let lab = 1; lab <= 6; lab++) {
     for (let hour = 8; hour <= 22; hour++) {
-      if (
+      /*if (
         (hour <= 11 && !manhã) ||
         (hour >= 13 && hour <= 16 && !tarde) ||
         (hour >= 18 && !noite)
       ) continue;
+      */
 
       reservas_vazia.push(
         <Reserva
@@ -156,22 +157,18 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
 
   const filtros = {
     gridTemplateRows: `2rem 
-      repeat(${60 * 4}, ${manhã ? "1fr" : "0px"}) 
-      repeat(60, 1fr) 
-      repeat(${60 * 4}, ${tarde ? "1fr" : "0px"}) 
-      repeat(60, 1fr) 
-      repeat(${60 * 5}, ${noite ? "1fr" : "0px"})`
+      repeat(${60 * 5}, ${manhã ? "1fr" : "0fr"}) 
+      repeat(${60 * 5}, ${tarde ? "1fr" : "0fr"}) 
+      repeat(${60 * 5}, ${noite ? "1fr" : "0fr"})`
   }
 
   const Horas = [
-        ["8", "9", "10", "11"].map(h =>
+        ["8", "9", "10", "11", "12"].map(h =>
           <div key={h} className={styles.hora} style={manhã ? {} : { opacity: 0 }}><span className={styles.hora_n}>{h}</span>h</div>
         ),
-        <div className={styles.hora}><span className={styles.hora_n}>12</span>h</div>,
-        ["13", "14", "15", "16"].map(h =>
+        ["13", "14", "15", "16","17"].map(h =>
           <div key={h} className={styles.hora} style={tarde ? {} : { opacity: 0 }}><span className={styles.hora_n}>{h}</span>h</div>
         ),
-        <div className={styles.hora}><span className={styles.hora_n}>17</span>h</div>,
         ["18", "19", "20", "21", "22"].map(h =>
           <div key={h} className={styles.hora} style={noite ? {} : { opacity: 0 }}><span className={styles.hora_n}>{h}</span>h</div>
         ),
