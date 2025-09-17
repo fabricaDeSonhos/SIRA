@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS='--inspect' next dev --turbopack",
+    "dev": "cross-env NODE_OPTIONS=--inspect next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -14,5 +14,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "swr": "^2.3.6"
+  },
+  "devDependencies": {
+    "cross-env": "^10.0.0"
   }
 }
