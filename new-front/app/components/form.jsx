@@ -6,7 +6,7 @@ export function Input({type="text", desc, value, name}) {
   return (
     <div id={ id} className={styles.input}>
       <label htmlFor={ id }>{ desc }</label>
-      <input id={id} name={name} type={type} defaultValue={value}/>
+      <input id={id} name={name} type={type} defaultValue={value} required />
     </div>
   )
 
