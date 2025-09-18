@@ -1,12 +1,12 @@
 import {useState, useId} from 'react'
 import styles from './form.module.css'
 
-export function Input({type="text", desc, value, name}) {
+export function Input({type="text", desc, value, name, error, clearErrors}) {
   const id = useId()
   return (
     <div id={ id} className={styles.input}>
-      <label htmlFor={ id }>{ desc }</label>
-      <input id={id} name={name} type={type} defaultValue={value} required />
+      <label htmlFor={ id }>{ desc } {error && <em className={styles.error}>: {error}</em>}</label>
+      <input id={id} name={name} type={type} defaultValue={value} onChange={clearErrors}/>
     </div>
   )
 
@@ -17,7 +17,7 @@ export function Select({desc, options, value, name}) {
   const id = useId()
   return (
     <div id={id} className={styles.select}>
-      <label htmlFor={ id }>{ desc }</label>
+      <label htmlFor={ id }>{ desc } {}</label>
       <select id={id} defaultValue={value} name={name}>
         {options.map(o => <option key={o}>{o}</option>)}
       </select>

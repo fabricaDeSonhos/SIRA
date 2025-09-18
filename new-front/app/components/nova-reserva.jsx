@@ -6,7 +6,7 @@ import { Input, Select, Button } from './form.jsx'
 import { add_reserva, remover_reserva } from '../lib/api.js'
 import { tempo_para_número } from '../lib/tempo.js'
 
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { FecharReservaModalContext } from './reservaContext.js'
 import {useReservations, useReservation} from '../lib/api.js'
 
@@ -20,6 +20,16 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
   const {addReserva, deleteReserva, putReserva} = useReservations()
 
   const [disciplina, professor] = matéria.split(" - ")
+
+  const [emptyPurposeError, setEmptyPurposeError] = useState(false)
+  const [negativeDurationError, setNegativeDurationError] = useState(false)
+  const [pastDateError, setPastDateError] = useState(false)
+    
+  const clearErrors = () => {
+    setEmptyPurposeError(false)
+    setNegativeDurationError(false)
+    setPastDateError(false)
+  }
 
   const handleEnviar = (event) => {
     event.preventDefault()
@@ -36,6 +46,27 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
     const novoFim = tempo_para_número(fimInput)
     const novoLab = LABS.indexOf(labInput) + 1
 
+    // ERROR CHECKING
+    let someError = false
+    if (disp === "") {
+      setEmptyPurposeError(true)
+      someError = true
+    }
+
+    if (novoFim <= novoInício) {
+      setNegativeDurationError(true)
+      someError = true
+    }
+
+    if (moment(diaInput).isBefore(new Date(), 'day')) {
+      setPastDateError(true)
+      someError = true
+    }
+
+    if (someError)
+      return
+
+
     if (modoEdicao) {
 
       const reservaObj = {
@@ -45,16 +76,17 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
         date: diaInput,
         room_id: novoLab,
       }
-      putReserva(id, reservaObj) } else {
+      putReserva(id, reservaObj) 
+    } else {
 
-    addReserva({
-      room_id: novoLab,
-      date: diaInput,
-      start_time: inícioInput + ":00",
-      end_time: fimInput + ":00",
-      purpose: disp,
+      addReserva({
+        room_id: novoLab,
+        date: diaInput,
+        start_time: inícioInput + ":00",
+        end_time: fimInput + ":00",
+        purpose: disp,
 
-    })
+      })
     }
 
     fecharReserva("Reserva salva com sucesso!")
@@ -80,10 +112,10 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
     <form className={styles.modal} onSubmit={handleEnviar}>
       <h2>{modoEdicao ? "Editar Reserva" : "Nova Reserva"}</h2>
 
-      <Input name="disp" desc="Propósito" value={matéria} />
-      <Input name="dia" type="date" desc="Dia" value={dia} />
+      <Input name="disp" desc="Propósito" value={matéria} error={emptyPurposeError && "Propósitio Vazio"} clearErrors={clearErrors}/>
+      <Input name="dia" type="date" desc="Dia" value={dia} error={pastDateError && "Dia está no passado"} />
       <Input name="início" type="time" desc="Início" value={início} />
-      <Input name="fim" type="time" desc="Fim" value={fim} />
+      <Input name="fim" type="time" desc="Fim" value={fim} error={negativeDurationError && " Fim ≤ Início"} clearErrors={clearErrors}/>
       <Select name="lab" desc="Laboratório" options={LABS} value={lab} />
 
       <div className={styles.botoes}>

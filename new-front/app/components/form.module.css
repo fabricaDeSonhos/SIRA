@@ -17,6 +17,12 @@
   border-radius: var(--round-radius);
 }
 
+.input .error {
+  font-size: var(--pequeno);
+  color: var(--alerta);
+  font-weight: lighter;
+}
+
 .checkbox {
   display: flex;
   flex-flow: row nowrap;
