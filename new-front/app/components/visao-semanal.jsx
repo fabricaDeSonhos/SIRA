@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import {data_bonita} from '../lib/tempo.js'
-import VisaoDiaria from './visão-diaria.jsx'
+import VisaoDiaria from './visao-diaria.jsx'
 import styles from './visao-diaria.module.css'
 import { Button } from './form.jsx'
 

@@ -6,7 +6,7 @@ import styles from "./page.module.css"
 import {data_bonita} from './lib/tempo.js'
 import { Checkbox, Button } from './components/form.jsx'
 
-import VisaoDiaria from "./components/visão-diaria.jsx"
+import VisaoDiaria from "./components/visao-diaria.jsx"
 import NovaReserva from "./components/nova-reserva.jsx"
 
 import { AbrirReservaModalContext, FecharReservaModalContext } from './components/reservaContext.js'
