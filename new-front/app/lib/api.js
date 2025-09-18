@@ -66,7 +66,7 @@ const _useReservations = (token) => {
 
     try {
       // Make the POST request to the API
-      await fetch(`${API_BASE_URL}/reservations`, {
+      const req = await fetch(`${API_BASE_URL}/reservations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -75,6 +75,8 @@ const _useReservations = (token) => {
         body: JSON.stringify(newItem),
       });
 
+      if (!req.ok)
+        throw req
       // Re-validate the data from the server
       mutate();
     } catch (e) {
