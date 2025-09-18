@@ -35,7 +35,7 @@ const colors = {
    ...hsl("ouro"   , 44  , .97  , .54),
    ...hsl("ebony"  , 29  , .67  , .15),
 
-
+  // cores oficiais, baseado no documento: CECOM/IFC MANUAL DE IDENDITADE VISUAL CURSOS DO IFC 
   ...hsl('verde-claro', 166, 1, .33),
   ...hsl('roxo', 244, .31, .57),
   ...hsl('azul-anil', 210, .86, .30),
