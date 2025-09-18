@@ -79,6 +79,13 @@
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+.outro-curso {
+
+  color: var(--esmeralda);
+  background-color: var(--esmeralda-light);
+  border-left: 4px solid var(--esmeralda);
+}
+
 .bcc{
   color: var(--bcc);
   background-color: var(--bcc-light);

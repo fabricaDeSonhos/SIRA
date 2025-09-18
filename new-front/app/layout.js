@@ -33,7 +33,12 @@ const colors = {
    ...hsl("prata"  , 211 , .30  , .10),
    ...hsl("esmeralda"  , 120 , 1    , .15),
    ...hsl("ouro"   , 44  , .97  , .54),
-   ...hsl("ebony"  , 29  , .67  , .15)
+   ...hsl("ebony"  , 29  , .67  , .15),
+
+
+  ...hsl('verde-claro', 166, 1, .33),
+  ...hsl('roxo', 244, .31, .57),
+  ...hsl('azul-anil', 210, .86, .30),
 
 
 }
@@ -50,10 +55,10 @@ const curso = (curso, color) => {
 const cursoColors = {
 
       ...curso("bcc"           , "bordo"),
-      ...curso("pedagogia"     , "roxo"),
+      ...curso("pedagogia"     , "violeta"),
       ...curso("bee"           , "preto"),
-      ...curso("medio"         , "verde"),
-      ...curso("info"          , "azul"),
+      ...curso("medio"         , "esmeralda"),
+      ...curso("info"          , "azure"),
       ...curso("eletromecanica", "prata"),
       ...curso("mecatronica"   , "ebony"),
 }

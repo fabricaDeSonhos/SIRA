@@ -5,7 +5,7 @@ import { useContext } from 'react'
 import styles from './visao-diaria.module.css'
 import { AbrirReservaModalContext } from './reservaContext.js'
 
-export default function Reserva({ id, matéria, dia, início, duração, lab, vazia, curso, editavel, noText }) {
+export default function Reserva({ id, matéria, dia, início, duração, lab, vazia, curso="outro-curso", editavel, noText }) {
   const abrirReserva = useContext(AbrirReservaModalContext)
 
   const topo = Math.max((início - 8) * 60 + 1, 2)

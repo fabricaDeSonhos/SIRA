@@ -87,7 +87,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
       <Select name="lab" desc="Laboratório" options={LABS} value={lab} />
 
       <div className={styles.botoes}>
-        <Button submit desc={modoEdicao ? "💾 Salvar" : "Reservar"} color="verde"/>
+        <Button submit desc={modoEdicao ? "💾 Salvar" : "Reservar"} color="esmeralda"/>
         {modoEdicao && (
           <Button desc="🗑️ Excluir" onClick={handleExcluir} color="krimson"/>
         )}
