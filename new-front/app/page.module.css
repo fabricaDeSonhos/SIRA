@@ -15,6 +15,8 @@
 .mudança_de_dia p {
   padding: 0 var(--pequeno);
   font-weight: lighter;
+  width: 21ex;
+  text-align: center;
 }
 
 .dia_semana {
