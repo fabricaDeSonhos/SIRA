@@ -24,11 +24,13 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
   const [emptyPurposeError, setEmptyPurposeError] = useState(false)
   const [negativeDurationError, setNegativeDurationError] = useState(false)
   const [pastDateError, setPastDateError] = useState(false)
+  const [smallDurationError, setSmallDurationError] = useState(false)
     
   const clearErrors = () => {
     setEmptyPurposeError(false)
     setNegativeDurationError(false)
     setPastDateError(false)
+    setSmallDurationError(false)
   }
 
   const handleEnviar = (event) => {
@@ -63,6 +65,10 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
       someError = true
     }
 
+    if (novoFim - novoInício < 0.5) {
+      setSmallDurationError(true)
+      someError = true
+    }
     if (someError)
       return
 
@@ -113,9 +119,9 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
       <h2>{modoEdicao ? "Editar Reserva" : "Nova Reserva"}</h2>
 
       <Input name="disp" desc="Propósito" value={matéria} error={emptyPurposeError && "Propósitio Vazio"} clearErrors={clearErrors}/>
-      <Input name="dia" type="date" desc="Dia" value={dia} error={pastDateError && "Dia está no passado"} />
-      <Input name="início" type="time" desc="Início" value={início} />
-      <Input name="fim" type="time" desc="Fim" value={fim} error={negativeDurationError && " Fim ≤ Início"} clearErrors={clearErrors}/>
+      <Input name="dia" type="date" desc="Dia" value={dia} error={pastDateError && "Dia está no passado"} clearErrors={clearErrors}/>
+      <Input name="início" type="time" desc="Início" value={início} error={negativeDurationError && " Fim ≤ Início"} clearErrors={clearErrors}/>
+      <Input name="fim" type="time" desc="Fim" value={fim} error={smallDurationError && "Duração < 30 minutos"} clearErrors={clearErrors}/>
       <Select name="lab" desc="Laboratório" options={LABS} value={lab} />
 
       <div className={styles.botoes}>
