@@ -99,6 +99,9 @@
 
 @media only screen and (max-width: 480px) {
 
+  .mudança_de_dia p {
+    width: auto;
+  }
   .filtros h1 {
     display: none;
 
