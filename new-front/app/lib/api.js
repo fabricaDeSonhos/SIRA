@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react'
 import {tempo_para_número} from './tempo.js'
 
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_PROD ? "/" : "http://localhost:5000"
+const API_BASE_URL = !process.env.NEXT_PUBLIC_API ? "http://localhost:5000" : process.env.NEXT_PUBLIC_API
 
 function update_obj(source, changes) {
   for (let key in changes) {
