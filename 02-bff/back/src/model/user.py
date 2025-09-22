@@ -28,8 +28,9 @@ class User(db.Model):
         return f"<User(id={self.id}, name={self.name}, email={self.email}, "+\
                 "password={self.password}, admin={self.admin}, active={self.active})>"
     
-    def gen_password():
-        return bcrypt.generate_password_hash().decode('utf-8')
+    @staticmethod
+    def gen_password(password):
+        return bcrypt.generate_password_hash(password).decode('utf-8')
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
         # return check_password_hash(self.password, password)

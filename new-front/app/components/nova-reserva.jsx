@@ -14,6 +14,8 @@ import moment from 'moment'
 
 export default function NovaReserva({id,  dia, início, fim, lab, matéria = "", modoEdicao = false }) {
   const LABS = ["A03", "A04", "D04", "D05", "D06", "D07"]
+  const CURSOS = ["bcc","pedagogia","bee","info","eletromecanica","mecatronica","medio"]
+
   const fecharReserva = useContext(FecharReservaModalContext)
 
 
@@ -42,6 +44,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
     const inícioInput = form.get("início")
     const fimInput = form.get("fim")
     const labInput = form.get("lab")
+    const cursoInput = form.get("curso")
 
     const novoDia = moment(diaInput).format("YYYY-MM-DD")
     const novoInício = tempo_para_número(inícioInput)
@@ -81,6 +84,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
         purpose: disp,
         date: diaInput,
         room_id: novoLab,
+        course: cursoInput
       }
       putReserva(id, reservaObj) 
     } else {
@@ -91,6 +95,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
         start_time: inícioInput + ":00",
         end_time: fimInput + ":00",
         purpose: disp,
+        course: cursoInput
 
       })
     }
@@ -123,6 +128,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
       <Input name="início" type="time" desc="Início" value={início} error={negativeDurationError && " Fim ≤ Início"} clearErrors={clearErrors}/>
       <Input name="fim" type="time" desc="Fim" value={fim} error={smallDurationError && "Duração < 30 minutos"} clearErrors={clearErrors}/>
       <Select name="lab" desc="Laboratório" options={LABS} value={lab} />
+      <Select name="curso" desc="Curso" options={CURSOS} value={"Médio"} />
 
       <div className={styles.botoes}>
         <Button submit desc={modoEdicao ? "💾 Salvar" : "Reservar"} color="esmeralda"/>

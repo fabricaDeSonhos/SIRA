@@ -31,7 +31,7 @@ export default function Home() {
   })
 
   const auth  = useAuth()
-  auth.login("jorge@yahoo.com", '1234')
+  auth.login("admin", 'admin')
 
   const user = useUser()
 

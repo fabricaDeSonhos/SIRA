@@ -120,6 +120,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
       duração={r.duração}
       dia={data_formatada}
       lab={r.lab}
+      curso={r.curso}
       vazia={false}
 
       editavel={!user.isLoading && user.data.details.id === r.user_id} noText={noText}

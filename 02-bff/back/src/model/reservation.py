@@ -22,6 +22,7 @@ class Reservation(db.Model):
     start_time: Mapped[time] = mapped_column(db.Time, default=current_time(), nullable=False)
     end_time: Mapped[time] = mapped_column(db.Time, default=current_time(), nullable=False)
     purpose: Mapped[str] =  mapped_column(db.String(1024), nullable=False)
+    course: Mapped[str] = mapped_column(db.String(20))
     
     active: Mapped[bool] = mapped_column(db.Boolean, default=True)
     details: Mapped[str] =  mapped_column(db.String(1024), nullable=True)
