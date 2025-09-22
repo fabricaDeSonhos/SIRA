@@ -12,7 +12,7 @@ import {useReservations, useReservation} from '../lib/api.js'
 
 import moment from 'moment'
 
-export default function NovaReserva({id,  dia, início, fim, lab, matéria = "", modoEdicao = false }) {
+export default function NovaReserva({id,  dia, início, fim, lab, matéria = "", curso, modoEdicao = false }) {
   const LABS = ["A03", "A04", "D04", "D05", "D06", "D07"]
   const CURSOS = ["bcc","pedagogia","bee","info","eletromecanica","mecatronica","medio"]
 
@@ -128,7 +128,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
       <Input name="início" type="time" desc="Início" value={início} error={negativeDurationError && " Fim ≤ Início"} clearErrors={clearErrors}/>
       <Input name="fim" type="time" desc="Fim" value={fim} error={smallDurationError && "Duração < 30 minutos"} clearErrors={clearErrors}/>
       <Select name="lab" desc="Laboratório" options={LABS} value={lab} />
-      <Select name="curso" desc="Curso" options={CURSOS} value={"Médio"} />
+      <Select name="curso" desc="Curso" options={CURSOS} value={curso} />
 
       <div className={styles.botoes}>
         <Button submit desc={modoEdicao ? "💾 Salvar" : "Reservar"} color="esmeralda"/>

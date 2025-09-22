@@ -25,6 +25,7 @@ export default function Reserva({ id, matéria, dia, início, duração, lab, va
     fim: hora_para_texto(início + duração / 60),
     lab: labs_names[lab - 1],
     matéria,
+    curso,
     modoEdicao: !vazia,
   }
 

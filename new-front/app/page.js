@@ -56,6 +56,7 @@ export default function Home() {
       fim: opt.fim,
       lab: opt.lab,
       matéria: opt.matéria || "",
+      curso: opt.curso,
       modoEdicao: opt.modoEdicao || false
     })
     setReserva(true)
