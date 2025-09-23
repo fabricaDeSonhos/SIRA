@@ -7,7 +7,7 @@ from src.service.common_service import *
 # Only ACTIVE Reservations are considered, by default
 # except get_reservation_by_id 
 
-def get_conflicting_reservations(room_id, start_time, end_time):
+def get_conflicting_reservations(room_id, start_time, end_time, date):
     if start_time is None or end_time is None:
         
         # precisa de melhor tratamento de erros aqui
@@ -17,7 +17,8 @@ def get_conflicting_reservations(room_id, start_time, end_time):
         Reservation.room_id == room_id,
         Reservation.active.is_(True),
         Reservation.start_time < end_time,
-        Reservation.end_time > start_time
+        Reservation.end_time > start_time,
+        Reservation.date == date
     ).all()
     
     # conflits?
@@ -34,7 +35,8 @@ def create_reservation(room, user, **kwargs):
     existing_reservations = get_conflicting_reservations(
         room_id=room.id,
         start_time=kwargs.get('start_time'),
-        end_time=kwargs.get('end_time'))
+        end_time=kwargs.get('end_time'),
+        date=kwargs.get('date'))
     
     # conflict found?
     if existing_reservations:
