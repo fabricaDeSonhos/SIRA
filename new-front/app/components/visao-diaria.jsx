@@ -99,8 +99,6 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
       {noite ? reservas_noite : []}
 
 
-
-      {exemplo_das_cores}
     </div>
   )
 }
