@@ -1,0 +1,134 @@
+'use client'
+
+import { useState } from 'react'
+import styles from "./page.module.css"
+
+import {data_bonita} from './lib/tempo.js'
+import { Checkbox, Button } from './components/form.jsx'
+
+import VisaoDiaria from "./components/visao-diaria.jsx"
+import NovaReserva from "./components/nova-reserva.jsx"
+
+import { AbrirReservaModalContext, FecharReservaModalContext } from './components/reservaContext.js'
+
+import {useAuth, useUser} from './lib/api.js'
+
+export default function Home() {
+  const [dia, setDia] = useState(new Date())
+  const [manhãFiltro, setManhãFiltro] = useState(true)
+  const [tardeFiltro, setTardeFiltro] = useState(true)
+  const [noiteFiltro, setNoiteFiltro] = useState(true)
+  const [reserva, setReserva] = useState(false)
+  const [toast, setToast] = useState("")
+
+  const [novaReservaOpts, setNovaReservaOpts] = useState({
+    dia: "2025-06-07",
+    início: "10:30",
+    fim: "11:00",
+    lab: "A04",
+    matéria: "",
+    modoEdicao: false
+  })
+
+  const auth  = useAuth()
+  auth.login("admin", 'admin')
+
+  const user = useUser()
+
+
+  const inc_dia = () => {
+    const novoDia = new Date(dia)
+    novoDia.setDate(novoDia.getDate() + 1)
+    setDia(novoDia)
+  }
+
+  const dec_dia = () => {
+    const novoDia = new Date(dia)
+    novoDia.setDate(novoDia.getDate() - 1)
+    setDia(novoDia)
+  }
+
+  const mostrarReservaModal = (opt) => {
+    setNovaReservaOpts({
+      id: opt.id,
+      dia: opt.dia,
+      início: opt.início,
+      fim: opt.fim,
+      lab: opt.lab,
+      matéria: opt.matéria || "",
+      curso: opt.curso,
+      modoEdicao: opt.modoEdicao || false
+    })
+    setReserva(true)
+  }
+
+  const fecharReservaModal = (mensagem = "") => {
+    setReserva(false)
+    if (mensagem) {
+      setToast(mensagem)
+      setTimeout(() => setToast(""), 3000)
+    }
+  }
+
+  const lidarComCliqueNaÁreaBranca = (dadosReserva) => {
+    mostrarReservaModal(dadosReserva)
+  }
+
+  const abrirReservaVaziaManual = () => {
+    const hoje = new Date().toISOString().slice(0, 10)
+    mostrarReservaModal({
+      dia: hoje,
+      início: "08:00",
+      fim: "09:00",
+      lab: "A03",
+      matéria: "",
+      modoEdicao: false
+    })
+  }
+
+  return (
+    <div className={styles.body}>
+
+      <div className={styles.filtros}>
+          <div className={styles.mudança_de_dia}>
+            <Button onClick={dec_dia} desc="←" />
+            <p><span className={styles.dia_semana}>{data_bonita(dia).dia_semana}, </span> {data_bonita(dia).dia_n} de {data_bonita(dia).mes}</p>
+            <Button onClick={inc_dia} desc="→" />
+          </div>
+
+        <h1>Visão Diária</h1>
+        <div className={styles.filtro}>
+          <Checkbox setChecked={setManhãFiltro} checked={manhãFiltro} desc="Manhã" />
+          <Checkbox setChecked={setTardeFiltro} checked={tardeFiltro} desc="Tarde" />
+          <Checkbox setChecked={setNoiteFiltro} checked={noiteFiltro} desc="Noite" />
+        </div>
+      </div>
+
+      <AbrirReservaModalContext value={mostrarReservaModal}>
+        <FecharReservaModalContext value={fecharReservaModal}>
+            <VisaoDiaria
+              dia={dia}
+              manhã={manhãFiltro}
+              tarde={tardeFiltro}
+              noite={noiteFiltro}
+              aoClicarNaÁreaBranca={lidarComCliqueNaÁreaBranca}
+            />
+
+          {/* Botão flutuante 
+          <button className={styles.fab} onClick={abrirReservaVaziaManual} title="Nova Reserva Manual">
+            +
+          </button>
+          */}
+          {/* Modal */}
+
+          <div className={styles.modal}>
+            {reserva && <NovaReserva {...novaReservaOpts} />}
+          </div>
+        </FecharReservaModalContext>
+      </AbrirReservaModalContext>
+
+      {/* Toast */}
+      {toast && <div className={styles.toast}>{toast}</div>}
+    </div>
+  )
+}

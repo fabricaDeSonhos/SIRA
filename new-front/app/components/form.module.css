@@ -1,0 +1,68 @@
+.input,
+.select {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.input label,
+.select label {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.input input,
+.select select {
+  padding: 5px;
+  border: var(--border);
+  border-radius: var(--round-radius);
+}
+
+.input .error {
+  font-size: var(--pequeno);
+  color: var(--alerta);
+  font-weight: lighter;
+}
+
+.checkbox {
+  display: flex;
+  flex-flow: row nowrap;
+  border: 1px dashed var(--inativo);
+  border-radius: var(--round-radius);
+  padding: 5px;
+}
+
+.checkbox:hover {
+  background-color: var(--esmeralda-light);
+  color: black;
+  cursor: pointer;
+  
+}
+
+.checkboxSeleted {
+  background-color: var(--esmeralda);
+  border: 1px solid var(--esmeralda);
+  color: white;
+}
+
+.checkbox:has(input[type="checkbox"]:not(:checked)) {
+  font-weight: lighter;
+
+}
+
+.button {
+  background-color: var(--inativo);
+  border-radius: var(--round-radius);
+  border: var(--border);
+  min-width: 1rem;
+  color: black;
+  padding: 4px;
+}
+
+.button:hover {
+  filter: brightness(50%);
+}
+
+.highlight {
+  background-color: var(--destaque);
+  color: white;
+}

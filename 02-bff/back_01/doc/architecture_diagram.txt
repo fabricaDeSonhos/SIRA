@@ -1,0 +1,25 @@
+@startuml RoomServiceArchitecture
+
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+package "Model" {
+    [room.py] <<model>>
+}
+
+package "Service" {
+    [room_service.py] <<service>>
+}
+
+package "Tests" {
+    [room_test.py] <<manual test>>
+    [test_room.py] <<automated test>>
+}
+
+[room_service.py] -> [room.py]
+[room_test.py] --> [room_service.py]
+[test_room.py] --> [room_service.py]
+
+@enduml
