@@ -123,19 +123,21 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
     <form className={styles.modal} onSubmit={handleEnviar}>
       <h2>{modoEdicao ? "Editar Reserva" : "Nova Reserva"}</h2>
 
-      <Input name="disp" desc="Propósito" value={matéria} error={emptyPurposeError && "Propósitio Vazio"} clearErrors={clearErrors}/>
-      <Input name="dia" type="date" desc="Dia" value={dia} error={pastDateError && "Dia está no passado"} clearErrors={clearErrors}/>
-      <Input name="início" type="time" desc="Início" value={início} error={negativeDurationError && " Fim ≤ Início"} clearErrors={clearErrors}/>
-      <Input name="fim" type="time" desc="Fim" value={fim} error={smallDurationError && "Duração < 30 minutos"} clearErrors={clearErrors}/>
-      <Select name="lab" desc="Laboratório" options={LABS} value={lab} />
-      <Select name="curso" desc="Curso" options={CURSOS} value={curso} />
+      <div className={styles.content}>
+	<Input name="disp" desc="Propósito" value={matéria} error={emptyPurposeError && "Propósitio Vazio"} clearErrors={clearErrors}/>
+	<Input name="dia" type="date" desc="Dia" value={dia} error={pastDateError && "Dia está no passado"} clearErrors={clearErrors}/>
+	<Input name="início" type="time" desc="Início" value={início} error={negativeDurationError && " Fim ≤ Início"} clearErrors={clearErrors}/>
+	<Input name="fim" type="time" desc="Fim" value={fim} error={smallDurationError && "Duração < 30 minutos"} clearErrors={clearErrors}/>
+	<Select name="lab" desc="Laboratório" options={LABS} value={lab} />
+	<Select name="curso" desc="Curso" options={CURSOS} value={curso} />
 
+      </div>
       <div className={styles.botoes}>
-        <Button submit desc={modoEdicao ? "💾 Salvar" : "Reservar"} color="esmeralda"/>
-        {modoEdicao && (
-          <Button desc="🗑️ Excluir" onClick={handleExcluir} color="krimson"/>
-        )}
-        <Button desc="Cancelar" onClick={() => fecharReserva("")} color="preto"/>
+	<Button submit desc={modoEdicao ? "💾 Salvar" : "Reservar"} color="esmeralda"/>
+	{modoEdicao && (
+	  <Button desc="🗑️ Excluir" onClick={handleExcluir} color="krimson"/>
+	)}
+	<Button desc="Cancelar" onClick={() => fecharReserva("")} color="preto"/>
       </div>
     </form>
   )

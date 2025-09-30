@@ -159,6 +159,9 @@
   opacity: 1;
 }
 
+.reserva:hover {
+  transform: scale(1.05);
+}
 .acoes {
   position: absolute;
   bottom: 4px;

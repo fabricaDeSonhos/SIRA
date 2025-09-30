@@ -8,7 +8,7 @@ import { Checkbox, Button } from './components/form.jsx'
 
 import VisaoDiaria from "./components/visao-diaria.jsx"
 import NovaReserva from "./components/nova-reserva.jsx"
-
+import ReservaInfo from "./components/reserva-info.jsx"
 import { AbrirReservaModalContext, FecharReservaModalContext, UserContext } from './components/reservaContext.js'
 
 import {useAuth, useUser} from './lib/api.js'
@@ -18,7 +18,7 @@ export default function Home() {
   const [manhãFiltro, setManhãFiltro] = useState(true)
   const [tardeFiltro, setTardeFiltro] = useState(true)
   const [noiteFiltro, setNoiteFiltro] = useState(true)
-  const [reserva, setReserva] = useState(false)
+  const [reserva, setReserva] = useState(null) // info or edit
   const [toast, setToast] = useState("")
 
   const [novaReservaOpts, setNovaReservaOpts] = useState({
@@ -48,7 +48,7 @@ export default function Home() {
     setDia(novoDia)
   }
 
-  const mostrarReservaModal = (opt) => {
+  const mostrarReservaModal = (type, opt) => {
     setNovaReservaOpts({
       id: opt.id,
       dia: opt.dia,
@@ -59,7 +59,7 @@ export default function Home() {
       curso: opt.curso,
       modoEdicao: opt.modoEdicao || false
     })
-    setReserva(true)
+    setReserva(type)
   }
 
   const fecharReservaModal = (mensagem = "") => {
@@ -123,7 +123,8 @@ export default function Home() {
           {/* Modal */}
 
           <div className={styles.modal}>
-            {reserva && <NovaReserva {...novaReservaOpts} />}
+            {reserva && reserva === "edit" && <NovaReserva {...novaReservaOpts} />}
+            {reserva && reserva === "info" && <ReservaInfo {...novaReservaOpts} />}
           </div>
 	  </UserContext>
         </FecharReservaModalContext>

@@ -34,14 +34,20 @@ export default function Reserva({ id, matéria, dia, início, duração, lab, va
       <div
         className={styles.reserva_vazia}
         style={posicionamento}
-        onClick={() => abrirReserva(opts)}
+        onClick={() => abrirReserva("edit", opts)}
         title={`Clique para reservar ${opts.lab} às ${opts.início}`}
       />
     )
   }
 
   return (
-    <div className={[styles.reserva, styles[curso]].join(" ")} style={posicionamento}>
+    <div className={[styles.reserva, styles[curso]].join(" ")} style={posicionamento}
+	   onClick={() =>
+	    {
+	      abrirReserva("info", opts)
+	    }
+	   }
+    >
       {!noText &&
         <>
           <div>{corpo}</div>
@@ -51,7 +57,7 @@ export default function Reserva({ id, matéria, dia, início, duração, lab, va
               <button
                 className={styles.botaoEditar}
                 title="Editar reserva"
-                onClick={() => abrirReserva(opts)}
+                onClick={(event) => {abrirReserva("edit", opts); event.stopPropagation()}}
               >
                 ✏️
               </button>
