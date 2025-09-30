@@ -1,8 +1,10 @@
 import styles from "./visao-diaria.module.css"
 
-import { useReservations, useUser } from '../lib/api.js' 
+import {useContext} from 'react'
+import { useReservations, useUser, useAuth } from '../lib/api.js' 
 import {mesmo_dia} from '../lib/tempo.js'
 import Reserva from './reserva.jsx'
+import {UserContext} from './reservaContext.js'
 
 
 export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText }) {
@@ -13,7 +15,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
     : new Date(dia).toISOString().slice(0, 10)
 
   const {reservations, error, isLoading} = useReservations()
-  const user = useUser()
+  const user = useContext(UserContext)
 
   const reservas = isLoading ? [] : reservations.filter(r => mesmo_dia(r.dia, dia)).map((r, i) => (
     <Reserva
@@ -27,7 +29,8 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
       curso={r.curso}
       vazia={false}
 
-      editavel={!user.isLoading && user.data.details.id === r.user_id} noText={noText}
+      editavel={user && user.details.id === r.user_id} 
+      noText={noText}
     />
   ))
 

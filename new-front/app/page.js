@@ -9,7 +9,7 @@ import { Checkbox, Button } from './components/form.jsx'
 import VisaoDiaria from "./components/visao-diaria.jsx"
 import NovaReserva from "./components/nova-reserva.jsx"
 
-import { AbrirReservaModalContext, FecharReservaModalContext } from './components/reservaContext.js'
+import { AbrirReservaModalContext, FecharReservaModalContext, UserContext } from './components/reservaContext.js'
 
 import {useAuth, useUser} from './lib/api.js'
 
@@ -33,7 +33,7 @@ export default function Home() {
   const auth  = useAuth()
   auth.login("admin", 'admin')
 
-  const user = useUser()
+  const user = useUser(auth.loading ? null : auth.token)
 
 
   const inc_dia = () => {
@@ -106,6 +106,7 @@ export default function Home() {
 
       <AbrirReservaModalContext value={mostrarReservaModal}>
         <FecharReservaModalContext value={fecharReservaModal}>
+	  <UserContext value={user.data}>
             <VisaoDiaria
               dia={dia}
               manhã={manhãFiltro}
@@ -124,6 +125,7 @@ export default function Home() {
           <div className={styles.modal}>
             {reserva && <NovaReserva {...novaReservaOpts} />}
           </div>
+	  </UserContext>
         </FecharReservaModalContext>
       </AbrirReservaModalContext>
 

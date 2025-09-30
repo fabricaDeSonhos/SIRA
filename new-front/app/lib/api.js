@@ -218,14 +218,10 @@ export function useAuth() {
   return {token, login, logout, loading, error}
 }
 
-export function useUser() {
+export function useUser(token) {
 
-  const auth = useAuth()
   
-  const user = useSWR(!auth.loading ? ['/user', auth.token] : null, ([url,token]) => fetcher_jwt(url, token))
+  const user = useSWR(token ? ['/user', token] : null, ([url,token]) => fetcher_jwt(url, token))
 
-  if (!user.data)
-    return {isLoading: true}
-
-  return user
+  return !user.data ? {isLoading: true} : user
 }
