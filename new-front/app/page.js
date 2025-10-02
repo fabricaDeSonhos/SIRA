@@ -70,22 +70,6 @@ export default function Home() {
     }
   }
 
-  const lidarComCliqueNaÁreaBranca = (dadosReserva) => {
-    mostrarReservaModal(dadosReserva)
-  }
-
-  const abrirReservaVaziaManual = () => {
-    const hoje = new Date().toISOString().slice(0, 10)
-    mostrarReservaModal({
-      dia: hoje,
-      início: "08:00",
-      fim: "09:00",
-      lab: "A03",
-      matéria: "",
-      modoEdicao: false
-    })
-  }
-
   return (
     <div className={styles.body}>
 
@@ -112,15 +96,7 @@ export default function Home() {
               manhã={manhãFiltro}
               tarde={tardeFiltro}
               noite={noiteFiltro}
-              aoClicarNaÁreaBranca={lidarComCliqueNaÁreaBranca}
             />
-
-          {/* Botão flutuante 
-          <button className={styles.fab} onClick={abrirReservaVaziaManual} title="Nova Reserva Manual">
-            +
-          </button>
-          */}
-          {/* Modal */}
 
           <div className={styles.modal}>
             {reserva && reserva === "edit" && <NovaReserva {...novaReservaOpts} />}
