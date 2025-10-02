@@ -124,7 +124,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
       <h2>{modoEdicao ? "Editar Reserva" : "Nova Reserva"}</h2>
 
       <div className={styles.content}>
-	<Input name="disp" desc="Propósito" value={matéria} error={emptyPurposeError && "Propósitio Vazio"} clearErrors={clearErrors}/>
+	<Input name="disp" desc="Propósito" value={matéria} error={emptyPurposeError && "Propósitio Vazio"} clearErrors={clearErrors} autoFocus/>
 	<Input name="dia" type="date" desc="Dia" value={dia} error={pastDateError && "Dia está no passado"} clearErrors={clearErrors}/>
 	<Input name="início" type="time" desc="Início" value={início} error={negativeDurationError && " Fim ≤ Início"} clearErrors={clearErrors}/>
 	<Input name="fim" type="time" desc="Fim" value={fim} error={smallDurationError && "Duração < 30 minutos"} clearErrors={clearErrors}/>

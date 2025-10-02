@@ -1,12 +1,12 @@
 import {useState, useId} from 'react'
 import styles from './form.module.css'
 
-export function Input({type="text", desc, value, name, error, clearErrors}) {
+export function Input({type="text", desc, value, name, autoFocus, error, clearErrors}) {
   const id = useId()
   return (
     <div id={ id} className={styles.input}>
       <label htmlFor={ id }>{ desc } {error && <em className={styles.error}>: {error}</em>}</label>
-      <input id={id} name={name} type={type} defaultValue={value} onInput={clearErrors} onChange={clearErrors}/>
+      <input id={id} name={name} type={type} defaultValue={value} autoFocus={autoFocus} onInput={clearErrors} onChange={clearErrors}/>
     </div>
   )
 
