@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from "./page.module.css"
 
 import {data_bonita} from './lib/tempo.js'
@@ -70,8 +70,28 @@ export default function Home() {
     }
   }
 
+  const handleKeyDown = (e) => {
+	  switch (e.key) {
+		  case "ArrowRight":
+			  inc_dia()
+			  break;
+		  case "ArrowLeft":
+			  dec_dia()
+			  break;
+		  case "Escape":
+			  fecharReservaModal()
+			  break
+	  }
+  }
+  useEffect(() => {
+	  window.addEventListener('keydown', handleKeyDown)
+	  return () => {
+		  window.removeEventListener('keydown', handleKeyDown)
+	  }
+  }, [handleKeyDown])
+
   return (
-    <div className={styles.body}>
+    <div className={styles.body} >
 
       <div className={styles.filtros}>
           <div className={styles.mudança_de_dia}>
