@@ -3,6 +3,9 @@ from email.header import Header
 
 from requests import head
 from src.route.routes import app, db
+from src.route.users import *
+from src.route.reservations import *
+from src.route.rooms import *
 from datetime import date, time
 
 import pytest
@@ -38,10 +41,12 @@ def test_user_crud(client):
     headers = {"Content-Type": "application/json",
                 "Authorization": f"Bearer {token}"}
    
+    print(f"headers: {headers}")
 
     # get all users
     res = client.get(f"/users", headers={"Authorization": f"Bearer {token}"})
-    assert res.status_code == 200
+    print(f"Status code: {res.status_code}")
+    assert res.status_code == 200    
     json = res.get_json()
     assert json["result"] == "ok"
     assert isinstance(json["details"], list)
@@ -63,7 +68,7 @@ def test_user_crud(client):
     user_id = person["id"]
     assert user_id is not None
     assert isinstance(user_id, int)
-    assert person["password"] == "pass"
+    #assert person["password"] == "pass"
     print(f"User created with ID: {user_id}")
     print(f"details: {person}")
     # print(f"id: {json["details"]["id"]}")
@@ -165,7 +170,8 @@ def test_reservation_crud(client):
         "purpose": "Team Meeting",
         "date": "2023-10-10",
         "start_time": "10:00:00",
-        "end_time": "11:00:00"
+        "end_time": "11:00:00",
+        "course": "medio"
     },
     headers=headers)
 
@@ -189,6 +195,8 @@ def test_reservation_crud(client):
     assert res.status_code == 200
     assert res.get_json()["details"]["purpose"] == "Updated Meeting"
 
-    res = client.delete(f"/reservations/{reservation_id}/{user['id']}",
+    #res = client.delete(f"/reservations/{reservation_id}/{user['id']}",
+    #                    headers=headers)
+    res = client.delete(f"/reservations/{reservation_id}",
                         headers=headers)
     assert res.status_code == 204

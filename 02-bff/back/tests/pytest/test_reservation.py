@@ -21,7 +21,12 @@ def test_creation():
         start_time_obj = datetime.strptime(start_time, "%H:%M:%S").time()
         end_time_obj = datetime.strptime(end_time, "%H:%M:%S").time()
 
-        result = create_reservation(room, user, purpose="Matemática 201 info", start_time =start_time_obj, end_time=end_time_obj, date=date_obj)
+        result = create_reservation(room, user, 
+                                    purpose="Matemática 201 info", 
+                                    start_time =start_time_obj, 
+                                    end_time=end_time_obj, 
+                                    date=date_obj,
+                                    course="medio")
         obj = result['details']
 
         assert result['result'] == "ok"
