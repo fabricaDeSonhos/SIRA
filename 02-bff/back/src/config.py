@@ -20,6 +20,8 @@ from flask_jwt_extended import JWTManager
 
 from flask_bcrypt import Bcrypt
 
+import logging
+
 import os
 class Base(DeclarativeBase):
   pass
@@ -69,6 +71,8 @@ app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # <-- Add this line
 bcrypt = Bcrypt(app)
 app.config['BCRYPT_HANDLE_LONG_PASSWORDS'] = True
 
+# config logging
+logging.basicConfig(level=logging.DEBUG)
 
 # initialize the app with the extension
 db = SQLAlchemy(app)

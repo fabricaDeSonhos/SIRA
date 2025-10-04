@@ -7,28 +7,51 @@ from src.model.reservation import *
 from src.model.room import *
 
 from src.route.routes import *
+
 '''
-curl -X POST http://localhost:5000/reservations \
-  -H "Content-Type: application/json" \
-  -d '{
+curl -X POST http://localhost:5000/reservations   -H "Content-Type: application/json"   -d '{
+    "course": "bcc",
     "room_id": 1,
     "user_id": 1,
     "date": "2023-10-10",
     "start_time": "10:00:00",
     "end_time": "11:00:00",
     "purpose": "Matemática 201 info"
-  }'
+  }' -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1OTU4OTQ2MCwianRpIjoiMDkzZWVkMGMtMWY2Ni00ZmI2LTg4NWYtYzYyNmU1ZjQ0Y2M3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjEiLCJuYmYiOjE3NTk1ODk0NjAsImNzcmYiOiIxMWI4NTY1MC1mNGFmLTQ3ZDgtOWYyYS0xNmZiNDIyMDJhNGMiLCJleHAiOjE3NTk1OTAzNjB9.B--h28GYD_vZ8lUQgLG7pLTq-cYLDWNVYmbtMaWbwyk"
+
+{
+  "details": {
+    "active": true,
+    "batch_id": null,
+    "canceler_user_id": null,
+    "course": "bcc",
+    "created_at": "2025-10-04T11:54:31.948240",
+    "date": "2025-10-04",
+    "details": null,
+    "end_time": "11:00:00",
+    "id": 11,
+    "purpose": "Matem\u00e1tica 201 info",
+    "room_id": 1,
+    "start_time": "10:00:00",
+    "user_id": 1
+  },
+  "result": "ok"
+}
+
 '''
 
 @app.route('/reservations', methods=['POST'])
 @jwt_required()
 def create_reservation_route():
+    app.logger.debug("Creating reservation...") 
     try:
         user_id = get_jwt_identity()
         data = request.json                              # get request data
         room = get_object_by_id(Room, data['room_id'])   # get the room object
         user = get_object_by_id(User, user_id)   # get the user object
-        if not room:                         # if room or user does not exists... error!
+        if not room:  
+            print(f"Invalid room_id: {data['room_id']}")    
+            app.logger.error(f"Invalid room_id: {data['room_id']}") 
             return jsonify({"result": "error", "details": f"Invalid room_id ({room})"}), 500    # error :-(
         else:
             # data conversion: convert date and time strings to date and time objects
@@ -44,12 +67,16 @@ def create_reservation_route():
             
             # error?
             if response.get("result") == "error":  # error during reservation creation (probably conflict)
+                print(f"Error during reservation creation: {response.get('details')}")  
+                app.logger.error(f"Error during reservation creation: {response.get('details')}")   
                 return jsonify(response), 409
             
             object_json = response.get("details")
 
             return jsonify({"result":"ok", "details":object_json}), 201      # happy return in this case :-)
     except Exception as ex:
+        print(f"Error during reservation creation: {ex}")
+        app.logger.error(f"Error during reservation creation: {ex}")    
         return jsonify({"result": "error", "details": f"error during reservation creation: {ex}"}), 500
 
 @app.route('/reservations', methods=['GET'])

@@ -25,12 +25,12 @@ def login():
         if not user or not user.check_password(data['password']):  # check password
             return jsonify({"result": "error", "details": "Invalid email or password"}), 401  # unauthorized
 
-        token = create_access_token(identity=user.id)
+        token = create_access_token(identity=str(user.id))
         response = serialize_model(user)  # serialize the user object
         response.update({"token": token})  # add the token to the response
         return jsonify({"result": "ok", "details": response}), 200  # ok response
     except Exception as ex:
-        print(f"Error during login: {ex}")
+        app.logger.debug(f"Error during login: {ex}"    )
         return jsonify({"result": "error", "details": f"Error during login: {ex}"}), 500
 
 # --- security: LOGOUT
