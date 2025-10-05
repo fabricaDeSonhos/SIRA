@@ -37,6 +37,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
 
   const handleEnviar = (event) => {
     event.preventDefault()
+
     const form = new FormData(event.target)
 
     const disp = form.get("disp")
@@ -46,29 +47,35 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
     const labInput = form.get("lab")
     const cursoInput = form.get("curso")
 
-    const novoDia = moment(diaInput).format("YYYY-MM-DD")
+    const toIsoDate = s => moment(s).format("YYYY-MM-DD")
+    const novoDia = toIsoDate(diaInput)
     const novoInício = tempo_para_número(inícioInput)
     const novoFim = tempo_para_número(fimInput)
     const novoLab = LABS.indexOf(labInput) + 1
 
     // ERROR CHECKING
+    const isEmpty = s => s === ""
+    const isEndTimeAfterStartTime = (begin, end) => end <= begin  
+    const isDateOnPast = d => moment(d).isBefore(new Date(), 'day')
+    const isDurationSmall = (begin, end) => end - begin < 0.5
+
     let someError = false
-    if (disp === "") {
+    if (isEmpty(disp)) {
       setEmptyPurposeError(true)
       someError = true
     }
 
-    if (novoFim <= novoInício) {
+    if (isEndTimeAfterStartTime(novoInício, novoFim)) {
       setNegativeDurationError(true)
       someError = true
     }
 
-    if (moment(diaInput).isBefore(new Date(), 'day')) {
+    if (isDateOnPast(diaInput)) {
       setPastDateError(true)
       someError = true
     }
 
-    if (novoFim - novoInício < 0.5) {
+    if (isDurationSmall(novoInício, novoFim)) {
       setSmallDurationError(true)
       someError = true
     }
