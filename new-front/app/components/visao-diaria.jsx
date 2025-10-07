@@ -5,6 +5,7 @@ import { useReservations, useUser, useAuth } from '../lib/api.js'
 import {mesmo_dia} from '../lib/tempo.js'
 import Reserva from './reserva.jsx'
 import {UserContext} from './reservaContext.js'
+import { tempo_para_número } from '../lib/tempo.js'
 
 
 export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText }) {
@@ -18,20 +19,19 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
   const user = useContext(UserContext)
 
   const reservas = isLoading ? [] : reservations.filter(r => mesmo_dia(r.dia, dia)).map((r, i) => (
-    <Reserva
-      key={r.id}
-      id={r.id}
-      matéria={r.matéria}
-      início={r.início}
-      duração={r.duração}
-      dia={data_formatada}
-      lab={r.lab}
-      curso={r.curso}
-      vazia={false}
-
-      editavel={user && user.details.id === r.user_id} 
-      noText={noText}
-    />
+      <Reserva
+        key={r.id}
+        id={r.id}
+        matéria={r.matéria}
+        início={tempo_para_número(r.início)}
+        duração={(tempo_para_número(r.fim) - tempo_para_número(r.início)) * 60}
+        dia={data_formatada}
+        lab={r.lab}
+        curso={r.curso}
+        vazia={false}
+        editavel={user && user.details.id === r.user_id}
+        noText={noText}
+      />
   ))
 
   const reservas_manhã = reservas.filter(r => r.props.início <= 12)

@@ -8,14 +8,16 @@ import { AbrirReservaModalContext } from './reservaContext.js'
 export default function Reserva({ id, matéria, dia, início, duração, lab, vazia, curso="outro-curso", editavel, noText }) {
   const abrirReserva = useContext(AbrirReservaModalContext)
 
-  const topo = Math.max((início - 8) * 60 + 1, 2)
+  const topo = (início - 8) * 60 + 2
+  const duracaoMinutos = duração
+
   const corpo = Texto.limitado(matéria, 40)
 
   const posicionamento = {
-    gridRow: topo,
-    gridRowEnd: 'span ' + Math.floor(duração),
-    gridColumn: lab + 1,
-  }
+  gridRowStart: topo,
+  gridRowEnd: `span ${duracaoMinutos}`,
+  gridColumn: lab + 1,
+}
 
   const labs_names = ["A03", "A04", "D04", "D05", "D06", "D07"]
   const opts = {
