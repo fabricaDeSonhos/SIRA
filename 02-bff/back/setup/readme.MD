@@ -2,23 +2,17 @@
 
 Go to the folder SIRA/02-bff/back, in terminal
 
-1) Activate the virtual environment:
-
-source setup/venv/bin/activate
-
-2) Configure environment variables
-
-Open the set/env.sh and adjust the absolute PATH inside it. After this, run:
+1) OPTIONAL: activate the virtual environment:
 
 Linux:
-. setup/env.sh
+source setup/venv/bin/activate
 
-Windows:
+Windows: 
 TODO
 
-Alternatively, you can run steps 2.1 and 2.2, below.
+2) IF you want to run the tests, configure environment variables:
 
-2.1) You MUST configure PYTHONPATH to make the code works: (update the below path to the path where YOUR source code is)
+a) You MUST configure PYTHONPATH to make the tests work: (update the below path to the path where YOUR source code is)
 
 Linux/macOS
 export PYTHONPATH=/home/friend/01-github/SIRA/02-bff/back:$PYTHONPATH
@@ -26,12 +20,13 @@ export PYTHONPATH=/home/friend/01-github/SIRA/02-bff/back:$PYTHONPATH
 Windows
 set PYTHONPATH=C:\path\to\your\project;%PYTHONPATH%
 
-2.2) Export the SIRA_DB environment variable:
+b) If you want to use MYSQL, export the SIRA_DB environment variable:
 
 Linux:
-export SIRA_DB=SQLITE
-or
 export SIRA_DB=MYSQL
+
+Windows: 
+TODO
 
 3) You can remove the sira.bd file and re-create the database:
 
@@ -55,7 +50,7 @@ pip3 install flask_jwt_extended
 
 pip3 freeze > requirements
 
-5) Run the backend tests:
+5) OPTIONAL: run the backend tests:
 
 $ python3 tests/basic_tests_/run_basic_tests_.py
 
