@@ -16,23 +16,44 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
     : new Date(dia).toISOString().slice(0, 10)
 
   const {reservations, error, isLoading} = useReservations()
-  const user = useContext(UserContext)
+ const normalizarTempo = (tempo) => {
+    if (typeof tempo === 'string') {
+      return tempo_para_número(tempo);
+    }
+    return tempo;
+  };
 
-  const reservas = isLoading ? [] : reservations.filter(r => mesmo_dia(r.dia, dia)).map((r, i) => (
-      <Reserva
-        key={r.id}
-        id={r.id}
-        matéria={r.matéria}
-        início={tempo_para_número(r.início)}
-        duração={(tempo_para_número(r.fim) - tempo_para_número(r.início)) * 60}
-        dia={data_formatada}
-        lab={r.lab}
-        curso={r.curso}
-        vazia={false}
-        editavel={user && user.details.id === r.user_id}
-        noText={noText}
-      />
-  ))
+  const reservas = isLoading ? [] : reservations.filter(r => mesmo_dia(r.dia, dia)).map((r, i) => {
+      const inicioNum = normalizarTempo(r.início);
+      const fimNum = normalizarTempo(r.fim);
+
+      // Se o horário de fim for inválido ou não existir, não renderiza a reserva
+      if (isNaN(fimNum) || fimNum === null || fimNum === undefined) {
+          console.error("Reserva com horário de fim inválido:", r);
+          return null; 
+      }
+
+      const duracao = (fimNum - inicioNum) * 60;
+
+      // Garante que a duração não seja negativa
+      if (duracao < 0) return null;
+
+      return (
+        <Reserva
+          key={r.id}
+          id={r.id}
+          matéria={r.matéria}
+          início={inicioNum}
+          duração={duracao}
+          dia={data_formatada}
+          lab={r.lab}
+          curso={r.curso}
+          vazia={false}
+          editavel={user && user.details.id === r.user_id}
+          noText={noText}
+        />
+      );
+  }).filter(Boolean); // Filtra para remover quaisquer reservas nulas
 
   const reservas_manhã = reservas.filter(r => r.props.início <= 12)
   const reservas_tarde = reservas.filter(r => r.props.início > 12 && r.props.início <= 17)

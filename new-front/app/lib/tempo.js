@@ -14,7 +14,7 @@ export function hora_para_texto(hora) {
   const parte_inteira = Math.floor(hora)
   const parte_decimal = hora - parte_inteira
   
-  const minutos = Math.floor(parte_decimal*60)
+  const minutos = Math.round(parte_decimal*60)
 
   return tempo_para_texto(parte_inteira, minutos)
 }
