@@ -17,9 +17,36 @@
   border-radius: var(--round-radius);
 }
 
+.input .error {
+  font-size: var(--pequeno);
+  color: var(--alerta);
+  font-weight: lighter;
+}
+
 .checkbox {
   display: flex;
   flex-flow: row nowrap;
+  border: 1px dashed var(--inativo);
+  border-radius: var(--round-radius);
+  padding: 5px;
+}
+
+.checkbox:hover {
+  background-color: var(--esmeralda-light);
+  color: black;
+  cursor: pointer;
+  
+}
+
+.checkboxSeleted {
+  background-color: var(--esmeralda);
+  border: 1px solid var(--esmeralda);
+  color: white;
+}
+
+.checkbox:has(input[type="checkbox"]:not(:checked)) {
+  font-weight: lighter;
+
 }
 
 .button {
@@ -28,6 +55,7 @@
   border: var(--border);
   min-width: 1rem;
   color: black;
+  padding: 4px;
 }
 
 .button:hover {

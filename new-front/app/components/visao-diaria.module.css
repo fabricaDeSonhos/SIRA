@@ -1,8 +1,14 @@
 .reservas {
   --total-minutes: 900; /* (22h - 8h + 1) * 60m */
   display: grid;
-  grid-template-columns: 3rem 1fr 1fr 1fr 1fr 1fr 1fr;
-  height: 80vh;
+  grid-template-columns: 4rem 1fr 1fr 1fr 1fr 1fr 1fr;
+  height: 90vh;
+  transition: 200ms;
+}
+
+.noHours {
+
+  grid-template-columns: 0rem 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 /* Cabeçalhos de laboratório */
@@ -11,6 +17,7 @@
   border-bottom: var(--border);
   border-right: var(--border);
   text-align: center;
+  font-size: var(--regular);
 }
 
 /* Bloco de hora (coluna 1) */
@@ -20,21 +27,51 @@
   border-bottom: var(--border);
   border-right: var(--border);
   display: flex;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
+
+  font-size: var(--pequeno);
+  padding-right: var(--pequeno);
+
+  font-family: var(--font-monospace);
+  transition: 200ms;
+}
+
+.hora_n {
+  font-size: var(--regular);
+}
+
+.almoco, .lanche_manha, .lanche_tarde, .janta {
+  background-color: var(--alerta);
+}
+.almoco {
+
+  grid-row: 240 / span 90;
+  grid-column: 2 / span 6;
+}
+.lanche_manha {
+
+  grid-row: 90/ span 15;
+  grid-column: 2 / span 6;
+}
+.lanche_tarde {
+  grid-row: 465/ span 15;
+  grid-column: 2 / span 6;
+}
+
+.janta {
+  grid-row: 570 / span 60;
+  grid-column: 2 /span 6;
 }
 
 /* Reserva REAL */
 .reserva {
-  background-color: #a5d6a7; /* Verde suave */
-  border-left: 4px solid #66bb6a;
-  border-top: 1px solid #8bc34a;
-  border-bottom: 1px solid #8bc34a;
-  border-right: 1px solid #8bc34a;
+  background-color: var(--secundario); 
+  border-left: 4px solid var(--destaque);
+  font-weight: bold;
   padding: 4px 6px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #2e7d32;
+  font-size: var(--pequeno);
+  color: var(--destaque);
   overflow: hidden;
   position: relative;
   z-index: 2;
@@ -42,6 +79,52 @@
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+.outro-curso {
+
+  color: var(--esmeralda);
+  background-color: var(--esmeralda-light);
+  border-left: 4px solid var(--esmeralda);
+}
+
+.bcc{
+  color: var(--bcc);
+  background-color: var(--bcc-light);
+  border-left: 4px solid var(--bcc);
+}
+.pedagogia{
+  color: var(--pedagogia);
+  background-color: var(--pedagogia-light);
+  border-left: 4px solid var(--pedagogia);
+}
+
+.medio {
+  color: var(--medio);
+  background-color: var(--medio-light);
+  border-left: 4px solid var(--medio);
+}
+
+.info {
+  color: var(--info);
+  background-color: var(--info-light);
+  border-left: 4px solid var(--info);
+}
+.eletromecanica {
+  color: var(--eletromecanica);
+  background-color: var(--eletromecanica-light);
+  border-left: 4px solid var(--eletromecanica);
+}
+
+.mecatronica {
+  color: var(--mecatronica);
+  background-color: var(--mecatronica-light);
+  border-left: 4px solid var(--mecatronica);
+}
+
+.bee {
+  color: var(--bee);
+  background-color: var(--bee-light);
+  border-left: 4px solid var(--bee);
+}
 /* Bloco vazio clicável */
 .reserva_vazia {
   background-color: #f9f9f9;
@@ -50,6 +133,7 @@
   position: relative;
   transition: background-color 0.2s ease, border-color 0.2s ease;
   z-index: 0;
+  opacity: 0.9;
 }
 
 /* Hover em blocos vazios */
@@ -75,6 +159,9 @@
   opacity: 1;
 }
 
+.reserva:hover {
+  transform: scale(1.05);
+}
 .acoes {
   position: absolute;
   bottom: 4px;

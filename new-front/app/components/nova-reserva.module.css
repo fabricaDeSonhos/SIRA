@@ -1,6 +1,4 @@
 .modal {
-  display: flex;
-  flex-direction: column;
   gap: 12px;
   padding: 1.5rem;
   background: white;
@@ -11,6 +9,18 @@
   margin: auto;
 }
 
+.content {
+  display: grid;
+  grid-gap: var(--pequeno);
+  grid-template-columns: 1fr 1fr;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 480px) {
+	.content {
+		display: flex;
+	}
+}
 .modal h2 {
   margin-bottom: 0.5rem;
   font-size: 1.25rem;

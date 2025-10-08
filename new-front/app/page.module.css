@@ -1,26 +1,42 @@
+
+.body {
+  /*display: flex;
+  flex-flow: column wrap;
+  */
+  height: 100vh;
+}
+
 .mudança_de_dia {
   display: flex;
+  font-size: var(--grande);
+
 }
 
 .mudança_de_dia p {
-  width: 10rem;
+  padding: 0 var(--pequeno);
+  font-weight: lighter;
+  width: 22ex;
   text-align: center;
+}
+
+.dia_semana {
+  font-weight: bold;
 }
 
 .filtros {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
+
+  padding: 0 var(--regular);
+  gap: var(--regular);
 }
 
 .filtro {
   display: flex;
   flex-flow: row nowrap;
-}
-
-.filtro div {
-  margin-left: 5px;
+  gap: var(--pequeno);
 }
 
 .modal {
@@ -46,6 +62,7 @@
   cursor: pointer;
   transition: transform 0.2s ease;
   z-index: 10;
+  font-weight: bold;
 }
 
 .fab:hover {
@@ -66,7 +83,7 @@
   z-index: 20;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   animation: fadein 0.3s ease-in-out;
-}
+} 
 
 @keyframes fadein {
   from {
@@ -77,4 +94,20 @@
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+}
+
+
+@media only screen and (max-width: 480px) {
+
+  .mudança_de_dia p {
+    width: auto;
+  }
+  .filtros h1 {
+    display: none;
+
+  }
+  .filtro {
+    flex-flow: column wrap;
+  }
+
 }
