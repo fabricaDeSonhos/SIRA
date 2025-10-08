@@ -19,7 +19,7 @@ export default function Home() {
   const [tardeFiltro, setTardeFiltro] = useState(true)
   const [noiteFiltro, setNoiteFiltro] = useState(true)
   const [reserva, setReserva] = useState(null) // info or edit
-  const [toast, setToast] = useState("")
+  const [error, setError] = useState("")
 
   const [novaReservaOpts, setNovaReservaOpts] = useState({
     dia: "2025-06-07",
@@ -65,8 +65,8 @@ export default function Home() {
   const fecharReservaModal = (mensagem = "") => {
     setReserva(false)
     if (mensagem) {
-      setToast(mensagem)
-      setTimeout(() => setToast(""), 3000)
+      setError(mensagem)
+      setTimeout(() => setError(""), 3000)
     }
   }
 
@@ -127,7 +127,7 @@ export default function Home() {
       </AbrirReservaModalContext>
 
       {/* Toast */}
-      {toast && <div className={styles.toast}>{toast}</div>}
+      {error && <div className={styles.error}>{error}</div>}
     </div>
   )
 }

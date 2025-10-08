@@ -35,7 +35,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
     setSmallDurationError(false)
   }
 
-  const handleEnviar = (event) => {
+  const handleEnviar = async (event) => {
     event.preventDefault()
 
     const form = new FormData(event.target)
@@ -82,19 +82,17 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
     if (someError)
       return
 
-
-    if (modoEdicao) {
-
-      const reservaObj = {
+    const backend_response =  await (modoEdicao ? 
+      putReserva(id, {
         start_time: inícioInput + ":00",
         end_time: fimInput + ":00",
         purpose: disp,
         date: diaInput,
         room_id: novoLab,
         course: cursoInput
-      }
-      putReserva(id, reservaObj) 
-    } else {
+      }) 
+
+      :
 
       addReserva({
         room_id: novoLab,
@@ -104,10 +102,13 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
         purpose: disp,
         course: cursoInput
 
-      })
-    }
+      }))
 
-    fecharReserva("Reserva salva com sucesso!")
+    console.log(backend_response)
+    if (backend_response.result == "ok")
+      fecharReserva("")
+    else
+      fecharReserva(`Erro: ${backend_response.details}`)
   }
 
   const handleExcluir = async () => {
