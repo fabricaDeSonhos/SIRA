@@ -10,33 +10,37 @@ import { tempo_para_número } from '../lib/tempo.js'
 
 export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText }) {
   const labs_names = ["A03", "A04", "D04", "D05", "D06", "D07"]
-//Força o formato YYYY-MM-DD
-  const data_formatada = typeof dia === "string"
-    ? dia
-    : new Date(dia).toISOString().slice(0, 10)
+  
+  const data_formatada = (dia instanceof Date)
+    ? dia.toISOString().slice(0, 10)
+    : dia;
+
 
   const {reservations, error, isLoading} = useReservations()
- const normalizarTempo = (tempo) => {
+  
+  const userSWR = useContext(UserContext) || {};
+  const user = userSWR.data; 
+  
+  const normalizarTempo = (tempo) => {
     if (typeof tempo === 'string') {
       return tempo_para_número(tempo);
     }
     return tempo;
   };
 
-  const reservas = isLoading ? [] : reservations.filter(r => mesmo_dia(r.dia, dia)).map((r, i) => {
+  const reservas = isLoading ? [] : reservations.filter(r => {
+      if (!r.dia || !(r.dia instanceof Date)) return false;
+      const reserva_data_formatada = r.dia.toISOString().slice(0, 10);
+      return reserva_data_formatada === data_formatada;
+  }).map((r, i) => {
       const inicioNum = normalizarTempo(r.início);
-      const fimNum = normalizarTempo(r.fim);
+      
+      const duracao = r.duração 
 
-      // Se o horário de fim for inválido ou não existir, não renderiza a reserva
-      if (isNaN(fimNum) || fimNum === null || fimNum === undefined) {
-          console.error("Reserva com horário de fim inválido:", r);
+      if (isNaN(duracao) || duracao <= 0) {
+          console.error("Reserva com duração inválida:", r);
           return null; 
       }
-
-      const duracao = (fimNum - inicioNum) * 60;
-
-      // Garante que a duração não seja negativa
-      if (duracao < 0) return null;
 
       return (
         <Reserva
@@ -49,11 +53,11 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
           lab={r.lab}
           curso={r.curso}
           vazia={false}
-          editavel={user && user.details.id === r.user_id}
+          editavel={user?.details?.id == r.user_id}
           noText={noText}
         />
       );
-  }).filter(Boolean); // Filtra para remover quaisquer reservas nulas
+  }).filter(Boolean); 
 
   const reservas_manhã = reservas.filter(r => r.props.início <= 12)
   const reservas_tarde = reservas.filter(r => r.props.início > 12 && r.props.início <= 17)
@@ -63,13 +67,6 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
 
   for (let lab = 1; lab <= 6; lab++) {
     for (let hour = 8; hour <= 22; hour++) {
-      /*if (
-        (hour <= 11 && !manhã) ||
-        (hour >= 13 && hour <= 16 && !tarde) ||
-        (hour >= 18 && !noite)
-      ) continue;
-      */
-
       reservas_vazia.push(
         <Reserva
           key={`vazio-${lab}-${hour}`}
@@ -101,7 +98,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
         ["18", "19", "20", "21", "22"].map(h =>
           <div key={h} className={styles.hora} style={noite ? {} : { opacity: 0 }}><span className={styles.hora_n}>{h}</span>h</div>
         ),
-        ]
+      ]
   return (
     <div className={[styles.reservas, noHours ? styles.noHours : ""].join(" ")} style={filtros}>
       <div className={styles.lab}></div>
@@ -110,7 +107,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
       ))}
 
       {!noHours &&
-       Horas}
+        Horas}
 
       <div className={styles.lanche_manha}></div>
       <div className={styles.almoco}></div>
@@ -126,3 +123,4 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
     </div>
   )
 }
+

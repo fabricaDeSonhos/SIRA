@@ -1,4 +1,3 @@
-
 import useSWR from 'swr';
 import {useState, useEffect} from 'react'
 import {tempo_para_número} from './tempo.js'
@@ -24,7 +23,7 @@ export const fetcher = async (url) => {
 
 };
 export const fetcher_jwt = async (url, token) => {
-  const res = await fetch(`${API_BASE_URL}${url}`, {
+  const res = await fetch(`${API__BASE_URL}${url}`, {
     headers: {
       'Authorization': 'Bearer ' + token
     }
@@ -55,18 +54,26 @@ function api2reserva(api_res) {
 }
 
 
-const _useReservations = (token) => {
-  const { data, error, isLoading, mutate } = useSWR('/reservations', fetcher, {refreshInterval: 1000});
+const _useReservations = (token, logout) => {
+  // A busca por reservas só ocorre se houver um token
+  const { data, error, isLoading, mutate } = useSWR(token ? '/reservations' : null, fetcher, {refreshInterval: 1000});
   
+  // Função centralizada para tratar erros de autenticação
+  const handleAuthError = (e) => {
+      if (e.message && e.message.includes("Token has expired")) {
+          console.error("Sessão expirada. Fazendo logout.");
+          if(logout) logout();
+      } else {
+          // Não relança o erro de conflito, pois ele já foi tratado
+          if (!e.message || !e.message.includes("Conflict")) {
+            console.error("Ocorreu um erro na operação:", e);
+          }
+      }
+  }
+
   const addReserva = async (newItem) => {
-
-    // Optimistic update: Immediately update the local cache
-    const optimisticData = data
-    optimisticData.details = [...(optimisticData.details || []), newItem]
-    mutate(optimisticData, false);
-
+    if (!token) return;
     try {
-      // Make the POST request to the API
       const req = await fetch(`${API_BASE_URL}/reservations`, {
         method: 'POST',
         headers: {
@@ -76,51 +83,60 @@ const _useReservations = (token) => {
         body: JSON.stringify(newItem),
       });
 
-      if (!req.ok)
-        throw req
-      // Re-validate the data from the server
-      mutate();
+      if (!req.ok) {
+        if (req.status === 401) throw new Error("Token has expired");
+        if (req.status === 409) throw new Error("Conflict"); // Erro específico para conflito
+        const errorBody = await req.text();
+        throw new Error(`Falha ao adicionar a reserva: ${errorBody}`);
+      }
+      
+      // Ao criar com sucesso, revalida os dados do servidor e AGUARDA a conclusão.
+      // Isso garante que a UI terá os dados mais recentes antes de continuar.
+      await mutate();
+
     } catch (e) {
-      // Revert to the previous data if the request fails
-      mutate(data);
-      console.error("Failed to add item:", e);
+      handleAuthError(e);
+      throw e; // Relança o erro para o componente poder capturá-lo
     }
   };
 
   const deleteReserva = async (reservaId) => {
-      // Optimistic update
+      if (!token) return;
       const optimisticData = data
       optimisticData.details = data.details.filter((u) => u.id !== reservaId);
-
       mutate(optimisticData, false);
 
       try {
-        await fetch(`${API_BASE_URL}/reservations/${reservaId}`, {
+        const req = await fetch(`${API_BASE_URL}/reservations/${reservaId}`, {
           method: 'DELETE',
-          headers: {
-          "Authorization": 'Bearer ' + token, 
-        }
-
+          headers: { "Authorization": 'Bearer ' + token }
         });
-        // Re-fetch
-        mutate();
+
+        if (!req.ok) {
+            if (req.status === 401) throw new Error("Token has expired");
+            const errorBody = await req.text();
+            throw new Error(`Falha ao excluir a reserva: ${errorBody}`);
+        }
+        await mutate(); // Revalida após a exclusão
       } catch (error) {
-        // Revert
-        mutate(data);
+        handleAuthError(error);
+        mutate(data); // Reverte a UI em caso de erro
       }
     };
 
-  // changesObj is a reservation object, only edited values are present
   const putReserva = async (reservaId, changesObj) => {
-    const od = data 
-
-    const i = od.details.findIndex(x => x.id == reservaId)
-    update_obj(od.details[i], changesObj)
-
-    mutate(od, false)
+    if (!token) return;
+    
+    // Atualização otimista da UI para resposta rápida
+    const optimisticData = JSON.parse(JSON.stringify(data));
+    const reservationIndex = optimisticData.details.findIndex(x => x.id == reservaId)
+    if(reservationIndex > -1){
+        update_obj(optimisticData.details[reservationIndex], changesObj)
+    }
+    mutate(optimisticData, false)
 
     try {
-      await fetch(`${API_BASE_URL}/reservations/${reservaId}`, {
+      const req = await fetch(`${API_BASE_URL}/reservations/${reservaId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -128,9 +144,18 @@ const _useReservations = (token) => {
         },
         body: JSON.stringify(changesObj)
       })
-      mutate()
+      if (!req.ok) {
+            if (req.status === 401) throw new Error("Token has expired");
+            if (req.status === 409) throw new Error("Conflict");
+            const errorBody = await req.text();
+            throw new Error(`Falha ao editar a reserva: ${errorBody}`);
+      }
+      // Revalida os dados e aguarda a conclusão
+      await mutate();
     } catch (error) {
-      mutate(data)
+      handleAuthError(error);
+      mutate(data); // Reverte em caso de erro
+      throw error; 
     }
   }
 
@@ -138,9 +163,11 @@ const _useReservations = (token) => {
 };
 export const useReservations = () => {
 
-  const {token} = useAuth()
-  const {data, error, isLoading, mutate, addReserva, deleteReserva, putReserva} = _useReservations(token)
-  const reservations = !isLoading ? data.details.map(api2reserva) : data
+  const {token, logout} = useAuth()
+  const {data, error, isLoading, addReserva, deleteReserva, putReserva} = _useReservations(token, logout)
+  
+  // Acesso mais seguro aos dados para evitar erros
+  const reservations = !isLoading && data && data.details ? data.details.map(api2reserva) : []
 
   return { reservations, error, isLoading, addReserva, deleteReserva, putReserva};
 }
@@ -148,7 +175,7 @@ export const useReservations = () => {
 export const useReservation = (reservaId) => {
   const { data, error, isLoading, mutate, addReserva, deleteReserva } = useSWR(reservaId ? `/reservations/${reservaId}` : null, fetcher);
 
-  const reservation = !isLoading ? api2reserva(data.details) : data
+  const reservation = !isLoading && data && data.details ? api2reserva(data.details) : data
 
   return { reservation, error, isLoading, mutate, deleteReserva };
 }
@@ -162,9 +189,8 @@ export function useAuth() {
     const storedToken = localStorage.getItem('jwt')
     if (storedToken) {
       setToken(storedToken)
-      setLoading(false)
     }
-
+    setLoading(false) // Garante que o loading termine mesmo sem token
   }, [])
 
   const _login = async (email, password ) => {
@@ -225,3 +251,4 @@ export function useUser(token) {
 
   return !user.data ? {isLoading: true} : user
 }
+
