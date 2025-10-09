@@ -31,7 +31,7 @@ export default function Home() {
   })
 
   const auth  = useAuth()
-  auth.login("fulano", 'senha')
+  auth.login("fulano@ciclano.com", 'senha')
 
   const user = useUser(auth.loading ? null : auth.token)
 
