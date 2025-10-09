@@ -123,7 +123,7 @@ export default function NovaReserva({id,  dia, início, fim, lab, matéria = "",
     */
 
     deleteReserva(id)
-    fecharReserva("Reserva excluída!")
+    fecharReserva("")
   }
 
 
