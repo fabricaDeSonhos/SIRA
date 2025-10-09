@@ -18,8 +18,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
 
   const {reservations, error, isLoading} = useReservations()
   
-  const userSWR = useContext(UserContext) || {};
-  const user = userSWR.data; 
+  const user = useContext(UserContext)
   
   const normalizarTempo = (tempo) => {
     if (typeof tempo === 'string') {
