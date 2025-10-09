@@ -23,7 +23,7 @@ export const fetcher = async (url) => {
 
 };
 export const fetcher_jwt = async (url, token) => {
-  const res = await fetch(`${API__BASE_URL}${url}`, {
+  const res = await fetch(`${API_BASE_URL}${url}`, {
     headers: {
       'Authorization': 'Bearer ' + token
     }
@@ -55,8 +55,9 @@ function api2reserva(api_res) {
 
 
 const _useReservations = (token, logout) => {
-  // A busca por reservas só ocorre se houver um token
-  const { data, error, isLoading, mutate } = useSWR(token ? '/reservations' : null, fetcher, {refreshInterval: 1000});
+  // GET /reservations is a public api
+  // thus it don't require a token
+  const { data, error, isLoading, mutate } = useSWR('/reservations', fetcher, {refreshInterval: 1000});
   
   // optimal: function: cache -> new-cache
   const backend_call = async (url, method, optimal, body) => {
@@ -197,6 +198,6 @@ export function useUser(token) {
   
   const user = useSWR(token ? ['/user', token] : null, ([url,token]) => fetcher_jwt(url, token))
 
-  return !user.data ? {isLoading: true} : user
+  return user
 }
 
