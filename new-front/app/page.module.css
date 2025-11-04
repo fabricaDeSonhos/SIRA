@@ -1,4 +1,3 @@
-
 .body {
   /*display: flex;
   flex-flow: column wrap;
@@ -9,7 +8,6 @@
 .mudança_de_dia {
   display: flex;
   font-size: var(--grande);
-
 }
 
 .mudança_de_dia p {
@@ -94,4 +92,30 @@
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+}
+.dataWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.inputData {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 4px 6px;
+  background-color: #f8f8f8;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.inputData:hover {
+  background-color: #eee;
+}
+
+.inputData:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: #fff;
 }
