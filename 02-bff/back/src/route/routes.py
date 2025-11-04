@@ -116,29 +116,52 @@ def get_specific_object(mclass, obj_id):
 
 
 # --- PUT's (UPDATE) ---
-
 def update_object(mclass, obj_id):
     try:
-        myjson = {"result": "ok"}                       # prepare a "good" default answer :-)   
-    
+        user_id = get_jwt_identity()
+        data = request.json  # get request data
+        
+        # buscar a sala e o usuário
+        room = get_object_by_id(Room, data['room_id'])
+        user = get_object_by_id(User, user_id)
+
+        if not room:
+            print(f"Invalid room_id: {data['room_id']}")
+            app.logger.error(f"Invalid room_id: {data['room_id']}")
+            return jsonify({"result": "error", "details": f"Invalid room_id ({data['room_id']})"}), 500
+
+        # pegar o objeto a ser atualizado
         obj = get_object_by_id(mclass, obj_id)
         if not obj:
-            return {"result": "error", "details": f"{mclass}({obj_id}) not found "}
-        for key, value in request.json.items():         # update the object
-            if 'date' == key and isinstance(value, str):
+            return {"result": "error", "details": f"{mclass}({obj_id}) not found"}
+
+        # verificar conflitos de reserva
+        existing_reservations = get_conflicting_reservations(
+            room_id=room.id,
+            start_time=data.get('start_time'),
+            end_time=data.get('end_time'),
+            date=data.get('date')
+        )
+
+        if existing_reservations:
+            return {"result": "error", "details": f"Conflicting reservations found with IDs: {existing_reservations}"}
+
+        # atualizar os campos do objeto
+        for key, value in data.items():
+            if key == 'date' and isinstance(value, str):
                 value = datetime.strptime(value, "%Y-%m-%d").date()
-            if 'start_time' == key and isinstance(value, str):
-                value = datetime.strptime(value, "%H:%M:%S").time()
-            if 'end_time' == key and isinstance(value, str):
+            if key in ('start_time', 'end_time') and isinstance(value, str):
                 value = datetime.strptime(value, "%H:%M:%S").time()
             setattr(obj, key, value)
-        db.session.commit()                            # confirm the update
-        response = serialize_model(obj)                # serialize the updated object
-        myjson.update({"details": response})           # add the serialized object to the answer
-        return myjson
+
+        db.session.commit()
+
+        # resposta final
+        response = serialize_model(obj)
+        return {"result": "ok", "details": response}
+
     except Exception as ex:
         return {"result": "error", "details": f"error during object ({mclass}) update: {ex}"}
-
 
 
 # --- DELETE's ---
