@@ -47,21 +47,21 @@
 .almoco {
 
   grid-row: 240 / span 90;
-  grid-column: 2 / span 6;
+  grid-column: 2 / -1;
 }
 .lanche_manha {
 
   grid-row: 90/ span 15;
-  grid-column: 2 / span 6;
+  grid-column: 2 / -1;
 }
 .lanche_tarde {
   grid-row: 465/ span 15;
-  grid-column: 2 / span 6;
+  grid-column: 2 / -1;
 }
 
 .janta {
   grid-row: 570 / span 60;
-  grid-column: 2 /span 6;
+  grid-column: 2 / -1;
 }
 
 .coluna {

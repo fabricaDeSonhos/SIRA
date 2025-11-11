@@ -10,6 +10,7 @@ import { tempo_para_número } from '../lib/tempo.js'
 
 export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours, noText }) {
   const labs_names = Object.values(salas)
+  const qtd_salas = labs_names.length
   console.log(salas)
   
   const data_formatada = (dia instanceof Date)
@@ -73,7 +74,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours,
   }
 
   // inserve as reservas vazias
-  for (let room = 0; room < Object.keys(salas).length; room++) {
+  for (let room = 0; room < qtd_salas; room++) {
     for (let hour = 8; hour <= 22; hour++) {
       
       if (!reservas_colunas[room])
@@ -101,6 +102,10 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours,
       repeat(${60 * 5}, ${tarde ? "1fr" : "0fr"}) 
       repeat(${60 * 5}, ${noite ? "1fr" : "0fr"})`
   }
+
+  const column_styles = {
+    gridTemplateColumns: `4rem repeat(${qtd_salas}, 1fr)`
+  }
   const coluna_filtros = {
     gridTemplateRows: `
       repeat(${60 * 5}, ${manhã ? "1fr" : "0fr"}) 
@@ -120,7 +125,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours,
         ),
       ]
   return (
-    <div className={[styles.reservas, noHours ? styles.noHours : ""].join(" ")} style={filtros}>
+    <div className={[styles.reservas, noHours ? styles.noHours : ""].join(" ")} style={filtros, column_styles}>
       <div className={styles.lab}></div>
       {labs_names.map(lab => (
         <div key={lab} className={styles.lab}>{lab}</div>
