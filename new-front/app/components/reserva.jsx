@@ -16,16 +16,14 @@ export default function Reserva({ id, matéria, dia, início, duração, lab, va
   const posicionamento = {
   gridRowStart: topo,
   gridRowEnd: `span ${duracaoMinutos}`,
-  gridColumn: lab + 1,
 }
 
-  const labs_names = ["A03", "A04", "D04", "D05", "D06", "D07"]
   const opts = {
     id,
     dia,
     início: hora_para_texto(início),
     fim: hora_para_texto(início + duração / 60),
-    lab: labs_names[lab - 1],
+    lab: lab,
     matéria,
     curso,
     modoEdicao: !vazia,

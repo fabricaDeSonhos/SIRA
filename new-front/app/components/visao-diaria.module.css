@@ -64,6 +64,12 @@
   grid-column: 2 /span 6;
 }
 
+.coluna {
+  display: grid;
+  grid-row: 2 / 900;
+  grid-template-columns: 1fr;
+}
+
 /* Reserva REAL */
 .reserva {
   background-color: var(--secundario); 

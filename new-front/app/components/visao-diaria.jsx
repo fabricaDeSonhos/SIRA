@@ -8,8 +8,9 @@ import {UserContext} from './reservaContext.js'
 import { tempo_para_número } from '../lib/tempo.js'
 
 
-export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText }) {
-  const labs_names = ["A03", "A04", "D04", "D05", "D06", "D07"]
+export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours, noText }) {
+  const labs_names = Object.values(salas)
+  console.log(salas)
   
   const data_formatada = (dia instanceof Date)
     ? dia.toISOString().slice(0, 10)
@@ -40,7 +41,6 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
           console.error("Reserva com duração inválida:", r);
           return null; 
       }
-
       return (
         <Reserva
           key={r.id}
@@ -49,7 +49,8 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
           início={inicioNum}
           duração={duracao}
           dia={data_formatada}
-          lab={r.lab}
+          coluna={Object.keys(salas).indexOf(r.lab)}
+	  lab={r.lab}
           curso={r.curso}
           vazia={false}
           editavel={user?.details?.id == r.user_id}
@@ -62,26 +63,46 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
   const reservas_tarde = reservas.filter(r => r.props.início > 12 && r.props.início <= 17)
   const reservas_noite = reservas.filter(r => r.props.início > 17)
 
-  const reservas_vazia = []
+  const reservas_filtradas = [...(manhã ?  reservas_manhã : []), ...(tarde ? reservas_tarde : []), ...(noite ? reservas_noite : [])]
 
-  for (let lab = 1; lab <= 6; lab++) {
+
+  const reservas_colunas = []
+  for (let s in Object.keys(salas)) {
+
+    reservas_colunas.push(reservas_filtradas.filter(r => r.props.lab == Object.keys(salas)[s]))
+  }
+
+  // inserve as reservas vazias
+  for (let room = 0; room < Object.keys(salas).length; room++) {
     for (let hour = 8; hour <= 22; hour++) {
-      reservas_vazia.push(
-        <Reserva
-          key={`vazio-${lab}-${hour}`}
-          dia={data_formatada}
-          início={hour}
-          duração={60}
-          lab={lab}
-          vazia={true}
-          matéria=""
-        />
-      )
+      
+      if (!reservas_colunas[room])
+	reservas_colunas[room] = []
+
+      reservas_colunas[room].push(
+	<Reserva
+	  key={`vazio-${room}-${hour}`}
+	  dia={data_formatada}
+	  início={hour}
+	  duração={60}
+	  lab={Object.keys(salas)[room]}
+	  salas={salas}
+	  vazia={true}
+	  matéria=""
+	/>
+    )
     }
   }
 
+
   const filtros = {
     gridTemplateRows: `2rem 
+      repeat(${60 * 5}, ${manhã ? "1fr" : "0fr"}) 
+      repeat(${60 * 5}, ${tarde ? "1fr" : "0fr"}) 
+      repeat(${60 * 5}, ${noite ? "1fr" : "0fr"})`
+  }
+  const coluna_filtros = {
+    gridTemplateRows: `
       repeat(${60 * 5}, ${manhã ? "1fr" : "0fr"}) 
       repeat(${60 * 5}, ${tarde ? "1fr" : "0fr"}) 
       repeat(${60 * 5}, ${noite ? "1fr" : "0fr"})`
@@ -113,10 +134,22 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, noHours, noText
       <div className={styles.lanche_tarde}></div>
       <div className={styles.janta}></div>
       <div className={styles.lanche_tarde}></div>
+      
+      
+      { reservas_colunas.map((c, i) => (
+
+	<div className={styles.coluna} style={{...coluna_filtros, gridColumn: i+2}}>
+	  {c}
+	</div>
+      )) }
+
+      {/*
       {reservas_vazia}
+
       {manhã ? reservas_manhã : []}
       {tarde ? reservas_tarde : []}
       {noite ? reservas_noite : []}
+      */}
 
 
     </div>

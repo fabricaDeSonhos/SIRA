@@ -54,6 +54,21 @@ function api2reserva(api_res) {
 }
 
 
+export const useRooms = (token) => {
+  const roomsReq = useSWR('/rooms/labs', fetcher)
+  const dataList = roomsReq.isLoading === false ? roomsReq.data.details : []
+
+  const dataMap = {}
+  for (let room of dataList) {
+    dataMap[room.id] = room.name
+  }
+
+  const data = dataMap
+  return {data, isLoading: roomsReq.isLoading, error: roomsReq.error}
+
+
+}
+
 const _useReservations = (token, logout) => {
   // GET /reservations is a public api
   // thus it don't require a token
