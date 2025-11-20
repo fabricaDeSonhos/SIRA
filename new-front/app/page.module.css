@@ -39,6 +39,13 @@
   gap: var(--pequeno);
 }
 
+.salasFiltros {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+  gap: var(--pequeno);
+}
+
 .modal {
   position: fixed;
   left: 50%;

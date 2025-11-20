@@ -11,7 +11,6 @@ import { tempo_para_número } from '../lib/tempo.js'
 export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours, noText }) {
   const labs_names = Object.values(salas)
   const qtd_salas = labs_names.length
-  console.log(salas)
   
   const data_formatada = (dia instanceof Date)
     ? dia.toISOString().slice(0, 10)

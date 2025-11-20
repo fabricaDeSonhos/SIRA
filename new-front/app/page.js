@@ -18,6 +18,7 @@ export default function Home() {
   const [manhãFiltro, setManhãFiltro] = useState(true)
   const [tardeFiltro, setTardeFiltro] = useState(true)
   const [noiteFiltro, setNoiteFiltro] = useState(true)
+  const [salasFiltro, setSalasFiltro] = useState([])
   const [reserva, setReserva] = useState(null) // info or edit
   const [error, setError] = useState("")
 
@@ -37,7 +38,31 @@ export default function Home() {
   const roomsReq = useRooms(null)
   const salas = roomsReq.data
 
+  console.log(salasFiltro)
 
+  function sala_filtrada(id) {
+    return !salasFiltro.includes(Number(id))
+  }
+
+  function filtrar_salas() {
+    return Object.fromEntries(Object.entries(salas).filter(([id, nome]) => sala_filtrada(id)))
+  }
+  function SalasFiltros({salas, salasFiltro, setSalasFiltro}) {
+    const filtrar = i => {
+      if (sala_filtrada(i))
+	setSalasFiltro(s => [...s, Number(i)])
+      else
+	setSalasFiltro(s => s.filter(x => x !== Number(i)))
+
+    }
+    return (
+      <div className={styles.salasFiltros}>
+	{
+	  Object.entries(salas).map(([id, s]) => <div key={`sala-${s}`}><input type="checkbox" onChange={() => filtrar(id)} checked={sala_filtrada(id)}/>{s}</div>)
+	}
+      </div>
+    )
+  }
   const inc_dia = () => {
     const novoDia = new Date(dia)
     novoDia.setDate(novoDia.getDate() + 1)
@@ -108,6 +133,7 @@ export default function Home() {
           <Checkbox setChecked={setTardeFiltro} checked={tardeFiltro} desc="Tarde" />
           <Checkbox setChecked={setNoiteFiltro} checked={noiteFiltro} desc="Noite" />
         </div>
+	<SalasFiltros salas={salas} salasFiltro={salasFiltro} setSalasFiltro={setSalasFiltro}/>
       </div>
 
       <AbrirReservaModalContext value={mostrarReservaModal}>
@@ -118,7 +144,7 @@ export default function Home() {
               manhã={manhãFiltro}
               tarde={tardeFiltro}
               noite={noiteFiltro}
-	      salas={salas}
+	      salas={filtrar_salas(salas)}
             />
 
           <div className={styles.modal}>
