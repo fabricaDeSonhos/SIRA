@@ -1,0 +1,50 @@
+.modal {
+  gap: 12px;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+}
+
+.content {
+  display: grid;
+  grid-gap: var(--pequeno);
+  grid-template-columns: 1fr 1fr;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 480px) {
+	.content {
+		display: flex;
+	}
+}
+.modal h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  color: #2e7d32;
+}
+
+.botoes {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.excluir {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #c62828;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.excluir:hover {
+  background-color: #ffcdd2;
+}

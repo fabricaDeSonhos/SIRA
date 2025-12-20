@@ -1,0 +1,72 @@
+import { Texto } from '../lib/texto.js'
+import { hora_para_texto } from '../lib/tempo.js'
+import { useContext } from 'react'
+
+import styles from './visao-diaria.module.css'
+import { AbrirReservaModalContext } from './reservaContext.js'
+
+export default function Reserva({ id, matéria, dia, início, duração, lab, vazia, curso="outro-curso", editavel, noText }) {
+  const abrirReserva = useContext(AbrirReservaModalContext)
+
+  const topo = Math.round((início - 8) * 60) + 2
+  const duracaoMinutos = Math.round(duração)
+
+  const corpo = Texto.limitado(matéria, 40)
+
+  const posicionamento = {
+  gridRowStart: topo,
+  gridRowEnd: `span ${duracaoMinutos}`,
+}
+
+  const opts = {
+    id,
+    dia,
+    início: hora_para_texto(início),
+    fim: hora_para_texto(início + duração / 60),
+    lab: lab,
+    matéria,
+    curso,
+    modoEdicao: !vazia,
+  }
+
+  if (vazia) {
+    return (
+      <div
+        className={styles.reserva_vazia}
+        style={posicionamento}
+        onClick={() => abrirReserva("edit", opts)}
+        title={`Clique para reservar ${opts.lab} às ${opts.início}`}
+      />
+    )
+  }
+
+  return (
+    <div className={[styles.reserva, styles[curso]].join(" ")} style={posicionamento}
+	   onClick={() =>
+	    {
+	      abrirReserva("info", opts)
+	    }
+	   }
+    >
+      {!noText &&
+        <>
+          <div>{corpo}</div>
+
+          {editavel && 
+            <div className={styles.acoes}>
+              <button
+                className={styles.botaoEditar}
+                title="Editar reserva"
+                onClick={(event) => {abrirReserva("edit", opts); event.stopPropagation()}}
+              >
+                ✏️
+              </button>
+            </div>
+          }
+
+        </>
+      }
+
+    </div>
+  )
+}

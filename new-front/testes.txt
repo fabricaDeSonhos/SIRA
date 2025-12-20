@@ -1,0 +1,12 @@
+RESERVAS
+	CRIAR	
+		- reserva com conflito
+		- reserva com conflito em dias diferentes
+		- reserva com horario quebrado
+	EDITAR
+		- reserva para um horário com conflito
+	DELETAR
+DESIGN
+	TABLET	
+		- verificar posicionamento dos filtros
+	MOBILE
