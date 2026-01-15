@@ -69,7 +69,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours,
   const reservas_colunas = []
   if (salas) {
     for (let s in Object.keys(salas)) {
-      reservas_colunas.push(reservas_filtrados.filter(r => r.props.lab == Object.keys(salas)[s]))
+      reservas_colunas.push(reservas_filtradas.filter(r => r.props.lab == Object.keys(salas)[s]))
     }
   }
 
