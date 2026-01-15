@@ -1,4 +1,5 @@
 import moment from 'moment'
+import 'moment/locale/pt-br'
 import {Texto} from './texto.js'
 
 function zeroPad(num, places) {
@@ -35,7 +36,7 @@ export function mesmo_dia(x,y) {
 }
 
 export function data_bonita(dia) {
-  const m = moment(dia).lang('pt-br')
+  const m = moment(dia).locale('pt-br')
   const dia_semana = Texto.titleCase(m.format('ddd'))
   const dia_n = m.format('DD')
 

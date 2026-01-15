@@ -9,7 +9,7 @@ import { tempo_para_número } from '../lib/tempo.js'
 
 
 export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours, noText }) {
-  const labs_names = Object.values(salas)
+  const labs_names = salas ? Object.values(salas) : []
   const qtd_salas = labs_names.length
   
   const data_formatada = (dia instanceof Date)
@@ -49,7 +49,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours,
           início={inicioNum}
           duração={duracao}
           dia={data_formatada}
-          coluna={Object.keys(salas).indexOf(r.lab)}
+          coluna={salas ? Object.keys(salas).indexOf(r.lab) : 0}
 	  lab={r.lab}
           curso={r.curso}
           vazia={false}
@@ -67,9 +67,10 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours,
 
 
   const reservas_colunas = []
-  for (let s in Object.keys(salas)) {
-
-    reservas_colunas.push(reservas_filtradas.filter(r => r.props.lab == Object.keys(salas)[s]))
+  if (salas) {
+    for (let s in Object.keys(salas)) {
+      reservas_colunas.push(reservas_filtrados.filter(r => r.props.lab == Object.keys(salas)[s]))
+    }
   }
 
   // inserve as reservas vazias
@@ -85,7 +86,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours,
 	  dia={data_formatada}
 	  início={hour}
 	  duração={60}
-	  lab={Object.keys(salas)[room]}
+	  lab={salas ? Object.keys(salas)[room] : ''}
 	  salas={salas}
 	  vazia={true}
 	  matéria=""
