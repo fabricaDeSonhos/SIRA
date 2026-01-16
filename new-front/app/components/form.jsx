@@ -17,7 +17,7 @@ export function Select({desc, options, value, name}) {
   const id = useId()
   return (
     <div id={id} className={styles.select}>
-      <label htmlFor={ id }>{ desc } {}</label>
+      <label htmlFor={ id }>{ desc }</label>
       <select id={id} defaultValue={value} name={name}>
         {options.map(o => <option key={o}>{o}</option>)}
       </select>
