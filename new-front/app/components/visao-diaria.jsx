@@ -1,6 +1,6 @@
 import styles from "./visao-diaria.module.css"
 
-import { useContext } from 'react'
+import { useContext, Fragment } from 'react'
 import { useReservations, useUser, useAuth } from '../lib/api.js'
 import { mesmo_dia } from '../lib/tempo.js'
 import Reserva from './reserva.jsx'
@@ -132,7 +132,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours,
       ))}
 
       {!noHours &&
-        Horas}
+        Horas}     
 
       <div className={styles.lanche_manha}></div>
       <div className={styles.almoco}></div>
@@ -140,13 +140,16 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours,
       <div className={styles.janta}></div>
       <div className={styles.lanche_tarde}></div>
 
-
       {reservas_colunas.map((c, i) => (
 
-        <div className={styles.coluna} style={{ ...coluna_filtros, gridColumn: i + 2 }}>
-          {c}
+        <div key={`coluna-${i}`} className={styles.coluna} style={{ ...coluna_filtros, gridColumn: i + 2 }}>
+          {c.map(reserva => <Fragment key={reserva.key}>{reserva}</Fragment>)}
         </div>
       ))}
+
+      
+
+      
 
       {/*
       {reservas_vazia}
