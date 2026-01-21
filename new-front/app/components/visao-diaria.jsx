@@ -16,7 +16,7 @@ export default function VisaoDiaria({ dia, manhã, tarde, noite, salas, noHours,
     ? dia.toISOString().slice(0, 10)
     : dia;
 
-
+  // get the reservations data (from the backend)
   const { reservations, error, isLoading } = useReservations()
 
   const user = useContext(UserContext)

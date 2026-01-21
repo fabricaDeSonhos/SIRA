@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import styles from "./page.module.css"
 
-import {data_bonita} from './lib/tempo.js'
+import { data_bonita } from './lib/tempo.js'
 import { Checkbox, Button } from './components/form.jsx'
 
 import VisaoDiaria from "./components/visao-diaria.jsx"
@@ -11,7 +11,7 @@ import NovaReserva from "./components/nova-reserva.jsx"
 import ReservaInfo from "./components/reserva-info.jsx"
 import { AbrirReservaModalContext, FecharReservaModalContext, UserContext, RoomsContext } from './components/reservaContext.js'
 
-import {useAuth, useUser, useRooms} from './lib/api.js'
+import { useAuth, useUser, useRooms } from './lib/api.js'
 
 export default function Home() {
   const [dia, setDia] = useState(new Date())
@@ -31,14 +31,18 @@ export default function Home() {
     modoEdicao: false
   })
 
-  const auth  = useAuth()
+  const auth = useAuth()
   auth.login("admin", 'admin')
 
+  // get the user data (from the backend)
   const user = useUser(auth.loading ? null : auth.token)
+
+  // get the rooms data (from the backend)
   const roomsReq = useRooms(null)
   const salas = roomsReq.data
 
-  console.log(salasFiltro)
+  // debug info
+  // console.log(salasFiltro)
 
   function sala_filtrada(id) {
     return !salasFiltro.includes(Number(id))
@@ -47,34 +51,44 @@ export default function Home() {
   function filtrar_salas() {
     return Object.fromEntries(Object.entries(salas).filter(([id, nome]) => sala_filtrada(id)))
   }
-  function SalasFiltros({salas, salasFiltro, setSalasFiltro}) {
+
+  // mount and return the room filters block
+  function SalasFiltros({ salas, salasFiltro, setSalasFiltro }) {
     const filtrar = i => {
       if (sala_filtrada(i))
-	setSalasFiltro(s => [...s, Number(i)])
+        setSalasFiltro(s => [...s, Number(i)])
       else
-	setSalasFiltro(s => s.filter(x => x !== Number(i)))
+        setSalasFiltro(s => s.filter(x => x !== Number(i)))
 
     }
     return (
       <div className={styles.salasFiltros}>
-	{
-	  Object.entries(salas).map(([id, s]) => <div key={`sala-${s}`}><input type="checkbox" onChange={() => filtrar(id)} checked={sala_filtrada(id)}/>{s}</div>)
-	}
+        {
+          Object.entries(salas).map(([id, s]) => 
+          
+          <div key={`sala-${s}`}>
+            <input type="checkbox" onChange={() => filtrar(id)} checked={sala_filtrada(id)} />
+            {s}
+          </div>)
+        }
       </div>
     )
   }
+
+  // auxiliar funcions to change the day
+  //inc and dec (previous and next day)
   const inc_dia = () => {
     const novoDia = new Date(dia)
     novoDia.setDate(novoDia.getDate() + 1)
     setDia(novoDia)
   }
-
   const dec_dia = () => {
     const novoDia = new Date(dia)
     novoDia.setDate(novoDia.getDate() - 1)
     setDia(novoDia)
   }
 
+  // 
   const mostrarReservaModal = (type, opt) => {
     setNovaReservaOpts({
       id: opt.id,
@@ -97,35 +111,37 @@ export default function Home() {
     }
   }
 
+  // keyboard shortcuts
   const handleKeyDown = (e) => {
-	  switch (e.key) {
-		  case "ArrowRight":
-			  inc_dia()
-			  break;
-		  case "ArrowLeft":
-			  dec_dia()
-			  break;
-		  case "Escape":
-			  fecharReservaModal()
-			  break
-	  }
+    switch (e.key) {
+      case "ArrowRight":
+        inc_dia()
+        break;
+      case "ArrowLeft":
+        dec_dia()
+        break;
+      case "Escape":
+        fecharReservaModal()
+        break
+    }
   }
   useEffect(() => {
-	  window.addEventListener('keydown', handleKeyDown)
-	  return () => {
-		  window.removeEventListener('keydown', handleKeyDown)
-	  }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
   }, [handleKeyDown])
 
+  // main render of the page
   return (
     <div className={styles.body} >
 
       <div className={styles.filtros}>
-          <div className={styles.mudança_de_dia}>
-            <Button onClick={dec_dia} desc="←" />
-            <p><span className={styles.dia_semana}>{data_bonita(dia).dia_semana}, </span> {data_bonita(dia).dia_n} de {data_bonita(dia).mes}</p>
-            <Button onClick={inc_dia} desc="→" />
-          </div>
+        <div className={styles.mudança_de_dia}>
+          <Button onClick={dec_dia} desc="←" />
+          <p><span className={styles.dia_semana}>{data_bonita(dia).dia_semana}, </span> {data_bonita(dia).dia_n} de {data_bonita(dia).mes}</p>
+          <Button onClick={inc_dia} desc="→" />
+        </div>
 
         <h1>Visão Diária</h1>
         <div className={styles.filtro}>
@@ -133,25 +149,25 @@ export default function Home() {
           <Checkbox setChecked={setTardeFiltro} checked={tardeFiltro} desc="Tarde" />
           <Checkbox setChecked={setNoiteFiltro} checked={noiteFiltro} desc="Noite" />
         </div>
-	<SalasFiltros salas={salas} salasFiltro={salasFiltro} setSalasFiltro={setSalasFiltro}/>
+        <SalasFiltros salas={salas} salasFiltro={salasFiltro} setSalasFiltro={setSalasFiltro} />
       </div>
 
       <AbrirReservaModalContext value={mostrarReservaModal}>
         <FecharReservaModalContext value={fecharReservaModal}>
-	  <UserContext value={user.data}>
+          <UserContext value={user.data}>
             <VisaoDiaria
               dia={dia}
               manhã={manhãFiltro}
               tarde={tardeFiltro}
               noite={noiteFiltro}
-	      salas={filtrar_salas(salas)}
+              salas={filtrar_salas(salas)}
             />
 
-          <div className={styles.modal}>
-            {reserva && reserva === "edit" && <NovaReserva salas={salas} {...novaReservaOpts} />}
-            {reserva && reserva === "info" && <ReservaInfo {...novaReservaOpts} />}
-          </div>
-	  </UserContext>
+            <div className={styles.modal}>
+              {reserva && reserva === "edit" && <NovaReserva salas={salas} {...novaReservaOpts} />}
+              {reserva && reserva === "info" && <ReservaInfo {...novaReservaOpts} />}
+            </div>
+          </UserContext>
         </FecharReservaModalContext>
       </AbrirReservaModalContext>
 
