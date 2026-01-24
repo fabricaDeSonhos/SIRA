@@ -1,0 +1,98 @@
+@startuml Component Diagram - SIRA Frontend Architecture
+
+!define RECTANGLE(name, content) rectangle name [<b>content</b>]
+
+package "Root Page (Home)" {
+    component "page.js" as Page
+}
+
+package "Context Providers" {
+    component "AbrirReservaModalContext" as AbrirContext
+    component "FecharReservaModalContext" as FecharContext
+    component "UserContext" as UserCtx
+    component "RoomsContext" as RoomsCtx
+    component "reservaContext.js" as ReservaContext
+}
+
+package "Main Components" {
+    component "VisaoDiaria.jsx" as VisaoDiaria
+    component "NovaReserva.jsx" as NovaReserva
+    component "ReservaInfo.jsx" as ReservaInfo
+    component "VisaoSemanal.jsx" as VisaoSemanal
+    component "Reserva.jsx" as Reserva
+}
+
+package "Utilities & Hooks" {
+    component "api.js" as API
+    component "  - useAuth()" as UseAuth
+    component "  - useUser()" as UseUser
+    component "  - useRooms()" as UseRooms
+    component "  - useReservations()" as UseReservations
+    component "tempo.js" as Tempo
+    component "texto.js" as Texto
+}
+
+' Relationships from page.js
+Page --> VisaoDiaria : renders
+Page --> NovaReserva : conditionally renders
+Page --> ReservaInfo : conditionally renders
+Page --> API : uses hooks
+Page --> Tempo : imports (data_bonita)
+Page --> ReservaContext : imports contexts
+
+' Context relationships
+Page --> AbrirContext : provides value
+Page --> FecharContext : provides value
+Page --> UserCtx : provides value
+ReservaContext -.-> AbrirContext
+ReservaContext -.-> FecharContext
+ReservaContext -.-> UserCtx
+ReservaContext -.-> RoomsCtx
+
+' VisaoDiaria relationships
+VisaoDiaria --> Reserva : renders
+VisaoDiaria --> API : useReservations()
+VisaoDiaria --> Tempo : imports (mesmo_dia, tempo_para_número)
+VisaoDiaria --> UserCtx : useContext
+
+' NovaReserva relationships
+NovaReserva --> API : add_reserva, remover_reserva, useReservations
+NovaReserva --> Tempo : tempo_para_número
+NovaReserva --> FecharContext : useContext
+NovaReserva --> ReservaContext : imports
+
+' ReservaInfo relationships
+ReservaInfo --> FecharContext : useContext
+
+' Reserva relationships
+Reserva --> Texto : Texto.limitado()
+Reserva --> Tempo : hora_para_texto()
+Reserva --> AbrirContext : useContext
+
+' VisaoSemanal relationships
+VisaoSemanal --> VisaoDiaria : renders
+VisaoSemanal --> Tempo : data_bonita()
+
+' API hooks
+API --> UseAuth
+API --> UseUser
+API --> UseRooms
+API --> UseReservations
+
+note right of Page
+    <b>Root Component</b>
+    - Manages state for filters, reservations
+    - Provides contexts to children
+    - Handles keyboard shortcuts
+    - Conditionally renders modals
+end note
+
+note right of VisaoDiaria
+    <b>Daily View Component</b>
+    - Displays reservations by room and time
+    - Renders Reserva components
+    - Filters by morning/afternoon/night
+end note
+
+
+@enduml
